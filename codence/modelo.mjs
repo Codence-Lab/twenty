@@ -57,12 +57,17 @@ const GRADO = [
   { label: '3º', value: 'GRADO_3' },
   { label: 'Sin conexión', value: 'SIN_CONEXION' },
 ];
+/* Un ángulo por familia de señal de `senales.md`, más los tres de fricción que
+ * venían del sistema viejo. `Marca que no acompaña` es la familia C: existía en
+ * el catálogo desde el 31/07 y no tenía ángulo, así que Datcisions —cuya única
+ * señal es de marca— quedaba en `Otro`, que no compara contra nada. */
 const ANGULO = [
   'Proceso manual',
   'Dependencia de persona clave',
   'Volumen sin sistema',
   'Crecimiento reciente',
   'Demanda declarada',
+  'Marca que no acompaña',
   'Otro',
 ];
 const SERVICIO = ['Rebranding', 'Diseño web', 'Software a medida', 'Automatización AI-native'];
@@ -217,6 +222,18 @@ const CAMPOS = [
     icon: 'IconFileText',
     description: 'La URL de la versión web, cuando el prospecto se convirtió.',
   },
+  /* Qué documento de argumento se le mandó. Es LINKS y no SELECT a propósito:
+   * cada página se escribe para ese prospecto, así que no hay taxonomía que
+   * declarar. La comparación de "qué abre conversaciones" ya la da `angulo`
+   * cruzado con el estado; esto responde la otra pregunta, que es cuál fue. */
+  {
+    objeto: 'opportunity',
+    name: 'argumento',
+    label: 'Argumento',
+    type: 'LINKS',
+    icon: 'IconFileDescription',
+    description: 'La página de argumento que se le mandó. En el rótulo del enlace va la tesis en pocas palabras; en la URL, la página publicada.',
+  },
 ];
 
 /* ── El cliente ──────────────────────────────────────────────────────────── */
@@ -246,6 +263,67 @@ async function api(ruta, opts = {}) {
 
 const desenvolver = (j) => j?.data?.objects ?? j?.objects ?? j?.data ?? j;
 
+/**
+ * Un campo que ya existe se saltea — salvo que sea una taxonomía y su lista haya
+ * cambiado acá. Sin esto, agregar una opción serían DOS cambios (este archivo y
+ * la interfaz de Twenty), y la regla es que las taxonomías vivan en un solo
+ * lugar. Se descubrió al agregarle a `angulo` la familia C: el bucle la salteaba
+ * en silencio y el archivo quedaba mintiendo sobre el esquema real.
+ *
+ * Empareja por `value` y conserva el `id` de cada opción que sobrevive. Es la
+ * lectura conservadora: no está comprobado si Twenty reconcilia por id o por
+ * valor, y perder el emparejamiento reescribiría datos ya cargados.
+ *
+ * Devuelve true si tocó algo.
+ */
+async function sincronizarOpciones(campo, existente) {
+  const actuales = existente.options ?? [];
+  const porValor = Object.fromEntries(actuales.map((o) => [o.value, o]));
+
+  const deseadas = campo.options.map((o) =>
+    porValor[o.value] ? { ...o, id: porValor[o.value].id } : o,
+  );
+
+  const igual =
+    actuales.length === deseadas.length &&
+    deseadas.every((o, i) => actuales[i].label === o.label && actuales[i].value === o.value);
+  if (igual) return false;
+
+  const valores = new Set(deseadas.map((o) => o.value));
+  const suma = deseadas.filter((o) => !porValor[o.value]).map((o) => o.label);
+  const resta = actuales.filter((o) => !valores.has(o.value)).map((o) => o.label);
+
+  /* Avisar y aplicar igual. Una opción que desaparece deja a los registros que
+   * la usaban con un valor fuera de la taxonomía, y eso los hace desaparecer de
+   * la cola en silencio. Pero la declaración es la fuente de verdad: se aplica,
+   * y el aviso queda escrito diciendo cuál fue. */
+  if (resta.length) {
+    console.log(`  !  ${campo.objeto}.${campo.name} pierde: ${resta.join(', ')}`);
+    console.log('     Revisar los registros que la usaran: su valor queda fuera de la taxonomía.');
+  }
+
+  const detalle = [suma.length ? `+${suma.join(', ')}` : '', resta.length ? `-${resta.join(', ')}` : '']
+    .filter(Boolean)
+    .join('  ');
+
+  if (ensayo) {
+    console.log(`  ~  ${campo.objeto}.${campo.name}  ${actuales.length} → ${deseadas.length} opciones   ${detalle}`);
+    return true;
+  }
+
+  const cuerpo = { options: deseadas };
+  /* El defaultValue viaja en el mismo PATCH sólo si el que había dejó de
+   * existir. Es la trampa que costó una corrida con `stage`: su default de
+   * fábrica no sobrevivía al reemplazo y la API rechazaba el cambio entero.
+   * Agregar una opción no lo rompe, así que casi siempre no hace falta. */
+  const porDefecto = existente.defaultValue?.replace?.(/'/g, '');
+  if (porDefecto && !valores.has(porDefecto)) cuerpo.defaultValue = `'${deseadas[0].value}'`;
+
+  await api(`/fields/${existente.id}`, { method: 'PATCH', body: JSON.stringify(cuerpo) });
+  console.log(`  ~  ${campo.objeto}.${campo.name}  ${deseadas.length} opciones   ${detalle}`);
+  return true;
+}
+
 async function main() {
   const objetos = desenvolver(await api('/objects?limit=60'));
 
@@ -258,14 +336,22 @@ async function main() {
 
   let creados = 0;
   let salteados = 0;
+  let ajustados = 0;
 
   for (const campo of CAMPOS) {
     const obj = porNombre[campo.objeto];
-    const yaEsta = (obj.fields ?? []).some((f) => f.name === campo.name);
+    const existente = (obj.fields ?? []).find((f) => f.name === campo.name);
 
-    if (yaEsta) {
-      console.log(`  =  ${campo.objeto}.${campo.name} ya existe, se saltea`);
-      salteados++;
+    if (existente) {
+      /* Existe, pero si es una taxonomía todavía puede haberle cambiado la
+       * lista. Ver sincronizarOpciones: agregar una opción tiene que ser un
+       * solo cambio, acá. */
+      if (campo.options && (await sincronizarOpciones(campo, existente))) {
+        ajustados++;
+      } else {
+        console.log(`  =  ${campo.objeto}.${campo.name} ya existe, se saltea`);
+        salteados++;
+      }
       continue;
     }
 
@@ -315,7 +401,8 @@ async function main() {
     console.log(`\n  ~  opportunity.stage → Estado, ${nuestras.length} opciones`);
   }
 
-  console.log(`\n${creados} campo(s) ${ensayo ? 'a crear' : 'creados'}, ${salteados} ya existían.`);
+  const ajuste = ajustados ? `, ${ajustados} con la lista ${ensayo ? 'a ajustar' : 'ajustada'}` : '';
+  console.log(`\n${creados} campo(s) ${ensayo ? 'a crear' : 'creados'}, ${salteados} ya existían${ajuste}.`);
 }
 
 main().catch((e) => {

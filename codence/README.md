@@ -2,27 +2,20 @@
 
 Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, así que traer releases de `twentyhq/twenty` no genera conflictos acá.
 
-> ## 📍 Al cerrar la sesión del 07/08/2026
+> ## 📍 Al 07/08/2026
 >
-> **Lo que falta, en orden:**
+> **Los puntos 1, 2 y 3 están hechos.** `/buscar` existe, `modelo.mjs` aplica sus
+> dos ajustes y quedó verificado idempotente, y las tres skills de outbound se
+> revisaron contra [`senales.md`](senales.md). El porqué de cada cosa está en
+> `docs/decisiones.md` del repo `codence-auditorias`, entrada del 07/08.
 >
-> **1. La skill `/buscar`** — lo único grande pendiente. Va en
-> `.claude/skills/buscar/`. Toma una familia de señal y un recorte, trabaja las
-> fuentes, y entrega candidatos a `/prospectar`, que **ya sabe** cargar los tres
-> registros en Twenty. No duplicar esa lógica.
-> Todo lo que necesita está en [`senales.md`](senales.md).
->
-> **2. Dos ajustes en `modelo.mjs`**, que es idempotente:
-> falta el **`Ángulo` de la familia C** (marca que no acompaña) — pendiente viejo
-> que dejó a Datcisions en `Otro` — y un campo **`argumento`** en Opportunity,
-> para comparar qué argumento abre conversaciones.
->
-> **3. Revisar las tres skills de outbound** contra [`senales.md`](senales.md).
-> Se escribieron antes de que la señal pasara a ser *un hecho publicado* en vez
-> de *una fricción medida*.
+> **Lo que falta:**
 >
 > **4. Fichar dos fuentes más:** Edelman Trust Barometer, y la metodología de
 > Interbrand / Kantar BrandZ / Brand Finance.
+>
+> **5. Correr `/buscar` de verdad.** Está escrita y nunca se ejecutó. La lista
+> sigue siendo el cuello de botella: 8 prospectos, uno contactado.
 >
 > **Y lo que no es técnico:** el toque 2 de Warren venció el 04/08 y no salió.
 > ICG10 sigue en `Contactado`. Su bitácora entera está en Twenty.
@@ -67,6 +60,8 @@ TWENTY_KEY=... node codence/modelo.mjs --ensayo
 
 Los dos son **idempotentes**: `modelo.mjs` saltea el campo que ya existe, `migrar.mjs` saltea la empresa que ya está. Correrlos dos veces no duplica nada.
 
+⚠️ **Pero un campo que ya existe todavía puede tener la lista cambiada**, y saltearlo sin más era un defecto: hasta el 07/08, agregarle una opción a una taxonomía eran **dos** cambios —este archivo *y* la interfaz de Twenty— porque el bucle no aplicaba nunca la lista declarada. El archivo no quedaba incompleto: quedaba **mintiendo sobre el esquema real**, sin avisar. Hoy `sincronizarOpciones()` la reconcilia, conservando el `id` de cada opción que sobrevive para no reescribir datos cargados. **Si una opción desaparece, avisa y aplica igual** — la declaración es la fuente de verdad, y queda escrito cuál fue.
+
 ## El modelo
 
 Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Twenty ya resolvía 11 de los 21 campos que tenía el CRM viejo, y el pipeline en Kanban sale gratis de `Opportunity.stage`.
@@ -96,9 +91,12 @@ En `.claude/skills/`, y se descubren al abrir Claude Code **en esta carpeta** (`
 
 | | |
 |---|---|
+| `/buscar` | Sale a encontrar candidatos por familia de señal. **No carga nada**: entrega |
 | `/prospectar` | Investiga, califica y carga los 3 registros más la nota |
 | `/outbound-hoy` | La cola del día, las trabadas con qué le falta, y el registro del toque |
 | `/outbound-mensaje` | Redacta en el formato y el largo del canal. **No envía** |
+
+**De las cuatro familias de `senales.md`, solo A y B se buscan de cero** — un aviso de empleo y una ronda son hechos publicados e indexados. La familia C se evalúa encima de lo que A y B trajeron, y la D se recoge de paso leyendo los avisos de A.
 
 Hablan con Twenty por su **servidor MCP**, declarado en `.mcp.json` como `twenty` → `http://localhost:3000/mcp`. La clave no está en el archivo: sale de `TWENTY_API_KEY` del entorno de usuario de Windows.
 

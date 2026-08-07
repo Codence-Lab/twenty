@@ -44,7 +44,24 @@ Frenar y pedir el dato si falta alguno:
 
 Si la señal ya no está: decirlo, no escribir el mensaje, y proponer volver la tarjeta a `Por investigar`.
 
-## Paso 3 — Escribir
+**Y comprobar que siga dentro de su ventana**, que está en [`codence/senales.md`](../../../codence/senales.md): **días** para capital fresco, **semanas** para un aviso de empleo, sin vencimiento para las de vigilar. Una señal fuera de su ventana no es una señal: es un dato viejo, y escribir con ella lo delata.
+
+## Paso 3 — Con qué se abre
+
+**La familia de la señal decide la apertura.** Es lo que dice `senales.md`, y el `angulo` de la tarjeta es lo que la nombra.
+
+| Ángulo | Abre por | Y nunca por |
+|---|---|---|
+| `Demanda declarada` | **Lo que el aviso dice**, citado. *"Están buscando un Email Marketing & Growth Lead"* es un hecho | *"Les falta generación de demanda"*, que es un juicio |
+| `Crecimiento reciente` | **La consecuencia** de haber levantado: expandirse es competir por atención contra otros que también levantaron | **La felicitación.** *"¡Felicitaciones por la Serie A!"* es el saludo que reciben doscientas veces y que manda todo el que les quiere vender algo |
+| `Marca que no acompaña` | **El problema comercial**, nombrado en una frase. Si viene con crecimiento reciente, abre por la expansión | La estética. *"Su marca se ve vieja"* no es un motivo |
+| Los tres de fricción | **Lo observado**, no el mecanismo que uno le supone | Una deducción presentada como hallazgo |
+
+⚠️ **Con `Demanda declarada` hay una trampa:** un aviso abierto también significa que ya eligieron resolverlo contratando. El mensaje tiene que decir qué agrega Codence a eso, **no fingir que no lo vio**.
+
+**La tensión se muestra, no se declara.** Ninguna de las ocho señales cargadas dice *"su marca es mala"*: dicen dos hechos que no cierran —seis clientes de moda reconocibles contra 550 seguidores— y el lector saca la conclusión. Ese es el registro.
+
+## Paso 4 — Escribir
 
 ### El formato por canal
 
@@ -75,7 +92,7 @@ Si la señal ya no está: decirlo, no escribir el mensaje, y proponer volver la 
 
 **No arrancar con "¿lo viste?"** cuando hay medición de que sí lo vio. Arrancar de un punto concreto del documento.
 
-## Paso 4 — Entregarlo y anotarlo
+## Paso 5 — Entregarlo y anotarlo
 
 Mostrarle a Alan el texto **listo para copiar**, con el conteo de caracteres si es una nota de conexión, y en qué canal va.
 

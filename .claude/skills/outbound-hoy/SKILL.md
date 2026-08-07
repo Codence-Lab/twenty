@@ -15,7 +15,7 @@ Un prospecto vive repartido en tres objetos de Twenty:
 
 - **Company** — la empresa: `name`, `domainName`, `industria`
 - **Person** — el decisor: `name`, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`
-- **Opportunity** — el outbound: `stage` es el **Estado**, más `canal`, `senal`, `fuente`, `angulo`, `servicio`, `toques`, `ultimoToque`, `proximoToque`, `calificadoEn`, `auditoria`
+- **Opportunity** — el outbound: `stage` es el **Estado**, más `canal`, `senal`, `fuente`, `angulo`, `servicio`, `toques`, `ultimoToque`, `proximoToque`, `calificadoEn`, `argumento`, `auditoria`
 
 La bitácora son **Notes** atadas a la empresa y a la oportunidad.
 
@@ -59,6 +59,11 @@ Es lo más útil del comando, y no se resuelve con una frase genérica. Mirar el
 | Grado de conexión | `canal` es `LinkedIn` y `gradoConexion` está vacío |
 | Señal o fuente | `senal` o `fuente` vacíos |
 | Calificar | Tiene puerta y decisor pero sigue en `Por investigar` |
+| **Señal vencida** | El `angulo` es de una familia con ventana y `calificadoEn` quedó lejos |
+
+**Una señal fuera de su ventana no es una señal: es un dato viejo.** Las ventanas están en `senales.md`: **días** para capital fresco —a las tres semanas felicitar por una ronda es llegar tarde y se nota—, **semanas** para un aviso de empleo, que se cierra y se cubre. Las de `vigilar` no vencen.
+
+Una tarjeta con la señal vencida **no se manda igual**: se dice, y se propone volverla a `Por investigar` o buscarle una señal nueva. Escribir con una ronda de tres meses lo delata.
 
 **El grado de conexión no es un detalle:** decide si el mensaje es un DM libre (1º) o una nota de 300 caracteres (2º y 3º). Sin eso, `/outbound-mensaje` no puede escribir.
 

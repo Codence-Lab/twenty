@@ -7,7 +7,9 @@ description: Investiga empresas, las califica contra el ICP de Codence y las car
 
 Investiga, califica y carga. **Ninguna tarjeta entra sin una señal verificable y una fuente que se haya abierto.**
 
-**Argumento:** una industria y un país (`logística, Argentina`), o una lista de empresas pegada.
+**Argumento:** una industria y un país (`logística, Argentina`), una lista de empresas pegada, o **candidatos que vienen de `/buscar`** — que ya trabajó las fuentes y verificó. En ese caso no se rehace la investigación: se comprueba que la señal siga en pie y se carga.
+
+**El catálogo de señales es [`codence/senales.md`](../../../codence/senales.md).** Dice qué hace que una empresa sea un prospecto, dónde se publica cada familia y qué la descalifica. Este comando carga; ese documento decide qué merece cargarse.
 
 ---
 
@@ -25,11 +27,28 @@ Está en `docs/contexto-outbound.md` del repo `codence-auditorias`. Las tres ind
 
 **La escala importa.** Una empresa demasiado grande no la decide una persona a la que se le pueda escribir.
 
-## Paso 2 — La señal de fricción
+## Paso 2 — La señal
 
 Es lo que hace o deshace la tarjeta.
 
-**La señal no se busca, se encuentra.** Buscar el síntoma en un buscador devuelve a quien vende la cura: pedir *"logística argentina seguimiento por WhatsApp"* trae a los que ofrecen eso como producto. **Primero se identifica la empresa, después se miran sus propias superficies.**
+**La señal no se busca, se encuentra.** Buscar el síntoma en un buscador devuelve a quien vende la cura: pedir *"logística argentina seguimiento por WhatsApp"* trae a los que ofrecen eso como producto. **Primero se identifica la empresa, después se miran sus propias superficies.** Lo único que sí se busca de cero es **el hecho que la empresa publicó** — una ronda, un aviso abierto —, y de eso se ocupa `/buscar`.
+
+### Las cuatro familias, y su ventana
+
+La fricción operativa dejó de ser *la* señal el 07/08: es una de cuatro. **La familia decide el ángulo y con qué abre el mensaje; la ventana decide a quién se le escribe primero.** El detalle de cada una está en `senales.md`.
+
+| Familia | Qué es | Ventana | Ángulo |
+|---|---|---|---|
+| **A** — demanda declarada | Un aviso abierto que nombra el problema. **La más fuerte** | Semanas | `Demanda declarada` |
+| **B** — capital fresco | Ronda con monto y fecha, expansión, adquisición | **Días** | `Crecimiento reciente` |
+| **C** — la marca no acompaña | Creció y su marca se quedó donde estaba | Vigilar | `Marca que no acompaña` |
+| **D** — fricción operativa | Hacen a mano algo que ya no da a mano | Vigilar | Los tres de fricción |
+
+**Cuantas más familias, más fuerte la tarjeta.** `B + C` es el ICP más claro para rebranding y abre por la expansión, no por la marca. `D sola` es la más débil: verificar antes de escribir.
+
+**Una señal fuera de su ventana no es una señal: es un dato viejo.** Se anota y se espera la próxima.
+
+⚠️ **`Marca que no acompaña` no se usa por impresión estética.** *La inquietud estética no es razón para rebrandear; un problema comercial identificable, sí.* Si no se puede nombrar el problema comercial en una frase, la señal no existe. Y esa familia casi siempre tiene forma de *"no tienen X"*, que es justo lo que `WebFetch` no puede establecer — ver las reglas de abajo.
 
 Dónde mirar, en orden de rendimiento:
 
