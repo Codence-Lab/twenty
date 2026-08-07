@@ -6,7 +6,12 @@ services:
     volumes:
       - server-local-data:/app/packages/twenty-server/.local-storage
     ports:
-      - "3000:3000"
+      # Atado a loopback a propósito. "3000:3000" publica en 0.0.0.0, es decir en
+      # todas las interfaces: cualquiera en la misma red llega al login. Acá
+      # adentro hay credenciales y datos de empresas reales, y el CRM se usa
+      # desde esta máquina. Si algún día tiene que verse desde el celular, la
+      # salida es una VPN (Tailscale), no abrir el bind.
+      - "127.0.0.1:3000:3000"
     environment:
       NODE_PORT: 3000
       PG_DATABASE_URL: postgres://${PG_DATABASE_USER:-postgres}:${PG_DATABASE_PASSWORD:-postgres}@${PG_DATABASE_HOST:-db}:${PG_DATABASE_PORT:-5432}/default
