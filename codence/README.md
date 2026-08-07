@@ -21,6 +21,7 @@ Para apagarlo: `docker compose stop`. Los datos viven en volúmenes de Docker y 
 |---|---|
 | `modelo.mjs` | Declara qué es un prospecto y lo empuja por la Metadata API |
 | `migrar.mjs` | Vuelca el respaldo del CRM propio al modelo nativo. Corrió una vez el 07/08/2026 |
+| `reparar.mjs` | Devuelve los 8 prospectos si un borrado se los lleva. Ver *Trampas* |
 
 Los dos necesitan `TWENTY_KEY`, que se genera en *Ajustes → API y Webhooks*, y aceptan `--ensayo` para ver qué harían sin escribir.
 
@@ -52,6 +53,38 @@ Están completas en `docs/decisiones.md` del repo `codence-auditorias`. Las dos 
 **Las taxonomías se adaptan; las reglas de evidencia no.** `Estado`, `Canal`, `Industria`, `Ángulo` y `Servicio` viven en **un solo lugar** — hoy es `modelo.mjs`, y agregar una opción es una línea ahí o el control de la interfaz. Lo que nunca se adapta es qué cuenta como fuente y qué se puede afirmar.
 
 **Ningún mensaje de outbound sale sin una observación específica y verificable** sobre esa empresa, con su fuente abierta. Por eso `senal` y `fuente` son campos y no un comentario.
+
+## Las skills
+
+En `.claude/skills/`, y se descubren al abrir Claude Code **en esta carpeta** (`D:\codence-crm`), no en `codence-auditorias`.
+
+| | |
+|---|---|
+| `/prospectar` | Investiga, califica y carga los 3 registros más la nota |
+| `/outbound-hoy` | La cola del día, las trabadas con qué le falta, y el registro del toque |
+| `/outbound-mensaje` | Redacta en el formato y el largo del canal. **No envía** |
+
+Hablan con Twenty por su **servidor MCP**, declarado en `.mcp.json` como `twenty` → `http://localhost:3000/mcp`. La clave no está en el archivo: sale de `TWENTY_API_KEY` del entorno de usuario de Windows.
+
+⚠️ **Un servidor MCP se carga al iniciar la sesión.** Si se cambia `.mcp.json`, la sesión en curso sigue con lo viejo.
+
+**El paso 0 de las tres llama a `get_field_metadata`** en vez de leer un archivo de taxonomías. Agregar una opción desde la interfaz alcanza, y las skills la ven.
+
+## Trampas
+
+**Twenty no borra de verdad: marca `deletedAt`.** Un registro borrado sigue contando para la detección de duplicados, así que rehacer una migración devuelve `400 duplicate entry`. Se listan con `filter=deletedAt[is]:NOT_NULL` y se restauran con `PATCH {"deletedAt": null}`.
+
+⚠️ **Un DELETE sobre un registro que ya pasó por la papelera lo purga de verdad.** Así se perdió la empresa ICG10 Capital el 07/08 y hubo que recrearla.
+
+**Borrar la información de demo se lleva puesto lo migrado si se hace en bloque.** Pasó el 07/08. Para eso está `reparar.mjs`.
+
+**Un SELECT no acepta un valor que empiece con dígito.** `1º` derivaba a `1` y la API lo rechaza; `gradoConexion` lleva valores explícitos.
+
+**Al reemplazar las opciones de un SELECT hay que mandar `defaultValue` en el mismo PATCH**, porque el de fábrica deja de existir.
+
+**`noteTargets` usa `targetCompanyId` / `targetOpportunityId`**, con prefijo — no `companyId`, que es lo que usan Opportunity y Person.
+
+**El formato de filtro es `campo[COMPARADOR]:valor`**, con dos puntos. Sin ellos devuelve vacío sin error.
 
 ## Cosas del entorno
 
