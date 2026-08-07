@@ -2,6 +2,8 @@
 .DS_Store
 /.idea
 .claude/*
+# Las skills de Codence sí se versionan: son parte del sistema, no configuración local.
+!.claude/skills/
 !.claude/settings.json
 .cursor/debug-*.log
 **/**/node_modules/

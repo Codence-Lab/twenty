@@ -1,0 +1,95 @@
+---
+name: prospectar
+description: Investiga empresas, las califica contra el ICP de Codence y las carga en Twenty, cada una con su señal de fricción y la fuente que la respalda. Usar cuando Alan pegue una lista de empresas o pida buscar prospectos de una industria y un país.
+---
+
+# /prospectar — conseguir el lead
+
+Investiga, califica y carga. **Ninguna tarjeta entra sin una señal verificable y una fuente que se haya abierto.**
+
+**Argumento:** una industria y un país (`logística, Argentina`), o una lista de empresas pegada.
+
+---
+
+## Paso 0 — El vocabulario vigente
+
+Leer las opciones reales con `get_field_metadata` sobre `company.industria`, `opportunity.canal`, `opportunity.angulo`, `opportunity.servicio`, `opportunity.stage` y `person.gradoConexion`.
+
+**Cargar un valor fuera de la taxonomía hace desaparecer la tarjeta de la cola en silencio.** Si hace falta una opción que no existe, decirlo y proponerla — no forzar una que no encaja.
+
+Y traer las empresas que ya están, con `find_many_companies`: **no duplicar**. Twenty además rechaza duplicados, y sus registros borrados siguen contando.
+
+## Paso 1 — El ICP
+
+Está en `docs/contexto-outbound.md` del repo `codence-auditorias`. Las tres industrias declaradas son **Fintech, Logística y B2B / SaaS**; una empresa fuera de esas tres entra **por la señal, no por el rubro**.
+
+**La escala importa.** Una empresa demasiado grande no la decide una persona a la que se le pueda escribir.
+
+## Paso 2 — La señal de fricción
+
+Es lo que hace o deshace la tarjeta.
+
+**La señal no se busca, se encuentra.** Buscar el síntoma en un buscador devuelve a quien vende la cura: pedir *"logística argentina seguimiento por WhatsApp"* trae a los que ofrecen eso como producto. **Primero se identifica la empresa, después se miran sus propias superficies.**
+
+Dónde mirar, en orden de rendimiento:
+
+1. **Sus búsquedas de empleo.** Un aviso abierto es presupuesto ya asignado a un problema que ellos mismos nombraron. Es la señal más fuerte que existe.
+2. **Sus puertas de entrada, seguidas hasta el final.** Dónde cae el enlace de la biografía, qué recibe el formulario, qué pasa después de enviar. Una puerta que muere sin nada del otro lado es un hallazgo verificable en diez segundos.
+3. **Sus superficies públicas.** Instagram, LinkedIn, el sitio. Qué publican, con qué frecuencia, y qué pasa con lo que publican.
+
+### Las reglas de evidencia
+
+**`WebFetch` no puede establecer una ausencia.** Sirve para confirmar que algo está, **nunca** para afirmar que algo falta. Sobre un sitio armado con JavaScript devuelve el cascarón sin fallar y sin avisar, así que la ausencia se lee como hallazgo. Toda señal con forma *"no tienen X"* o *"no nombran a Y"* se verifica mirando la página completa en capturas.
+
+**Adivinar rutas no es buscar.** `/about` y `/team` dando 404 sobre un sitio en español no prueba nada.
+
+**Re-verificar con la herramienta que produjo el error no verifica nada.** Una señal falsa sobrevivió a dos re-verificaciones porque las tres lecturas usaron el mismo método ciego.
+
+**Un resumen de búsqueda no es una fuente.** Los resumidores agregan cifras que la página no dice. Antes de escribir un número, hay que haberlo visto **en la página, no en el resumen de la página**.
+
+**Toda fuente que se registra tiene que haberse abierto.** Una que salía de un listado de resultados devolvía 403.
+
+**Describir el mecanismo que produce una observación es una afirmación aparte.** "En 12 de 15 capturas no aparece el conteo" está medido; "la cuenta lo oculta" es una causa deducida. Si no se comprobó el mecanismo, se describe lo observado.
+
+**Una ausencia en una página no es una ausencia en la empresa.** Antes de afirmar que a una empresa le falta una función, hay que haber mirado dónde esa función dejaría rastro.
+
+**Instagram se lee con `WebFetch`, nunca con un navegador automatizado.** Es un pedido público plano y devuelve biografía, enlace y seguidores. **No apuntar el navegador a Instagram ni a LinkedIn** — la sanción es la cuenta.
+
+## Paso 3 — El canal
+
+**Una puerta es un canal solamente si el mensaje aterriza en alguien que podría decir que sí.** El WhatsApp de distribuidores o un mostrador de ventas no son canales aunque los atienda una persona.
+
+- **`LinkedIn`** si hay un perfil de un decisor. Requiere `gradoConexion`, que se lee en el propio perfil y **lo carga Alan**.
+- **`Email`** si hay un correo de alguien que decide.
+- **`WhatsApp`** si publican un número como puerta comercial. Sobre un número de empresa el destinatario es la empresa: **la tarjeta califica sin decisor**.
+
+Si ninguna puerta califica, la tarjeta queda en `Por investigar` con el faltante escrito.
+
+## Paso 4 — Cargar en Twenty
+
+Tres registros por prospecto:
+
+**Company** — `name`, `domainName` (el sitio), `industria`.
+
+**Person**, sólo si hay decisor — `name` partido en nombre y apellido, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`, atada a la Company.
+
+**Opportunity** — `name` igual al de la empresa, y:
+
+| Campo | Qué va |
+|---|---|
+| `stage` | `Calificado` si tiene puerta y decisor; si no, `Por investigar` |
+| `canal`, `angulo`, `servicio` | De la taxonomía vigente |
+| `senal` | La observación, específica y verificable |
+| `fuente` | La URL exacta, abierta y comprobada |
+| `calificadoEn` | La fecha, sólo si quedó en `Calificado` |
+| `toques` | 0 |
+
+**Y una Note con la investigación**, atada a la empresa y a la oportunidad: qué hace la empresa, qué se miró, qué se encontró y qué no se pudo comprobar. Es lo que después lee `/outbound-mensaje` y lo que evita rehacer el trabajo.
+
+**Fechas en GMT-3.**
+
+## Paso 5 — Reportar
+
+Cuántas se investigaron, cuántas entraron y **por qué quedó afuera cada una que no entró**. Una empresa descartada por escala es una decisión distinta de una sin señal verificable: decir cuál fue.
+
+**Si una tarjeta entró sin señal fuerte, decirlo.** Una lista larga con tarjetas flojas es peor que una corta: cada una sin señal es un mensaje que no se va a poder escribir.
