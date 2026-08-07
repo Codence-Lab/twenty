@@ -2,6 +2,42 @@
 
 Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, así que traer releases de `twentyhq/twenty` no genera conflictos acá.
 
+> ## 📍 Al cerrar la sesión del 07/08/2026
+>
+> **Lo que falta, en orden:**
+>
+> **1. La skill `/buscar`** — lo único grande pendiente. Va en
+> `.claude/skills/buscar/`. Toma una familia de señal y un recorte, trabaja las
+> fuentes, y entrega candidatos a `/prospectar`, que **ya sabe** cargar los tres
+> registros en Twenty. No duplicar esa lógica.
+> Todo lo que necesita está en [`senales.md`](senales.md).
+>
+> **2. Dos ajustes en `modelo.mjs`**, que es idempotente:
+> falta el **`Ángulo` de la familia C** (marca que no acompaña) — pendiente viejo
+> que dejó a Datcisions en `Otro` — y un campo **`argumento`** en Opportunity,
+> para comparar qué argumento abre conversaciones.
+>
+> **3. Revisar las tres skills de outbound** contra [`senales.md`](senales.md).
+> Se escribieron antes de que la señal pasara a ser *un hecho publicado* en vez
+> de *una fricción medida*.
+>
+> **4. Fichar dos fuentes más:** Edelman Trust Barometer, y la metodología de
+> Interbrand / Kantar BrandZ / Brand Finance.
+>
+> **Y lo que no es técnico:** el toque 2 de Warren venció el 04/08 y no salió.
+> ICG10 sigue en `Contactado`. Su bitácora entera está en Twenty.
+
+## Los documentos
+
+| | |
+|---|---|
+| [`senales.md`](senales.md) | **Qué hace que una empresa sea un prospecto.** Las 4 familias, con su ventana |
+| [`evidencia.md`](evidencia.md) | Las fuentes que puede citar una página de argumento, con su ficha |
+
+**La regla de fuentes cambió el 07/08.** Antes era *solo primarias*. Ahora: **cualquiera, siempre que la cita diga qué clase de evidencia es.** No se prohíbe la encuesta de un proveedor; se prohíbe presentarla como si fuera facturación medida.
+
+⚠️ **El documento que se le manda al prospecto se genera en el otro repo** (`codence-auditorias`), con `render-web.mjs` y un `content.json` que traiga `bloques`. Ahí viven `template/` y `brand/`.
+
 ## Levantar el CRM
 
 Docker Desktop tiene que estar corriendo (la ballena fija en la bandeja). Después:
