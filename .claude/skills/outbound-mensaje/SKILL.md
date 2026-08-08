@@ -1,11 +1,18 @@
 ---
 name: outbound-mensaje
-description: Redacta el mensaje de outbound para un prospecto de Twenty, en el formato y el largo del canal que tenga asignado, y lo deja listo para copiar. No envía nada. Usar cuando Alan pida escribirle a un prospecto o preparar los seguimientos del día.
+description: Redacta el mensaje de outbound para un prospecto de Twenty, en el formato y el largo del canal que tenga asignado, y lo deja esperando aprobación en el CRM. No envía nada. Usar cuando Alan pida escribirle a un prospecto o preparar los seguimientos del día.
 ---
 
 # /outbound-mensaje — redactar, no enviar
 
-**Este comando nunca envía.** Deja el texto listo para que Alan lo copie y lo mande a mano. Cuando confirme que salió, se registra con `/outbound-hoy`.
+**Este comando nunca envía.** Deja el texto escrito y esperando el visto bueno de Alan.
+
+De ahí en más, el camino depende del canal:
+
+| Canal | Qué sigue |
+|---|---|
+| `Email` | Alan aprueba en el CRM, `/enviar` arma el borrador en Gmail, y `/enviar --confirmar` registra el toque |
+| `LinkedIn`, `WhatsApp` | Alan lo copia y lo manda a mano, y `/outbound-hoy` registra el toque cuando él lo confirma |
 
 **Argumento:** el nombre de la empresa. Si no viene, preguntar.
 
@@ -17,7 +24,7 @@ Con las herramientas del servidor MCP de Twenty: la Opportunity, su Company, su 
 
 **La bitácora no es opcional.** Ahí está la investigación que justifica el mensaje, el historial de lo que ya se dijo, y —cuando lo hay— lo que salió mal antes. Escribir sin leerla es repetir errores ya cometidos.
 
-Leer también el vocabulario vigente de `canal`, `angulo` y `servicio` con `get_field_metadata`, en vez de asumirlo.
+Leer también el vocabulario vigente de `canal`, `angulo`, `servicio` y `aprobacion` con `get_field_metadata`, en vez de asumirlo.
 
 ## Paso 1 — Comprobar que se puede escribir
 
@@ -33,6 +40,8 @@ Frenar y pedir el dato si falta alguno:
 **El canal `WhatsApp` es la excepción del decisor:** sobre un número de empresa el destinatario es la empresa, así que no hay a quién errarle el nombre.
 
 **No inventar el dato faltante para poder seguir.** Frenar y pedirlo es el comportamiento correcto.
+
+**Y dejar la tarea creada al frenar**, atada a la Company y a la Opportunity, con qué la cierra y con `dueAt` en la fecha en que vence la ventana de la señal. Pedir un dato de viva voz y no anotarlo es cómo un pendiente se pierde: si mañana Alan no se acuerda, la tarjeta queda trabada sin que nadie sepa por qué. Si ya existe una tarea abierta que cubre ese dato, no se duplica.
 
 ## Paso 2 — Verificar que la señal siga en pie
 
@@ -76,9 +85,20 @@ Si la señal ya no está: decirlo, no escribir el mensaje, y proponer volver la 
 
 ### Qué lleva el mensaje
 
-1. **La observación específica**, en una línea, verificable por el destinatario en segundos.
-2. **Qué implica**, sin diagnóstico grandilocuente.
-3. **Una pregunta o una puerta chica.** No una propuesta.
+1. **Quién escribe.** `Soy Alan, de Codence: trabajamos marca y sitios web.` Va primero y no se saltea.
+2. **La observación específica**, en una línea, verificable por el destinatario en segundos.
+3. **Qué implica**, sin diagnóstico grandilocuente.
+4. **Una pregunta o una puerta chica.** No una propuesta.
+
+⚠️ **Una nota de conexión no abre la venta: consigue que te acepten.** Ese es todo su trabajo. El argumento va en el mensaje siguiente, cuando ya hay conversación. Una nota que intenta cerrar algo en 300 caracteres se lee como lo que es.
+
+### Nunca poner la cifra
+
+**No se escribe el monto de una ronda.** Ni `USD 30M`, ni `los 6,2 millones`, ni la valuación.
+
+Es la misma razón por la que no se felicita: **la cifra es lo que menciona todo el que les quiere vender algo**, y ponerla delata que la investigación fue sobre su plata. Se abre por **la consecuencia visible** —abren verticales, entran a un país nuevo, abren una ciudad—, que es lo que el destinatario reconoce como propio.
+
+Se puede decir *«con la ronda nueva»* o *«vi que levantaron»*. **El número, no.** Decidido el 08/08 después de leer los cinco primeros mensajes, que lo tenían.
 
 ### Qué NO lleva
 
@@ -92,13 +112,24 @@ Si la señal ya no está: decirlo, no escribir el mensaje, y proponer volver la 
 
 **No arrancar con "¿lo viste?"** cuando hay medición de que sí lo vio. Arrancar de un punto concreto del documento.
 
-## Paso 5 — Entregarlo y anotarlo
+## Paso 5 — Entregarlo y dejarlo esperando aprobación
 
-Mostrarle a Alan el texto **listo para copiar**, con el conteo de caracteres si es una nota de conexión, y en qué canal va.
+Mostrarle a Alan el texto completo, con el conteo de caracteres si es una nota de conexión, y en qué canal va. Si el canal es `LinkedIn` o `WhatsApp`, **listo para copiar**: de ahí lo manda él. Si es `Email`, lo que sigue es leerlo en el CRM y aprobarlo, así que alcanza con decirle en qué tarjeta quedó.
 
-Dejar el mensaje escrito en la bitácora —una Note atada a la empresa y a la oportunidad— marcado como **redactado, no enviado**. Así, cuando Alan confirme, `/outbound-hoy` sólo registra el toque.
+Y dejarlo escrito **en la tarjeta**, sobre la Opportunity:
+
+- `borradorAsunto` → el asunto, si el canal es `Email`
+- `borradorCuerpo` → el texto completo
+- `borradorFecha` → hoy, en GMT-3
+- `aprobacion` → `Redactado`
+
+**El borrador va en campos y no en una Note porque un borrador es un estado.** Se filtra, se ordena, se ve en el Kanban y se edita en la ficha — corregir el texto ahí es parte de aprobarlo, y lo que salga va a ser lo que quedó en el campo. Una Note es prosa: sirve para leer, no para saber en qué punto está algo.
+
+**La bitácora se escribe recién cuando el mensaje salió**, con el texto que efectivamente se mandó. Para `Email` la escribe `/enviar --confirmar`; para los otros dos canales, `/outbound-hoy` al registrar el toque. Así se sostiene que la Note se lee y no se cierra nunca.
 
 **No tocar `toques`, `ultimoToque` ni `stage`.** Redactar no es enviar.
+
+⚠️ **Y no poner `aprobacion` en `Aprobado`.** Ese salto lo da Alan a mano en el CRM, y es la única parte del circuito que no da una máquina. Un comando que se autoaprueba no es una aprobación.
 
 ---
 

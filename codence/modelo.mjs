@@ -23,10 +23,13 @@
  */
 
 const URL_BASE = process.env.TWENTY_URL ?? 'http://localhost:3000';
-const CLAVE = process.env.TWENTY_KEY;
+/* TWENTY_API_KEY es la que ya está en el entorno de usuario de Windows porque
+ * la consume el servidor MCP declarado en .mcp.json. Es la misma credencial, así
+ * que se acepta como alternativa y no hay que declararla dos veces. */
+const CLAVE = process.env.TWENTY_KEY ?? process.env.TWENTY_API_KEY;
 
 if (!CLAVE) {
-  console.error('Falta TWENTY_KEY. Se genera en Ajustes → API y Webhooks.');
+  console.error('Falta TWENTY_KEY (o TWENTY_API_KEY). Se genera en Ajustes → API y Webhooks.');
   process.exit(1);
 }
 
@@ -48,6 +51,17 @@ const ESTADO = [
 
 const CANAL = ['LinkedIn', 'Email', 'WhatsApp'];
 const INDUSTRIA = ['Fintech', 'Logística', 'B2B / SaaS', 'Otro'];
+/* El circuito de aprobación del canal Email. Es un estado y no prosa en una
+ * Note a propósito: se filtra, se ordena y se ve en el Kanban, que es lo que
+ * convierte a Twenty en la bandeja de aprobación en vez de en un archivo. */
+const APROBACION = [
+  'Sin borrador',
+  'Redactado',
+  'Aprobado',
+  'En Gmail',
+  'Enviado',
+  'Descartado',
+];
 /* El valor interno va explícito porque Twenty exige UPPER_SNAKE_CASE empezando
  * por letra, y "1º" derivaría a "1", que rechaza. El rótulo visible es el que
  * usabas: se lee "1º" en la ficha igual que antes. */
@@ -86,6 +100,18 @@ const COLOR_ESTADO = {
   Convertido: 'green',
   'Sin interés': 'gray',
   Descalificado: 'gray',
+};
+
+/* Amarillo es lo que espera a Alan, azul lo que espera a la máquina, violeta lo
+ * que está en vuelo y verde lo cerrado. Es la misma lógica que el Estado: mirar
+ * la columna tiene que alcanzar para saber de quién es el próximo movimiento. */
+const COLOR_APROBACION = {
+  'Sin borrador': 'gray',
+  Redactado: 'yellow',
+  Aprobado: 'blue',
+  'En Gmail': 'purple',
+  Enviado: 'green',
+  Descartado: 'gray',
 };
 
 const PALETA = ['blue', 'purple', 'sky', 'turquoise', 'green', 'yellow', 'orange', 'red', 'gray'];
@@ -233,6 +259,56 @@ const CAMPOS = [
     type: 'LINKS',
     icon: 'IconFileDescription',
     description: 'La página de argumento que se le mandó. En el rótulo del enlace va la tesis en pocas palabras; en la URL, la página publicada.',
+  },
+
+  /* El circuito de aprobación del canal Email. El borrador vive acá y no en una
+   * Note porque un borrador es un estado: se filtra, se edita en la ficha y se
+   * aprueba. La Note se escribe recién cuando el mensaje salió, con el texto que
+   * efectivamente se mandó. Así se sostiene que la Note se lee y no se cierra
+   * nunca, sin usar prosa libre como máquina de estados. */
+  {
+    objeto: 'opportunity',
+    name: 'aprobacion',
+    label: 'Aprobación',
+    type: 'SELECT',
+    icon: 'IconChecks',
+    description: 'Dónde está el mensaje en el circuito. Sólo sale de Aprobado lo que Alan movió a mano en el CRM.',
+    options: opciones(APROBACION, COLOR_APROBACION),
+    defaultValue: `'${aValor(APROBACION[0])}'`,
+  },
+  {
+    objeto: 'opportunity',
+    name: 'borradorAsunto',
+    label: 'Asunto del borrador',
+    type: 'TEXT',
+    icon: 'IconMailForward',
+    description: 'El asunto exacto que va a salir. Se lee y se corrige en la ficha antes de aprobar.',
+  },
+  {
+    objeto: 'opportunity',
+    name: 'borradorCuerpo',
+    label: 'Cuerpo del borrador',
+    type: 'TEXT',
+    icon: 'IconMessage',
+    description: 'El cuerpo exacto que va a salir. Editable acá: corregir el texto es parte de aprobarlo.',
+  },
+  {
+    objeto: 'opportunity',
+    name: 'borradorFecha',
+    label: 'Borrador del',
+    type: 'DATE',
+    icon: 'IconCalendarPlus',
+    description: 'Cuándo se redactó. Un borrador añejo se ve de un vistazo, y la señal que lo justificaba puede haber vencido.',
+  },
+  /* El id que devuelve create_draft. Es lo único que ata la tarjeta al correo:
+   * sin esto no hay forma de verificar después si ese mensaje salió. */
+  {
+    objeto: 'opportunity',
+    name: 'gmailDraftId',
+    label: 'Borrador Gmail',
+    type: 'TEXT',
+    icon: 'IconMailbox',
+    description: 'El id del borrador en el Gmail de Codence. Lo escribe /enviar y lo consume /enviar --confirmar.',
   },
 ];
 

@@ -27,11 +27,11 @@
 import { readFile } from 'node:fs/promises';
 
 const URL_BASE = process.env.TWENTY_URL ?? 'http://localhost:3000';
-const CLAVE = process.env.TWENTY_KEY;
+const CLAVE = process.env.TWENTY_KEY ?? process.env.TWENTY_API_KEY;
 const RESPALDO = process.env.RESPALDO ?? 'D:/respaldo-crm-codence-2026-08-07/prospectos.json';
 
 if (!CLAVE) {
-  console.error('Falta TWENTY_KEY.');
+  console.error('Falta TWENTY_KEY (o TWENTY_API_KEY).');
   process.exit(1);
 }
 

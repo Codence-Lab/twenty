@@ -29,12 +29,14 @@ Nadie publica *"tenemos un proceso manual"*. Sí publica *"buscamos analista par
 
 | Familia | ¿Se puede buscar desde cero? | Cómo entra acá |
 |---|---|---|
-| **A** — demanda declarada | **Sí.** El aviso está publicado e indexado | Búsqueda abierta en portales, o la propia página de empleos |
-| **B** — capital fresco | **Sí.** La ronda es una nota de prensa | Búsqueda abierta en prensa de negocios |
+| **B** — capital fresco | **Sí.** La ronda es una nota de prensa | Búsqueda abierta en prensa de negocios. **Es la única entrada de cero que queda** |
+| **A** — demanda declarada | **Ya no.** El aviso está indexado, pero los portales que lo listan no se pueden abrir | Se **lee la bolsa propia** de empresas que ya salieron de B, o de las tarjetas en `Por investigar` |
 | **C** — la marca no acompaña | **No.** Ninguna consulta devuelve *"empresas cuya marca se quedó atrás"* | Se **evalúa** sobre candidatos que ya salieron de A o B |
 | **D** — fricción operativa | **Casi no.** Se lee de lo mismo que A | Se **recoge de paso** mientras se trabaja A |
 
-**Solo A y B se buscan de cero.** C y D se leen encima de lo que A y B ya trajeron. Pedir "buscá familia C" sin una lista de entrada es pedir algo que no existe: en ese caso, tomar como entrada las tarjetas en `Por investigar` de Twenty y decirlo.
+**Desde el 07/08, solo B se busca de cero.** A, C y D se leen encima de lo que B trajo, o encima de las tarjetas que ya están en `Por investigar`. Por eso **una corrida arranca siempre por B**, incluso cuando el pedido nombra otra familia: sin la lista que B produce, las otras tres no tienen insumo.
+
+Pedir "buscá familia A" o "buscá familia C" sin una lista de entrada es pedir algo que no existe: en ese caso, tomar como entrada las tarjetas en `Por investigar` de Twenty y decirlo.
 
 ---
 
@@ -91,17 +93,21 @@ La más corta y la que más se desperdicia. **A las tres semanas ya llegaste tar
 
 La más fuerte de las cuatro. Un aviso abierto es **presupuesto ya asignado a un problema que ellos mismos nombraron, con sus palabras**.
 
-Hay dos entradas, y la segunda es la que produjo los mejores resultados de este sistema:
+**Hay una sola entrada que funciona: la bolsa de empleo de la propia empresa.** Con una lista de empresas ya identificadas, se mira **su propia página de empleos**.
 
-**a) Desde el aviso** — búsqueda abierta en portales con listados públicos y legibles: Get on Board, Torre, Bumeran, Computrabajo. Se busca el puesto, no el síntoma: *"Growth"*, *"Email Marketing"*, *"analista de datos"*, *"carga de datos"*, acotado al recorte.
-
-**b) Desde la empresa** — con una lista de empresas ya identificadas, mirar **su propia página de empleos**.
+**El insumo de esta familia es una lista, no un buscador.** Sale de dos lugares: los candidatos que la familia B trajo en esta misma corrida, y las tarjetas en `Por investigar` de Twenty. Igual que la familia C, la A se trabaja **encima** de lo que B ya produjo.
 
 > **Las dos señales más fuertes que produjo este sistema salieron de páginas de empleo.** La de ICG10 —la que abrió la conversación con Warren— de `icg10.com/careers`. La de Bull Market, de dos búsquedas abiertas al mismo tiempo. **Ninguna de las dos vino de medir nada.**
 
 ⚠️ **Pero esa URL se encuentra, no se adivina.** `/about` y `/team` dando 404 sobre un sitio en español no probó nada. El enlace a empleos se saca de la navegación del propio sitio: se trae la portada y se leen sus enlaces. Si no aparece ninguno, es que no se encontró — **no que no exista**.
 
+**Y funciona.** El 07/08 se leyeron dos bolsas propias así, las dos encontradas desde la navegación del sitio y las dos con los títulos exactos de cada aviso: `work.belo.app`, con 5 posiciones, y `blanco.app/trabaja-con-nosotros`, encontrada como *"Trabaja con nosotros"* en el menú, con 3.
+
+⚠️ **La búsqueda abierta en portales quedó cerrada el 07/08.** `getonbrd.com/jobs/city/buenos-aires` devuelve **403** a un pedido plano, y Bumeran, Computrabajo, Indeed y Glassdoor sólo salen como páginas de listado — que es justamente lo que esta skill prohíbe registrar como fuente. **No se gasta una búsqueda ahí.** Si vale la pena mirar un portal, se dice y lo mira Alan, igual que LinkedIn Jobs.
+
 **Cómo se verifica: se abre el aviso y se lee entero.** La fuente que se registra es **la URL del aviso**, no la del listado de resultados. Una fuente que salía de un listado devolvía 403.
+
+⚠️ **Una bolsa leída sin avisos relevantes es un resultado, no un fracaso**, y se escribe con el alcance declarado. Belo tenía 5 posiciones abiertas al 07/08 y **ninguna nombraba un problema que Codence resuelva**: eso descarta la familia A para esa empresa y hay que decirlo así, no dejarlo en silencio.
 
 **Descalifica:** el aviso está cerrado · es una consultora reclutando para un tercero sin nombrarlo · el puesto es de otra cosa y el problema aparece de pasada.
 
@@ -194,7 +200,7 @@ Un candidato entregado trae **exactamente esto**, y no una tarjeta:
 | **Ventana** | Cuál es y **la fecha en que vence**, calculada, no el nombre de la ventana |
 | **Señal** | Escrita con la anatomía de abajo |
 | **Fuente** | La URL exacta, abierta y comprobada |
-| **Qué falta** | Decisor, canal, o lo que sea. **Escrito, no omitido** |
+| **Qué falta** | Decisor, canal, o lo que sea. **Escrito como lista de tareas propuestas, una por deuda, no como una frase.** Cada una con qué la cierra, si vence, y si la puede hacer solo Alan. `/prospectar` las carga como Tasks |
 
 ### La anatomía de una señal escrita
 
@@ -244,6 +250,6 @@ El volumen sostenible escribiendo uno por uno es de 10-15 mensajes por día, con
 
 **No apuntar un navegador automatizado a Instagram ni a LinkedIn.** La sanción es la cuenta, y es el único canal de distribución mientras no haya pauta.
 
-**Este comando no carga nada en Twenty ni le escribe a nadie.** Entrega candidatos. Cargar es `/prospectar`, escribir es `/outbound-mensaje`, y mandar lo hace Alan a mano.
+**Este comando no carga nada en Twenty ni le escribe a nadie.** Entrega candidatos. Cargar es `/prospectar`, escribir es `/outbound-mensaje`, **aprobar lo hace Alan en el CRM**, y mandar lo sigue apretando él — en Gmail si el canal es `Email`, con `/enviar` armando el borrador; a mano si es LinkedIn o WhatsApp.
 
 **Las taxonomías se adaptan; las reglas de evidencia no.** Agregar una familia o un ángulo es una decisión de negocio. Qué cuenta como fuente y qué se puede afirmar, no.
