@@ -86,7 +86,7 @@ Si ninguna puerta califica, la tarjeta queda en `Por investigar` con el faltante
 
 ## Paso 4 — Cargar en Twenty
 
-Tres registros por prospecto:
+Tres registros por prospecto, más la nota, más una tarea por cada deuda:
 
 **Company** — `name`, `domainName` (el sitio), `industria`.
 
@@ -106,6 +106,26 @@ Tres registros por prospecto:
 **Y una Note con la investigación**, atada a la empresa y a la oportunidad: qué hace la empresa, qué se miró, qué se encontró y qué no se pudo comprobar. Es lo que después lee `/outbound-mensaje` y lo que evita rehacer el trabajo.
 
 **Fechas en GMT-3.**
+
+### Y una Task por cada deuda
+
+**Nota y tarea no son lo mismo.** La Note es la bitácora: se lee y no se cierra nunca. La Task es lo que falta hacer: tiene dueño, vencimiento y estado, y se cierra. Hasta el 07/08 las dos cosas vivían en la Note, y por eso la Note no servía para ninguna de las dos: para saber qué le faltaba a un prospecto había que leer prosa, y para saber qué le faltaba a siete había que abrir siete tarjetas.
+
+**Toda deuda que se escribe como `PENDIENTE` en `senal` genera además una Task.** Si no genera tarea, no era una deuda: era una aclaración, y va en la nota.
+
+| Campo | Qué va |
+|---|---|
+| `title` | Imperativo, concreto, **sin el nombre de la empresa** — la columna de relaciones ya lo muestra. *"Leer el grado de conexión de Santiago Bibiloni en LinkedIn"*, no *"COR: pendiente grado"* |
+| `bodyV2` | **Por qué está pendiente y qué la cierra**, con la fuente cuando corresponde. Una tarea que no dice qué la cierra volvió a ser prosa |
+| `dueAt` | **La fecha en que vence la ventana de la señal**, si la deuda bloquea el mensaje. Sin fecha si no bloquea |
+| `assigneeId` | El de Alan **si solo él puede hacerla** — leer un grado en LinkedIn, mandar un mensaje, mirar capturas. **Vacío si la hago yo** en la próxima corrida |
+| `status` | `TODO` |
+
+**`dueAt` hereda la ventana, y es la regla que hace que esto valga.** Una tarea que bloquea el mensaje vence el día en que la señal deja de servir, no cuatro días después ni "cuando se pueda": el grado de conexión de un prospecto de familia B vence con su ronda.
+
+**`taskTargets` va a la Company y a la Opportunity**, igual que las notas. ⚠️ Y con el mismo prefijo: `targetCompanyId` y `targetOpportunityId`, no `companyId`.
+
+**Las cierra `/outbound-hoy`** cuando el dato llega, y en el mismo paso saca el `PENDIENTE` de `senal`. Acá solo se crean.
 
 ## Paso 5 — Reportar
 
