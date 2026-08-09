@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Codence: las bases están en `D:\codence-bases`** (repo `Codence-Lab/codence-bases`).
+> Identidad, modelo de negocio, tono de voz y marca se leen de ahí, no se copian acá. Lo
+> propio de este repo (ICP, señales, skills de outbound) está en [`codence/`](codence/).
+> Al 09/08/2026 el modelo de negocio está en evaluación: ver `bases/modelo-de-negocio.md`
+> antes de escribir mensajes o tocar los ángulos del catálogo.
+
 ## Project Overview
 
 Twenty is an open-source CRM built with modern technologies in a monorepo structure. The codebase is organized as an Nx workspace with multiple packages.

@@ -2,6 +2,11 @@
 
 Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, así que traer releases de `twentyhq/twenty` no genera conflictos acá.
 
+**Las bases de Codence no están acá.** Identidad, modelo de negocio, tono de voz y marca
+viven en `D:\codence-bases` (repo `Codence-Lab/codence-bases`) y se leen de ahí. Acá está
+lo que cambia con cada semana de outbound: el ICP, el catálogo de señales, las skills y el
+estado de las tarjetas. Si algo de esto contradice a las bases, gana la base y se corrige acá.
+
 > ## 📍 Al 09/08/2026
 >
 > ### Lo primero el lunes 10/08
