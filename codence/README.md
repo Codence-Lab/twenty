@@ -2,25 +2,240 @@
 
 Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, así que traer releases de `twentyhq/twenty` no genera conflictos acá.
 
-> ## 📍 Al 08/08/2026
+> ## 📍 Al 09/08/2026
 >
 > ### Lo primero el lunes 10/08
 >
-> **Mandar los cinco mensajes, y empezar por COR y Duppla.** Están escritos y
-> esperando en la vista *Para aprobar*, con `proximoToque` el 10/08 para que
-> salgan solos en `/outbound-hoy`. Se copian de la tarjeta y se mandan por
-> LinkedIn: los seis contactos son de 2º o 3er grado, así que son notas de
-> conexión de 300 caracteres.
+> **Mandar los cinco mensajes, y empezar por COR y Duppla.** **Los cinco salen
+> por InMail de Sales Navigator**, no por nota de conexión: las cinco tarjetas
+> están en `Calificado` y los cinco contactos son de 2º o 3er grado. Se copian de
+> la tarjeta, asunto y cuerpo, y cada uno gasta un crédito.
 >
-> | | Ventana | Margen desde el lunes |
+> | | Aprobación al cerrar el 09/08 | Ventana | Margen desde el lunes |
+> |---|---|---|---|
+> | COR, Duppla | **Aprobado** | vencen 13/08 | **3 días** |
+> | Rintin | **Aprobado** | 18/08 | 8 días |
+> | Blanco | Redactado, esperando lectura | 19/08 | 9 días |
+> | Datcisions | Redactado, esperando lectura | vigilar | sin vencimiento |
+>
+> **Tres listos para copiar y mandar, dos esperando que Alan los lea.** Si el
+> lunes se complica, COR y Duppla son las que no esperan: son rondas anunciadas
+> el 30/07 y escribir sobre una de tres semanas se nota.
+>
+> ⚠️ **Verificar el nombre de pila de Rintin antes de mandar.** La tarjeta dice
+> `Quinto Van Peborgh` y su LinkedIn es `ernesto-quinto-van-peborgh`. El mensaje
+> abre por el nombre, así que errarle ahí lo quema entero.
+>
+> ### El reparo de la tarde, que es el más importante del día
+>
+> Alan mandó **tres de los cinco a `Reformular`**, y las tres notas dicen lo
+> mismo: *«nada tiene que ver el mensaje con rebranding y diseño web»*, *«poco
+> cubre lo que es rebranding y webdesign»*, *«no se alinea con el ángulo de Marca
+> que no acompaña y servicio de rebranding & web design»*.
+>
+> **El hueco era de la skill.** `/outbound-mensaje` decía por dónde abrir —lo
+> decide el `angulo`— y **no decía dónde tenía que aterrizar.** Así salieron tres
+> observaciones correctas, verificables y bien escritas que no llegaban a ninguno
+> de los dos servicios que la tarjeta declaraba. Duppla y Rintin pasaron porque
+> las suyas caían ahí de casualidad, no por diseño.
+>
+> > **El ángulo dice por dónde se abre. El servicio dice dónde tiene que
+> > aterrizar.** Las dos cosas, en el mismo mensaje.
+>
+> El control queda escrito y es de una línea: **leer el mensaje y poder decir qué
+> contrataría el destinatario si contesta que sí.** Si esa frase no es uno de los
+> servicios de la tarjeta, el mensaje no sale. Y si la observación buena aterriza
+> en otro servicio que el cargado, **lo que está mal es la tarjeta**: se dice y se
+> propone cambiarla antes de escribir.
+>
+> Los tres se reescribieron con esa regla y volvieron a `Redactado`. **Dos de ellos volvieron a caer**, y de ahí salió la regla siguiente.
+>
+> ### La señal califica, no siempre abre
+>
+> **Es el cambio más grande desde que existe el catálogo de señales.** Blanco y
+> Datcisions volvieron a `Reformular` con dos notas que dicen la misma cosa desde
+> dos lados. Sobre Datcisions: *«cuando se trata sobre servicios de branding y
+> rebranding, tenemos que generar un mensaje que vaya por otro ángulo, no por los
+> números de seguidores ni por cómo funciona la website»*. Sobre Blanco: *«el
+> mensaje quiere entrar desde el ángulo técnico, sin mencionar que el error
+> marcado es algo que el equipo de marketing lo puede resolver en unos minutos,
+> nada grave»*.
+>
+> **La skill decía exactamente lo contrario**, y con este ejemplo como modelo del
+> registro correcto: *«dicen dos hechos que no cierran, seis clientes de moda
+> reconocibles contra 550 seguidores, y el lector saca la conclusión»*. Ese es el
+> mensaje que se rechazó. Por eso se reescribió y no se le agregó un párrafo: un
+> documento que se contradice produce el mensaje de ayer la mitad de las veces.
+>
+> > **Lo que sigue igual: ningún mensaje sale sin observación específica y
+> > verificable. Lo que cambia: para marca y sitio, esa observación es el motivo
+> > por el que elegimos a esa empresa, no lo primero que le decimos.**
+>
+> **El filtro, que es de Alan y quedó como control:** si el equipo de marketing lo
+> resuelve en unos minutos, no puede ser la razón del mensaje. Señalarlo deja a
+> Codence chico y al problema barato. Si la observación no pasa el test, va
+> **después** de la apertura como prueba de que miramos, o no va.
+>
+> **Con qué se abre entonces: por la ambición.** A qué aspira la empresa y qué le
+> exige eso a su marca o a su sitio, sacado de hechos suyos: lo que declararon,
+> para qué dijeron que era el capital, el nivel de sus propios clientes, el precio
+> publicado. **Si no se puede nombrar la ambición con un hecho suyo, no se escribe.**
+>
+> **La excepción, textual de Alan:** *«aunque sí cuando la compañía NO tiene
+> website, en ese caso sí se puede usar como fundamento»*. Una ausencia
+> estructural no se resuelve en minutos y no es un detalle técnico: es que no hay
+> puerta.
+>
+> **Alcance:** `Rebranding` y `Diseño web`. Fricción, crecimiento y demanda
+> declarada no cambian, porque nada de eso se arregla en un rato.
+>
+> ⚠️ **Las cifras entran, pero sólo desde [`evidencia.md`](evidencia.md) y con su
+> ficha.** El *+55% el primer año* del ejemplo era ficticio y el propio Alan lo
+> aclaró: es exactamente lo que el sistema existe para no escribir. Y hay dos
+> límites prácticos: **McKinsey no transfiere a startups** —su ficha acota el
+> alcance a medtech, consumo y banca minorista, cotizantes grandes—, y **una cita
+> con ficha ocupa de 80 a 130 caracteres** de un cuerpo de 400 a 700, así que
+> desplaza a la observación. Una por mensaje como máximo. Los dos reformulados de
+> hoy salieron sin ninguna, y es la decisión correcta para ese largo.
+>
+> ### Y el formato lo fijó Alan editando, no pidiéndolo
+>
+> Rintin y Duppla los aprobó **después de editarlos a mano**, con tres cambios
+> iguales en los dos: abren con **`Hola <nombre>,`**, la presentación va en
+> **párrafo propio**, y hay **un párrafo por idea**. Los tres pasaron a la skill
+> como formato. Es la fuente de requisitos más barata que hay: lo que corrige
+> antes de aprobar.
+>
+> ### Documentos, un objeto propio para la documentación
+>
+> La nota *Los comandos de Claude* vivía como una Note suelta en Favoritos y
+> estaba vieja en cinco puntos. **El problema no era la nota: era el lugar.** Una
+> Note no tiene estado, así que no hay forma de ver cuál quedó atrasada.
+>
+> Ahora hay un objeto **`Documento`** en la barra lateral, mismo patrón que
+> `Pista`, con `tipo`, `contenido` en rich text, `revisadoEn`, y un `estado` que
+> es la razón de todo: **`A revisar` avisa que el sistema cambió y el documento
+> no.** La nota vieja quedó como puntero y se puede borrar.
+>
+> **La regla que lo mantiene vivo:** este README es la fuente, el documento en el
+> CRM es el resumen legible desde adentro. Cuando cambia una skill, cambian los
+> dos en la misma pasada.
+>
+> ### `GTM` es Go to market, y llenó un hueco del catálogo
+>
+> **El dolor 4 decía «cualquiera de los cuatro servicios» y no distinguía qué
+> clase de expansión era.** Ahora sí: cuando la empresa abre **un mercado donde no
+> la conoce nadie** —el caso típico es una del exterior apuntando a la Argentina—
+> el servicio suma `GTM`, que **nunca viaja solo**: acompaña a `Rebranding` y
+> `Diseño web`. La estrategia decide qué se dice y a quién; las otras dos la bajan
+> a piezas. Una tarjeta con `GTM` como único servicio está mal cargada.
+>
+> **Y el registro para abrir ya estaba probado sin que tuviera nombre:** se abre
+> por **lo que la empresa no trae consigo**. Duppla llega a Medellín sin las
+> familias de Bogotá que la respaldan; Rintin entra a la Argentina con una marca
+> hecha en México. **Son justo las dos que Alan aprobó**, y las dos que ahora
+> llevan `GTM` cargado.
+>
+> ⚠️ **Duppla va a Medellín, no a la Argentina.** Se le puso `GTM` igual porque la
+> categoría es entrar donde no te conocen, no el país de destino. Si tenía que
+> quedar sólo para las entradas a la Argentina, es sacarle el servicio y decirlo.
+>
+> ### El InMail, que estaba fuera del modelo
+>
+> **El sistema creía que a un 2º o 3er grado sólo se le podía mandar una nota de
+> 300 caracteres.** Alan mostró el compositor de Sales Navigator: es un InMail,
+> con asunto obligatorio y contador de créditos. LinkedIn documenta **200
+> caracteres de asunto y 1900 de cuerpo**. Los cinco primeros mensajes se
+> habían apretado en 300 teniendo seis veces más lugar.
+>
+> **La banda quedó en 400-700 caracteres, con tope duro en 800**, y no en los
+> 1900 que permite la plataforma. Lo decide la medición propia de LinkedIn sobre
+> decenas de millones de InMails (mayo 2021 a abril 2022): menos de 400 responde
+> 22% por encima del promedio, de 400 a 800 un 5% por encima, de 800 a 1200 un 6%
+> por debajo, y más de 1200 un 11% por debajo. **1900 es el techo, no la meta.**
+>
+> ⚠️ **Con su ficha, porque cambia cuánto pesa:** son InMails de reclutadores,
+> no de venta consultiva, y los publica la plataforma que los vende. Fija la
+> banda y nada más. Es el mismo trato que se le dio al dato de Gong.
+>
+> **El crédito se gasta donde la señal ya está verificada:** `Calificado` va por
+> InMail, `Por investigar` sigue por nota de conexión. Son finitos y se reponen
+> por mes, así que la regla evita quemarlos en tarjetas a medio hacer.
+>
+> ### Y la presentación dejó de ser una frase fija
+>
+> Era literal, *«Soy Alan, de Codence: trabajamos marca y sitios web»*, y **los
+> cinco mensajes salieron sonando calcados entre sí.** Ahora es obligatorio el
+> contenido —nombre, rol, empresa, a qué se dedica— y libre la forma. La muestra
+> del registro nuevo la dio Alan: *«Soy Alan, CEO y fundador de Codence: nos
+> especializamos en diseño y tecnología»*.
+>
+> **De paso arregla algo que estaba mal:** *«marca y sitios web»* describía dos
+> de los cuatro servicios. Dejaba afuera `Software a medida` y `Automatización
+> AI-native`, así que la presentación vendía menos de lo que hay.
+>
+> Y con el espacio nuevo entró una regla que lo cuida: **el cuerpo va en dos o
+> tres párrafos separados por línea en blanco.** 700 caracteres corridos son una
+> pared. La otra regla nueva es que **calidez no es cortesía**: queda prohibido
+> el *«espero que estés muy bien»* y el elogio genérico, que es justo lo que
+> escribe todo el que manda plantillas.
+>
+> ### El campo que no se podía leer
+>
+> `Cuerpo del borrador` se mostraba recortado a un renglón con puntos
+> suspensivos: **el campo que sostiene el circuito de aprobación era el que peor
+> se leía.** Era el ajuste `displayedMaxRows` apagado. Ahora `senal` y
+> `borradorCuerpo` van en 99 renglones y `borradorAsunto` en 2, declarados en
+> `modelo.mjs`.
+>
+> Para eso el archivo aprendió a reconciliar algo más que taxonomías:
+> **`sincronizarAjustes()`** empareja la descripción y los ajustes de
+> visualización de un campo que ya existe, igual que `sincronizarOpciones()` hace
+> con las listas. Sin eso, corregir el texto de un campo eran dos cambios, este
+> archivo y la interfaz, que es el defecto que ya se había arreglado una vez.
+>
+> ⚠️ **Lo que esto NO arregla, y queda anotado con su costo:** la **edición**
+> sigue cayendo en un popup de 200px que se da vuelta hacia arriba. Son un
+> `min-width` fijo en `FieldInputContainer.tsx` y un `flip()` de floating-ui en
+> `RecordInlineCellEditMode.tsx`, y el patrón para arreglarlo ya existe en el
+> repo (`RawJsonFieldInput` abre a 400x300). **Pero el CRM corre desde la imagen
+> publicada `twentycrm/twenty:latest`, no desde este código**, así que tocarlo
+> cuesta un build propio del frontend y rehacerlo en cada actualización de
+> upstream. Se decidió no pagarlo por ahora.
+>
+> ### Lo que Alan cambió a mano en el CRM, y qué hizo falta para sostenerlo
+>
+> | Cambio | Dónde | Qué se hizo acá |
 > |---|---|---|
-> | COR, Duppla | vencen 13/08 | **3 días** |
-> | Rintin | 18/08 | 8 días |
-> | Blanco | 19/08 | 9 días |
-> | Datcisions | vigilar | sin vencimiento |
+> | **`Reformular`** reemplaza a `Descartado` | `opportunity.aprobacion` | Declarado en `modelo.mjs`, y el circuito escrito en las tres skills |
+> | **`Descartado`** | `task.status` | `/outbound-hoy` lo cuenta como cerrada para destrabar la tarjeta |
+> | **`GTM`** | `opportunity.servicio` | Declarado, con su fila en la tabla de aterrizaje y su variante en `senales.md` |
+> | Vistas nuevas, y las de Opportunities pasadas a Kanban | Twenty | La vista *Para aprobar* dejó de existir: la reemplaza el Kanban **Aprobación**, agrupado por ese campo |
 >
-> Si el lunes se complica, COR y Duppla son las que no esperan: son rondas
-> anunciadas el 30/07 y escribir sobre una de tres semanas se nota.
+> ⚠️ **`Descalificado` no es nuevo:** está en `opportunity.stage` desde el 07/08 y
+> seis tarjetas ya lo usan. No hizo falta declarar nada.
+>
+> ⚠️ **Y esto era una bomba de tiempo:** `Reformular` y `GTM` se crearon desde la
+> interfaz, y `modelo.mjs` **borra toda opción que no esté declarada** — lo avisa,
+> pero lo aplica. Correrlo antes de declararlas se las llevaba puestas, y con
+> ellas el valor de las tarjetas que las usaban. **Una opción nueva en la interfaz
+> es media tarea: la otra mitad es declararla.**
+>
+> **El color entró en la reconciliación por el mismo motivo.** Una opción creada a
+> mano nace con el color que Twenty le asigna y el declarado no se aplicaba nunca:
+> `Reformular` había quedado en gris, junto a los terminales, siendo la única
+> columna del Kanban con trabajo pendiente. Ahora `sincronizarOpciones()` compara
+> también el color, y va en naranja.
+>
+> ⚠️ **Lo que sigue sin declararse es `task.status`.** Es un campo nativo y sus
+> dos estados propios —`Standby` del 08/08 y `Descartado` del 09/08— viven sólo en
+> la interfaz. No corre riesgo de borrarse, porque el script no lo toca, pero
+> **hoy hay una taxonomía del sistema que `modelo.mjs` no conoce.** Declararla es
+> repetir el bloque bespoke que ya tiene `stage`.
+>
+> ---
+>
+> ## Al 08/08/2026
 >
 > ### Lo que se hizo
 >
@@ -79,6 +294,10 @@ Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, as
 > **Y quién escribe va primero.** `Soy Alan, de Codence: trabajamos marca y
 > sitios web.` Una nota de conexión no abre la venta: consigue que te acepten.
 > El argumento va en el mensaje siguiente, cuando ya hay conversación.
+>
+> ⚠️ **Esa frase dejó de ser literal el 09/08**, y el argumento dejó de esperar
+> al mensaje siguiente cuando el vehículo es un InMail. Ver la entrada de ese
+> día. Lo que sigue en pie es el orden: quién escribe va primero.
 >
 > ### La doctrina nueva se probó el mismo día, y funcionó
 >
@@ -223,22 +442,25 @@ Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Twenty ya resolv�
 | **Note** | La bitácora: la investigación de `/prospectar` y el historial de mensajes |
 | **Task** | Lo que falta hacer, con `status`, `dueAt` y `assignee`. Nativo, sin campos custom |
 | **Pista** | **La bandeja de entrada.** Objeto propio, agregado el 08/08 — `tipo`, `enlace`, `estado`, `detalle` |
+| **Documento** | **La documentación del sistema**, legible desde adentro del CRM. Objeto propio, agregado el 09/08 — `tipo`, `estado`, `revisadoEn`, `contenido` |
 
 **`Person` admite dos por empresa desde el 08/08:** quien decide y quien sufre el
 dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga
 sólo de la Company. Se busca la segunda sólo en las tarjetas que lo valen, y cada
 una lleva su propio ángulo y su propio mensaje.
 
-⚠️ **`Pista` es el único objeto propio, y es el que hace aparecer una entrada en
-la barra lateral izquierda.** Crearlo le agregó solo las relaciones por defecto
-—adjuntos, notas, tareas y línea de tiempo—, así que **acepta capturas
-arrastradas sin declarar ningún campo de archivo**. Es también la puerta por
-donde entra lo que el agente no puede leer: LinkedIn e Instagram no se tocan con
-navegador automatizado, pero Alan sí los ve.
+⚠️ **`Pista` y `Documento` son los dos objetos propios, y cada uno hace aparecer
+una entrada en la barra lateral izquierda.** Crearlos les agrega solo las
+relaciones por defecto —adjuntos, notas, tareas y línea de tiempo—, así que una
+Pista **acepta capturas arrastradas sin declarar ningún campo de archivo**. Es
+también la puerta por donde entra lo que el agente no puede leer: LinkedIn e
+Instagram no se tocan con navegador automatizado, pero Alan sí los ve.
 
-`task.status` tiene cuatro opciones. Las tres de fábrica —**To do**, **In progress**, **Done**— hablan de la tarea. La cuarta se agregó el 08/08 y habla de otra cosa:
+`task.status` tiene cinco opciones. Las tres de fábrica —**To do**, **In progress**, **Done**— hablan de la tarea. Las otras dos se agregaron después y cada una habla de otra cosa:
 
-⚠️ **`Standby` pausa el prospecto, no la tarea.** Significa que la tarjeta está en pausa pero **sigue en proceso: no se la descarta**, así que no se confunde con `Sin interés` ni con `Descalificado`, que son estados terminales del pipeline y viven en `opportunity.stage`. Una tarjeta con una tarea en `Standby` **sale de la cola de `/outbound-hoy`** y aparece en su propia sección. Sin eso la pausa no serviría de nada: ICG10 venía saliendo como seguimiento vencido en todos los reportes.
+⚠️ **`Standby` pausa el prospecto, no la tarea.** Agregado el 08/08. Significa que la tarjeta está en pausa pero **sigue en proceso: no se la descarta**, así que no se confunde con `Sin interés` ni con `Descalificado`, que son estados terminales del pipeline y viven en `opportunity.stage`. Una tarjeta con una tarea en `Standby` **sale de la cola de `/outbound-hoy`** y aparece en su propia sección. Sin eso la pausa no serviría de nada: ICG10 venía saliendo como seguimiento vencido en todos los reportes.
+
+⚠️ **`Descartado` cierra la tarea sin haberla hecho.** Agregado el 09/08, y es lo contrario de `Done`: la deuda deja de bloquear porque se decidió que ya no hace falta, no porque el dato haya llegado. **Cuenta como cerrada para destrabar la tarjeta**, pero el `PENDIENTE:` de `senal` **no sale solo** como sale con `Done`: nadie trajo el dato, así que sigue habiendo algo que no se puede afirmar. Esa decisión es a mano.
 
 **Note y Task no son lo mismo, y separarlas fue el ajuste del 07/08:** la Note se lee y no se cierra nunca; la Task se cierra. Antes las dos cosas vivían en la Note, y por eso para saber qué le faltaba a un prospecto había que leer prosa, y para saber qué le faltaba a siete había que abrir siete tarjetas.
 
@@ -290,11 +512,15 @@ Agregado el 08/08. Resuelve los dos cortes que tenía el outbound: no había en 
 
 ```
 Sin borrador → Redactado → Aprobado → En Gmail → Enviado
-                          ↑
-                    lo mueve Alan, a mano, en el CRM
+                 ↑   ↓    ↑
+                 │   │    lo mueve Alan, a mano, en el CRM
+                 └───┘
+              Reformular, con el motivo en una Note
 ```
 
 `/outbound-mensaje` deja el texto en `borradorAsunto` y `borradorCuerpo` y pone `Redactado`. Alan lo lee en la ficha, corrige ahí mismo si hace falta, y lo pasa a `Aprobado`. `/enviar` toma los aprobados y arma el borrador en Gmail. **Alan aprieta enviar.** Después `/enviar --confirmar` mira el buzón, y sobre lo que encuentra en `SENT` hace la contabilidad —`toques`, `ultimoToque`, `proximoToque`, `stage`— y escribe la bitácora.
+
+**`Reformular` es la única flecha que va para atrás**, agregada el 09/08. Reemplazó a `Descartado`, que cerraba el borrador sin pedir nada: un mensaje malo moría sin decir por qué, y la corrección se perdía. Ahora vuelve con una Note que dice qué está mal, y esa Note **no se borra al reescribir**: es el historial de por qué el mensaje terminó siendo el que es. Es la única de las seis que no espera a Alan sino al agente, y por eso `/outbound-hoy` la reporta aparte.
 
 **El borrador vive en campos y no en una Note porque un borrador es un estado:** se filtra, se ordena y se ve en el Kanban. La Note se escribe recién cuando el mensaje salió, con el texto que efectivamente se mandó — la Note se lee y no se cierra nunca.
 

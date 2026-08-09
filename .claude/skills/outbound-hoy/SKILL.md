@@ -56,9 +56,14 @@ Las tarjetas con `aprobacion` en movimiento **ya tienen el mensaje escrito**: no
 
 | `aprobacion` | Qué le toca a Alan |
 |---|---|
-| `Redactado` | **Leerlo y aprobarlo** en el CRM, o corregir el texto en la ficha primero |
+| `Redactado` | **Leerlo y aprobarlo** en el CRM, o mandarlo a `Reformular` con el motivo en una Note |
 | `Aprobado` | Nada: le toca a `/enviar` armar el borrador |
 | `En Gmail` | **Mandarlo desde Gmail.** Si lleva más de tres días acá, se reporta como trabado |
+| `Reformular` | **Nada: le toca al agente.** Proponer correr `/outbound-mensaje` sobre esa tarjeta |
+
+⚠️ **`Reformular` es la única de las cuatro que no espera a Alan, y por eso se reporta distinta:** es trabajo pendiente del agente, con el motivo ya escrito en una Note. Una tarjeta que lleva más de un día ahí es una corrección que se pidió y nadie hizo, y se reporta como trabada igual que un borrador parado en `En Gmail`.
+
+**Y si está en `Reformular` sin Note que lo explique, es un defecto:** avisarlo, porque sin el motivo la reescritura es adivinar.
 
 **Una tarjeta con borrador no aparece además en A ni en B.** Ofrecerle a Alan que le escriba a alguien cuyo mensaje ya está escrito y esperando su visto bueno es hacerle escribir dos veces lo mismo.
 
@@ -74,11 +79,19 @@ Es la cuarta opción de `task.status`, agregada el 08/08. **Significa que el pro
 
 **Después del tercer toque sin respuesta no se agenda otro.** Un cuarto mensaje no mejora la tasa de respuesta: se propone mover a `Sin interés`.
 
+### `Descartado` cierra la tarea sin haberla hecho
+
+Es la quinta opción de `task.status`, agregada el 09/08. **Es lo contrario de `Done`: la deuda deja de bloquear porque se decidió que ya no hace falta**, no porque se haya resuelto.
+
+- **Cuenta como cerrada para destrabar la tarjeta**, igual que `Done`. Una tarjeta cuya única deuda quedó en `Descartado` vuelve a la cola.
+- **Pero el `PENDIENTE:` de `senal` NO sale solo.** Con `Done` sale, porque el dato llegó. Con `Descartado` no llegó nadie: hay que decidir a mano si la advertencia sigue valiendo para redactar. **Ese es el punto en el que se confunden y por eso está escrito.**
+- **Habla de la tarea, no del prospecto.** Descartar la deuda no descalifica la empresa: para eso están `Sin interés` y `Descalificado` en `stage`.
+
 ## Paso 2 — Qué le falta a cada trabada
 
 Es lo más útil del comando, y no se resuelve con una frase genérica.
 
-**El faltante ya no se deduce leyendo prosa: está escrito.** Desde el 07/08, cada deuda de un prospecto es una **Task** atada a su Company y a su Opportunity, con vencimiento y dueño. Traerlas con `find_many_tasks` filtrando `status` distinto de `DONE`, y usarlas como respuesta:
+**El faltante ya no se deduce leyendo prosa: está escrito.** Desde el 07/08, cada deuda de un prospecto es una **Task** atada a su Company y a su Opportunity, con vencimiento y dueño. Traerlas con `find_many_tasks` filtrando `status` fuera de `DONE` y `DESCARTADO`, que son las dos que ya no bloquean, y usarlas como respuesta:
 
 - **Asignada a Alan** = la deuda es suya y solo él puede resolverla. Leer un grado en LinkedIn, mandar un mensaje, mirar capturas. Va en el reporte con su fecha.
 - **Sin asignar** = la resuelvo yo. Se dice qué es y que está en la cola, no se le pide a Alan.
@@ -99,7 +112,7 @@ Si una tarjeta está trabada y **no tiene tarea abierta que lo explique**, eso e
 
 Una tarjeta con la señal vencida **no se manda igual**: se dice, y se propone volverla a `Por investigar` o buscarle una señal nueva. Escribir con una ronda de tres meses lo delata.
 
-**El grado de conexión no es un detalle:** decide si el mensaje es un DM libre (1º) o una nota de 300 caracteres (2º y 3º). Sin eso, `/outbound-mensaje` no puede escribir.
+**El grado de conexión no es un detalle:** decide el vehículo. En 1º es un DM libre. En 2º y 3º son dos, y el `stage` desempata: **InMail** de Sales Navigator si la tarjeta está en `Calificado`, **nota de conexión de 300 caracteres** si sigue en `Por investigar`. Sin el grado, `/outbound-mensaje` no puede escribir.
 
 **Una Person que existe no siempre es un decisor.** Si el cargo no decide —una coordinación, una asistencia— la tarjeta sigue trabada aunque tenga contacto. Decirlo así.
 

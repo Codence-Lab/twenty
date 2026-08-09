@@ -51,16 +51,22 @@ const ESTADO = [
 
 const CANAL = ['LinkedIn', 'Email', 'WhatsApp'];
 const INDUSTRIA = ['Fintech', 'Logística', 'B2B / SaaS', 'Otro'];
-/* El circuito de aprobación del canal Email. Es un estado y no prosa en una
- * Note a propósito: se filtra, se ordena y se ve en el Kanban, que es lo que
- * convierte a Twenty en la bandeja de aprobación en vez de en un archivo. */
+/* El circuito de aprobación. Es un estado y no prosa en una Note a propósito:
+ * se filtra, se ordena y se ve en el Kanban, que es lo que convierte a Twenty
+ * en la bandeja de aprobación en vez de en un archivo.
+ *
+ * `Reformular` reemplazó a `Descartado` el 09/08, y el cambio no es de nombre:
+ * `Descartado` cerraba el borrador y no pedía nada, así que un mensaje malo
+ * moría sin decir por qué. `Reformular` es la única flecha que va para atrás y
+ * obliga a que el motivo quede escrito en una Note. La corrección barata es la
+ * que dice qué está mal, no la que tira el texto. */
 const APROBACION = [
   'Sin borrador',
   'Redactado',
   'Aprobado',
   'En Gmail',
   'Enviado',
-  'Descartado',
+  'Reformular',
 ];
 /* El valor interno va explícito porque Twenty exige UPPER_SNAKE_CASE empezando
  * por letra, y "1º" derivaría a "1", que rechaza. El rótulo visible es el que
@@ -90,7 +96,11 @@ const ANGULO = [
   'Presencia que no vende',
   'Otro',
 ];
-const SERVICIO = ['Rebranding', 'Diseño web', 'Software a medida', 'Automatización AI-native'];
+/* `GTM` —Go to market— entró el 09/08. Es el único que no produce una pieza y
+ * el único que no viaja solo: acompaña a Rebranding y Diseño web cuando la
+ * empresa entra a un mercado donde no la conoce nadie. El caso típico es una
+ * del exterior apuntando a la Argentina. Ver el dolor 4 de senales.md. */
+const SERVICIO = ['Rebranding', 'Diseño web', 'Software a medida', 'Automatización AI-native', 'GTM'];
 
 /* La bandeja de entrada, agregada el 08/08. Una pista es material crudo que
  * todavía no es un prospecto: un enlace, un padrón, una captura, una idea.
@@ -100,6 +110,18 @@ const SERVICIO = ['Rebranding', 'Diseño web', 'Software a medida', 'Automatizac
  * Alan sí los ve, y una captura suya entra por acá. */
 const TIPO_PISTA = ['Prospecto posible', 'Fuente o padrón', 'Idea', 'Referencia'];
 const ESTADO_PISTA = ['Sin mirar', 'En cola', 'Usada', 'Descartada'];
+
+/* La documentación. `A revisar` es el estado que justifica el objeto: una Note
+ * vieja se ve igual que una vigente, y un documento que miente sobre el sistema
+ * es peor que no tenerlo. */
+const TIPO_DOCUMENTO = ['Cómo se usa', 'Decisión', 'Referencia'];
+const ESTADO_DOCUMENTO = ['Vigente', 'A revisar', 'Vieja'];
+
+const COLOR_ESTADO_DOCUMENTO = {
+  Vigente: 'green',
+  'A revisar': 'yellow',
+  Vieja: 'gray',
+};
 
 /* Amarillo es lo que espera a que alguien la mire, azul lo que ya está en la
  * cola de una corrida, y gris lo cerrado — la misma lógica de color que el
@@ -136,7 +158,21 @@ const COLOR_APROBACION = {
   Aprobado: 'blue',
   'En Gmail': 'purple',
   Enviado: 'green',
-  Descartado: 'gray',
+  /* Naranja y no gris: gris es lo cerrado, y Reformular es la única columna del
+   * Kanban donde hay trabajo pendiente del agente. Nació en gris porque Twenty
+   * le asigna un color solo a la opción nueva. */
+  Reformular: 'orange',
+};
+
+/* Los cuatro primeros son los que da la paleta por posición; GTM va en amarillo
+ * porque lo eligió Alan al crearlo. Se declara para que la reconciliación de
+ * color no se lo pise. */
+const COLOR_SERVICIO = {
+  Rebranding: 'blue',
+  'Diseño web': 'purple',
+  'Software a medida': 'sky',
+  'Automatización AI-native': 'turquoise',
+  GTM: 'yellow',
 };
 
 const PALETA = ['blue', 'purple', 'sky', 'turquoise', 'green', 'yellow', 'orange', 'red', 'gray'];
@@ -187,6 +223,19 @@ const OBJETOS = [
     description:
       'Material crudo que todavía no es un prospecto: un enlace, un padrón, una captura, una idea. /buscar las lee antes de salir a buscar nada.',
   },
+  /* La documentación del sistema, agregada el 09/08. Vivía como una Note suelta
+   * marcada en Favoritos, que es un lugar donde algo se queda viejo sin que
+   * nadie lo note: una Note no tiene estado, así que no hay forma de ver de un
+   * vistazo cuál quedó atrasada. Acá sí. */
+  {
+    nameSingular: 'documento',
+    namePlural: 'documentos',
+    labelSingular: 'Documento',
+    labelPlural: 'Documentos',
+    icon: 'IconBook',
+    description:
+      'Cómo funciona este sistema, escrito para leer. El README del repo es la fuente; esto es el resumen legible desde adentro del CRM.',
+  },
 ];
 
 const CAMPOS = [
@@ -205,7 +254,7 @@ const CAMPOS = [
     label: 'Grado de conexión',
     type: 'SELECT',
     icon: 'IconUsersGroup',
-    description: '1º es DM libre. 2º y 3º son nota de conexión: 300 caracteres, límite de la plataforma. Se lee en el propio perfil, no se deduce.',
+    description: '1º es DM libre. En 2º y 3º el Estado desempata: Calificado va por InMail de Sales Navigator (asunto obligatorio, 400-700 caracteres), Por investigar va por nota de conexión (300, límite de la plataforma). Se lee en el propio perfil, no se deduce.',
     options: opciones(GRADO),
   },
 
@@ -227,6 +276,7 @@ const CAMPOS = [
     type: 'TEXT',
     icon: 'IconRadar',
     description: 'La observación específica y verificable que justifica el contacto. Ningún mensaje sale sin una, con su fuente.',
+    settings: { displayedMaxRows: 99 },
   },
   {
     objeto: 'opportunity',
@@ -251,8 +301,8 @@ const CAMPOS = [
     label: 'Servicio',
     type: 'MULTI_SELECT',
     icon: 'IconBriefcase',
-    description: 'Qué le vendería Codence. Admite varios.',
-    options: opciones(SERVICIO),
+    description: 'Qué le vendería Codence. Admite varios. Es también dónde tiene que aterrizar el mensaje: el ángulo elige por dónde se abre, el servicio elige a qué llega. GTM nunca va solo: acompaña a Rebranding y Diseño web cuando la empresa entra a un mercado nuevo.',
+    options: opciones(SERVICIO, COLOR_SERVICIO),
   },
   {
     objeto: 'opportunity',
@@ -326,8 +376,12 @@ const CAMPOS = [
     label: 'Asunto del borrador',
     type: 'TEXT',
     icon: 'IconMailForward',
-    description: 'El asunto exacto que va a salir. Se lee y se corrige en la ficha antes de aprobar.',
+    description: 'El asunto exacto que va a salir. Lo llevan el canal Email y el InMail de LinkedIn. Se lee y se corrige en la ficha antes de aprobar.',
+    settings: { displayedMaxRows: 2 },
   },
+  /* Los 99 renglones no son decoración: apagado, Twenty recorta el campo a uno
+   * solo con puntos suspensivos, y el texto que hay que leer entero antes de
+   * aprobar era justo el que no se podía leer. */
   {
     objeto: 'opportunity',
     name: 'borradorCuerpo',
@@ -335,6 +389,7 @@ const CAMPOS = [
     type: 'TEXT',
     icon: 'IconMessage',
     description: 'El cuerpo exacto que va a salir. Editable acá: corregir el texto es parte de aprobarlo.',
+    settings: { displayedMaxRows: 99 },
   },
   {
     objeto: 'opportunity',
@@ -393,6 +448,43 @@ const CAMPOS = [
     icon: 'IconNotes',
     description: 'Contexto, texto pegado, o por qué llamó la atención. Lo que no entra en el título.',
   },
+
+  /* La documentación. El `name` del objeto lo crea Twenty solo. */
+  {
+    objeto: 'documento',
+    name: 'tipo',
+    label: 'Tipo',
+    type: 'SELECT',
+    icon: 'IconCategory',
+    description: 'Qué clase de documento es. Cómo se usa explica el sistema; Decisión explica por qué es así.',
+    options: opciones(TIPO_DOCUMENTO),
+  },
+  {
+    objeto: 'documento',
+    name: 'estado',
+    label: 'Estado',
+    type: 'SELECT',
+    icon: 'IconProgressCheck',
+    description: 'Un documento en A revisar avisa que el sistema cambió y esto todavía no. Es la razón por la que esto es un objeto y no una Note.',
+    options: opciones(ESTADO_DOCUMENTO, COLOR_ESTADO_DOCUMENTO),
+    defaultValue: `'${aValor(ESTADO_DOCUMENTO[0])}'`,
+  },
+  {
+    objeto: 'documento',
+    name: 'revisadoEn',
+    label: 'Revisado el',
+    type: 'DATE',
+    icon: 'IconCalendarCheck',
+    description: 'Cuándo se leyó por última vez contra el sistema real. Un documento sin revisar hace semanas se ve de un vistazo.',
+  },
+  {
+    objeto: 'documento',
+    name: 'contenido',
+    label: 'Contenido',
+    type: 'RICH_TEXT',
+    icon: 'IconFileText',
+    description: 'El documento. Se lee acá adentro, sin salir del CRM.',
+  },
 ];
 
 /* ── El cliente ──────────────────────────────────────────────────────────── */
@@ -443,9 +535,18 @@ async function sincronizarOpciones(campo, existente) {
     porValor[o.value] ? { ...o, id: porValor[o.value].id } : o,
   );
 
+  /* El color entra en la comparación desde el 09/08. Antes era un punto ciego:
+   * una opción creada desde la interfaz nace con el color que Twenty le asigna,
+   * y el declarado acá no se aplicaba nunca. Le pasó a `Reformular`, que quedó
+   * en gris junto a los estados terminales siendo el único accionable. */
   const igual =
     actuales.length === deseadas.length &&
-    deseadas.every((o, i) => actuales[i].label === o.label && actuales[i].value === o.value);
+    deseadas.every(
+      (o, i) =>
+        actuales[i].label === o.label &&
+        actuales[i].value === o.value &&
+        actuales[i].color === o.color,
+    );
   if (igual) return false;
 
   const valores = new Set(deseadas.map((o) => o.value));
@@ -480,6 +581,45 @@ async function sincronizarOpciones(campo, existente) {
 
   await api(`/fields/${existente.id}`, { method: 'PATCH', body: JSON.stringify(cuerpo) });
   console.log(`  ~  ${campo.objeto}.${campo.name}  ${deseadas.length} opciones   ${detalle}`);
+  return true;
+}
+
+/**
+ * Lo mismo que sincronizarOpciones, para lo que no es una taxonomía: el texto
+ * de la descripción, que se lee en la ficha, y los ajustes de visualización.
+ * Sin esto, corregir cualquiera de los dos en un campo que ya existe eran DOS
+ * cambios —este archivo y la interfaz de Twenty—, que es exactamente el defecto
+ * que ya se había arreglado para las listas.
+ *
+ * `displayedMaxRows` es lo que decide si un TEXT largo se lee entero en la
+ * ficha o se recorta a un renglón con puntos suspensivos. Se agregó el 09/08
+ * porque el borrador que hay que leer antes de aprobar era el que peor se leía.
+ *
+ * Devuelve true si tocó algo.
+ */
+async function sincronizarAjustes(campo, existente) {
+  const cuerpo = {};
+
+  if (campo.description && campo.description !== existente.description) {
+    cuerpo.description = campo.description;
+  }
+
+  const deseados = campo.settings ?? {};
+  const actuales = existente.settings ?? {};
+  if (Object.keys(deseados).some((k) => deseados[k] !== actuales[k])) {
+    cuerpo.settings = { ...actuales, ...deseados };
+  }
+
+  const cambios = Object.keys(cuerpo);
+  if (!cambios.length) return false;
+
+  if (ensayo) {
+    console.log(`  ~  ${campo.objeto}.${campo.name}  ${cambios.join(' y ')}`);
+    return true;
+  }
+
+  await api(`/fields/${existente.id}`, { method: 'PATCH', body: JSON.stringify(cuerpo) });
+  console.log(`  ~  ${campo.objeto}.${campo.name}  ${cambios.join(' y ')}`);
   return true;
 }
 
@@ -541,10 +681,14 @@ async function main() {
     const existente = (obj.fields ?? []).find((f) => f.name === campo.name);
 
     if (existente) {
-      /* Existe, pero si es una taxonomía todavía puede haberle cambiado la
-       * lista. Ver sincronizarOpciones: agregar una opción tiene que ser un
+      /* Existe, pero todavía puede haberle cambiado la lista, la descripción o
+       * los ajustes de visualización. Las dos reconciliaciones corren siempre y
+       * por separado: cambiar cualquiera de las tres cosas tiene que ser un
        * solo cambio, acá. */
-      if (campo.options && (await sincronizarOpciones(campo, existente))) {
+      const conOpciones = Boolean(campo.options) && (await sincronizarOpciones(campo, existente));
+      const conAjustes = await sincronizarAjustes(campo, existente);
+
+      if (conOpciones || conAjustes) {
         ajustados++;
       } else {
         console.log(`  =  ${campo.objeto}.${campo.name} ya existe, se saltea`);
@@ -599,7 +743,7 @@ async function main() {
     console.log(`\n  ~  opportunity.stage → Estado, ${nuestras.length} opciones`);
   }
 
-  const ajuste = ajustados ? `, ${ajustados} con la lista ${ensayo ? 'a ajustar' : 'ajustada'}` : '';
+  const ajuste = ajustados ? `, ${ajustados} ${ensayo ? 'a ajustar' : 'ajustado(s)'}` : '';
   const objs = objetosNuevos ? `${objetosNuevos} objeto(s) ${ensayo ? 'a crear' : 'creados'}, ` : '';
   console.log(`\n${objs}${creados} campo(s) ${ensayo ? 'a crear' : 'creados'}, ${salteados} ya existían${ajuste}.`);
 }

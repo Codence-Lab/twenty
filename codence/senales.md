@@ -14,10 +14,20 @@ Qué hace que una empresa sea un prospecto, cómo se llega a ella, y cómo se co
 
 | Eje | Qué responde | Qué decide |
 |---|---|---|
-| **El dolor** | Qué hace a esta empresa un prospecto | El ángulo, el servicio y con qué abre el mensaje |
+| **El dolor** | Qué hace a esta empresa un prospecto | El ángulo y el servicio. **Con qué abre el mensaje, sólo a veces** |
 | **La ruta** | Cómo llegué hasta esta empresa | Nada del mensaje. Es logística de descubrimiento |
 
 **La consecuencia que más cambia el trabajo:** el dolor vale **aunque la empresa no lo haya declarado**. A veces no saben que lo necesitan, y casi siempre no lo hicieron público. Lo que no cambia es qué se puede afirmar sobre él.
+
+> ## La señal califica. No siempre abre.
+>
+> **Cambiado el 09/08/2026, y es la regla que más cambió desde que existe el catálogo.** Hasta hoy el dolor decidía también la primera línea del mensaje, y para **Rebranding y Diseño web eso salió mal**: tres mensajes seguidos abrieron por el defecto observado y Alan los devolvió.
+>
+> Lo que sigue igual: **ningún mensaje sale sin una observación específica y verificable.** Lo que cambia: para marca y sitio, esa observación es **el motivo por el que elegimos a esa empresa, no lo primero que le decimos**.
+>
+> **El filtro, en una línea:** si el equipo de marketing lo resuelve en unos minutos, no puede ser la razón del mensaje. Señalarlo deja a Codence chico y al problema barato.
+>
+> Los dolores 1, 4 y 5 no cambian: fricción operativa, crecimiento y demanda declarada siguen abriendo por lo observado, porque nada de eso se arregla en un rato.
 
 ---
 
@@ -38,25 +48,41 @@ Cada uno mapea a un servicio. Ese mapeo es lo que hace que `angulo` sirva para c
 **La empresa creció y su marca se quedó donde estaba.** Es la más fácil de arruinar.
 
 - **Ángulo:** `Marca que no acompaña` · **Servicio:** Rebranding · **Ventana:** vigilar, salvo que venga con el dolor 4, donde hereda su ventana de días
-- **Qué lo evidencia:** la marca ancla a la empresa en una categoría que ya superó · el nombre no coincide entre superficies — Blanco se llama distinto en su sitio, su correo, Instagram, X y LinkedIn · identidad indistinguible de la de tres competidores · el nivel de mercado al que apunta no se corresponde con lo que la marca señala
+- **Qué lo evidencia, que es lo que la califica:** la marca ancla a la empresa en una categoría que ya superó · el nombre no coincide entre superficies — Blanco se llama distinto en su sitio, su correo, Instagram, X y LinkedIn · identidad indistinguible de la de tres competidores · el nivel de mercado al que apunta no se corresponde con lo que la marca señala
+- **Con qué abre el mensaje, que es otra cosa:** **por la ambición.** A qué aspira la empresa y qué le exige eso a su marca. Expandirse, entrar a un mercado, captar clientes de mejor nivel, dejar de competir por precio. La ambición sale de hechos suyos: una ronda, un mercado nuevo anunciado, el nivel de sus propios clientes
 - **Cómo se verifica:** la portada **completa en capturas**, nunca un fetch
 - **Qué lo descalifica:** **que sea sólo una impresión estética**
 
 > ⚠️ **La inquietud estética no es razón para rebrandear. Un problema comercial identificable, sí.** Si no se puede nombrar el problema comercial en una frase, no hay señal.
 
+⚠️ **Y lo que evidencia el dolor casi nunca sirve para abrir.** Dos nombres conviviendo en cuatro superficies es un rato de trabajo para alguien de marketing: nombrarlo como hallazgo achica el problema y a quien lo señala. **Va después de la apertura, como prueba de que miramos, o no va.** Nunca por seguidores, likes o alcance.
+
 ## 3. La presencia digital no sostiene el negocio
 **Tienen con qué vender y la puerta no acompaña.** Ángulo agregado el 08/08/2026.
 
 - **Ángulo:** `Presencia que no vende` · **Servicio:** Diseño web · **Ventana:** vigilar
-- **Qué lo evidencia:** sin sitio propio · un sitio donde no se puede comprar, agendar ni cotizar · una puerta de entrada que muere sin nada del otro lado · un catálogo sin precios
+- **Qué lo evidencia, que es lo que la califica:** sin sitio propio · un sitio donde no se puede comprar, agendar ni cotizar · una puerta de entrada que muere sin nada del otro lado · un catálogo sin precios
+- **Con qué abre el mensaje:** **por la ambición**, igual que el dolor 2, **salvo una excepción**
 - **Por qué es un ángulo propio:** antes caía en `Proceso manual`, que describe otra cosa. Amarras 11 —que no tiene sitio y sólo publica un WhatsApp— quedó mal clasificada por eso, y así el ángulo no comparaba contra nada
+
+> ⚠️ **La excepción: cuando no tienen sitio, eso sí abre.** Una ausencia estructural no se resuelve en un rato y no es un detalle técnico: es que no hay puerta. Amarras 11 es el caso.
+>
+> **Lo que no abre nunca es cómo funciona el sitio que sí existe.** Un formulario que falla, un recorrido que se corta, una jerarquía mal resuelta: todo eso califica y ninguno abre. Se cuenta como lo que le pasa a quien quiere comprar, después de la apertura.
 
 ## 4. Crecimiento que la estructura no acompaña
 **Acaban de conseguir con qué, y tienen que mostrar resultados.**
 
-- **Ángulo:** `Crecimiento reciente` · **Servicio:** cualquiera de los cuatro · **Ventana:** días
+- **Ángulo:** `Crecimiento reciente` · **Servicio:** cualquiera de los cinco · **Ventana:** días
 - **Qué lo evidencia:** una ronda con monto y fecha · apertura de un mercado, un país, una planta o un local · adquisición · un ejecutivo nuevo en una función relevante · un producto nuevo · **una región entera en expansión**, que arrastra a todos sus proveedores
 - **Qué lo descalifica:** el hecho tiene más de dos meses · el monto no está publicado, si es una ronda · la única fuente es un agregador que resume otra nota
+
+### Cuando la expansión es a un mercado nuevo, entra `GTM`
+
+**Es la variante que define el servicio, no otro dolor.** Una empresa que abre un país o una ciudad donde no la conoce nadie no tiene un problema de marca solamente: tiene que entrar. Ahí `GTM` va **junto a** `Rebranding` y `Diseño web`, nunca en lugar de ellos — la estrategia decide qué se dice y a quién, y las otras dos la bajan a piezas.
+
+- **Qué lo evidencia:** un mercado, un país o una ciudad nombrados como próximos · una empresa del exterior apuntando a la Argentina · una marca construida en otro mercado que llega sin lo que la respaldaba allá
+- **Cómo se abre:** por lo que la empresa **no trae consigo** al mercado nuevo. Duppla llega a Medellín sin las familias de Bogotá que la respaldan; Rintin entra a la Argentina con una marca hecha en México. Ese es el registro
+- **Qué lo descalifica:** la expansión es a un mercado donde ya operan · es una mudanza de oficina, no una entrada
 
 ⚠️ **Ojo con este, que es el que se comió el catálogo.** Es el dolor más fácil de encontrar y el que peor convirtió. Que sea fácil de ver no lo hace fuerte.
 
@@ -86,6 +112,7 @@ Cada uno mapea a un servicio. Ese mapeo es lo que hace que `angulo` sirva para c
 | Combinación | Con qué se abre |
 |---|---|
 | **Crecimiento + Marca** | **El ICP más claro para rebranding.** Abre por la expansión, no por la marca |
+| **Crecimiento + mercado nuevo** | Igual, y suma `GTM` al servicio. Abre por lo que no traen consigo a ese mercado |
 | **Demanda declarada + Fricción** | Por el aviso, que es un hecho suyo |
 | **Marca sola** | Alcanza, si el problema comercial se puede nombrar |
 | **Fricción sola, deducida** | **La más débil.** Verificar antes de escribir |
