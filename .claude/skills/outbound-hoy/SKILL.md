@@ -16,7 +16,7 @@ El registro del toque se reparte por canal: **para `LinkedIn` y `WhatsApp` lo ha
 Un prospecto vive repartido en tres objetos de Twenty:
 
 - **Company** — la empresa: `name`, `domainName`, `industria`
-- **Person** — el decisor: `name`, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`
+- **Person** — el contacto: `name`, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`. **Puede haber dos por empresa** desde el 08/08: quien decide y quien sufre el dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga sólo de la Company
 - **Opportunity** — el outbound: `stage` es el **Estado**, más `canal`, `senal`, `fuente`, `angulo`, `servicio`, `toques`, `ultimoToque`, `proximoToque`, `calificadoEn`, `argumento`, `auditoria`, y el circuito de aprobación del canal Email: `aprobacion`, `borradorAsunto`, `borradorCuerpo`, `borradorFecha`, `gmailDraftId`
 
 La bitácora son **Notes** atadas a la empresa y a la oportunidad. Y lo que falta hacer son **Tasks**, atadas igual, con `status`, `dueAt` y `assignee`. **La Note se lee y no se cierra; la Task se cierra.**
@@ -112,6 +112,32 @@ Una tarjeta con la señal vencida **no se manda igual**: se dice, y se propone v
 Corto y accionable. Para cada uno de A y B: empresa, decisor y cargo, canal, y **la señal en una línea**. Para las trabadas: empresa y qué le falta.
 
 Si no hay nada en A ni en B, **decirlo derecho**: no hay a quién escribirle hoy, y el cuello de botella es la lista.
+
+**Si una empresa tiene dos contactos**, va como una sola línea con los dos, no como dos tarjetas. Es una tarjeta con dos puertas, y el toque se registra por separado.
+
+### Las pistas sin mirar
+
+Al final del reporte, contar las `Pistas` en `Sin mirar`:
+
+```
+find_many_pistas  con estado = SIN_MIRAR
+```
+
+Decir cuántas hay, de qué tipo, y **desde cuándo está la más vieja**. Una pista de hace tres semanas sin mirar es la misma falla que un borrador parado en `En Gmail`: material que Alan juntó y que nadie trabajó. **Si hay alguna de tipo `Fuente o padrón`, proponer correr `/buscar`**, que es lo que las consume.
+
+### Qué está funcionando
+
+**El bloque de medición, agregado el 08/08/2026.** El campo `angulo` existe desde el 31/07 justamente para comparar qué pitch abre conversaciones, y hasta ahora **nada lo leía nunca**.
+
+Sobre las oportunidades con `toques` mayor a 0, agrupar por `angulo` y reportar:
+
+- Cuántas se contactaron con ese ángulo.
+- Cuántas llegaron a `Respondió`.
+- Cuántas terminaron en `Sin interés`.
+
+⚠️ **Y decir la verdad sobre la muestra.** Con menos de diez tarjetas contactadas por ángulo no hay nada que concluir, y hay que escribirlo así: *"sin datos suficientes"*. Un porcentaje sobre tres casos es una cifra inventada con otro nombre, y es exactamente lo que este sistema no hace.
+
+**La cadencia se queda en 3 toques cada 4 días hasta que este bloque tenga con qué opinar.** La literatura de outbound recomienda entre 8 y 12, pero esa cifra sale de fuentes que se contradicen entre sí, y con tres tarjetas contactadas en total no hay forma de saber si el problema es la cadencia. **Se decide con datos propios.**
 
 ## Paso 4 — Registrar lo que Alan confirma
 

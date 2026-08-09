@@ -1,255 +1,204 @@
 ---
 name: buscar
-description: Sale a encontrar prospectos nuevos por familia de señal. Trabaja las fuentes donde cada familia se publica, abre y verifica cada una, descarta contra el ICP y contra lo que ya está en Twenty, y entrega candidatos listos para /prospectar. No carga nada en Twenty. Usar cuando Alan pida buscar prospectos, llenar la lista, o encontrar empresas de una familia de señal.
+description: Sale a encontrar prospectos nuevos. Trabaja padrones de empresas reales y lee sobre cada una los seis dolores del catálogo, descarta contra el ICP y contra lo que ya está en Twenty, y entrega candidatos listos para /prospectar. No carga nada en Twenty. Usar cuando Alan pida buscar prospectos, llenar la lista, o encontrar empresas de un rubro, una región o una fuente.
 ---
 
 # /buscar — llenar la lista
 
-**El cuello de botella es la lista, no el sistema de registro.** Ocho prospectos, uno contactado. Este comando existe para eso y nada más.
+**El cuello de botella es la lista, no el sistema de registro.** Este comando existe para eso y nada más.
 
-**Este comando no carga nada en Twenty.** Entrega candidatos verificados; `/prospectar` los carga. Esa lógica ya está escrita —tres registros más la nota, con el vocabulario leído en vivo— y **no se duplica acá**.
+**No carga nada en Twenty.** Entrega candidatos verificados; `/prospectar` los carga.
 
-**Argumento:** una familia de señal y un recorte. `B, fintech Argentina`. Si no viene la familia, arrancar por **B**, que es la de ventana más corta y la que más se desperdicia.
+**Argumento:** un recorte. Puede ser un rubro y una geografía (`logística, Neuquén`), una región (`el corredor de Vaca Muerta`), un padrón concreto, o nada — si no viene, se propone uno y se sigue.
 
-**El catálogo de señales es [`codence/senales.md`](../../../codence/senales.md).** Este comando es su procedimiento; el documento es la fuente. Si los dos se contradicen, manda el documento.
-
----
-
-## La regla que hace posible salir a buscar
-
-**La señal no se busca: se encuentra.** Buscar el síntoma devuelve a quien vende la cura — pedir *"logística Argentina seguimiento de envíos por WhatsApp"* devolvió Andreani, Chazki y 99minutos, que ofrecen eso **como producto**.
-
-Lo que sí se busca:
-
-> No se busca el síntoma. Se busca **el hecho que la empresa publicó**.
-
-Nadie publica *"tenemos un proceso manual"*. Sí publica *"buscamos analista para carga de datos"*. Una ronda con monto y fecha, un aviso abierto, un mercado nuevo: son eventos con fuente citable, no interpretaciones.
-
-**De ahí sale la forma de este comando, y conviene entenderla antes de correrlo:**
-
-| Familia | ¿Se puede buscar desde cero? | Cómo entra acá |
-|---|---|---|
-| **B** — capital fresco | **Sí.** La ronda es una nota de prensa | Búsqueda abierta en prensa de negocios. **Es la única entrada de cero que queda** |
-| **A** — demanda declarada | **Ya no.** El aviso está indexado, pero los portales que lo listan no se pueden abrir | Se **lee la bolsa propia** de empresas que ya salieron de B, o de las tarjetas en `Por investigar` |
-| **C** — la marca no acompaña | **No.** Ninguna consulta devuelve *"empresas cuya marca se quedó atrás"* | Se **evalúa** sobre candidatos que ya salieron de A o B |
-| **D** — fricción operativa | **Casi no.** Se lee de lo mismo que A | Se **recoge de paso** mientras se trabaja A |
-
-**Desde el 07/08, solo B se busca de cero.** A, C y D se leen encima de lo que B trajo, o encima de las tarjetas que ya están en `Por investigar`. Por eso **una corrida arranca siempre por B**, incluso cuando el pedido nombra otra familia: sin la lista que B produce, las otras tres no tienen insumo.
-
-Pedir "buscá familia A" o "buscá familia C" sin una lista de entrada es pedir algo que no existe: en ese caso, tomar como entrada las tarjetas en `Por investigar` de Twenty y decirlo.
+**El catálogo es [`codence/senales.md`](../../../codence/senales.md).** Este comando es su procedimiento; el documento es la fuente. Si los dos se contradicen, manda el documento.
 
 ---
 
-## Paso 0 — Qué ya está
+## La doctrina, antes de correr nada
 
-Antes de gastar una búsqueda, traer de Twenty lo que ya existe, **de sólo lectura**:
+> **La señal es el dolor. Lo publicado es una ruta para llegar a la empresa, no la única, y muchas veces la peor.**
+
+**Corregido el 08/08/2026, y conviene saber por qué.** Hasta ese día esta skill decía *"sólo la familia B se busca de cero"*, y el resultado está medido: **14 de 21 tarjetas con el mismo ángulo, `Crecimiento reciente`, y ninguna contactada.** Las tres que produjeron algo salieron de páginas de empleo y de mirar una portada.
+
+Dos ejes, y no se mezclan:
+
+- **El dolor** — qué hace a la empresa un prospecto. Decide el ángulo y el servicio.
+- **La ruta** — cómo llegué hasta ella. No decide nada del mensaje.
+
+⚠️ **Y la regla que hace falta escribir, porque el error se repitió tres veces en un día:**
+
+> **Ninguna lista de fuentes de este documento es cerrada.** Son ejemplos de rutas, no el conjunto de rutas permitidas. **Antes de reportar que no hay candidatos, hay que poder nombrar tres rutas que no se probaron.** Un recorte que no rinde no cierra la corrida: cambia la ruta.
+
+### La regla del buscador
+
+> **Buscar el síntoma devuelve a quien vende la cura.** *"Logística Argentina seguimiento por WhatsApp"* devolvió Andreani, Chazki y 99minutos: las tres venden eso.
+> **Buscar el padrón funciona perfecto.** *"Cámara de proveedores de Vaca Muerta"*, *"expositores Arminera 2026"* devuelven listas de empresas reales.
+
+**El buscador no se usa para encontrar el dolor. Se usa para encontrar la lista sobre la cual leer el dolor.**
+
+---
+
+## Paso 0 — La bandeja, y qué ya está
+
+**Primero las `Pistas`.** Es la bandeja de entrada del sistema y arranca acá, no en un buscador:
+
+```
+find_many_pistas  con estado = SIN_MIRAR
+```
+
+- Una de tipo **`Fuente o padrón`** se convierte en **ruta de esta corrida**.
+- Una de tipo **`Prospecto posible`** entra directo al Paso 3, salteándose el descubrimiento.
+- Una **`Idea`** o **`Referencia`** se lee y se decide si aplica al recorte.
+
+**Al usarla se la deja en `Usada` o `Descartada`, con el motivo en `detalle`.** Una pista trabajada que queda en `Sin mirar` va a volver a salir en la próxima corrida.
+
+⚠️ **Y si una pista trae una imagen adjunta, hay que mirarla.** Es la puerta por donde entra lo que no se puede leer solo: LinkedIn e Instagram no se tocan con navegador automatizado, pero Alan sí los ve.
+
+**Después, lo que ya existe en Twenty**, de sólo lectura:
 
 - `find_many_companies` — para no devolver una empresa que ya está.
-- Y **las borradas también**: `filter=deletedAt[is]:NOT_NULL`. Twenty no borra de verdad, marca `deletedAt`, y un registro borrado sigue contando para la detección de duplicados. Una empresa que vuelve como "candidata nueva" hace que `/prospectar` reviente con `400 duplicate entry` al final de todo el trabajo.
+- Y **las borradas también**: `filter=deletedAt[is]:NOT_NULL` por REST. Twenty no borra de verdad, marca `deletedAt`, y un registro borrado sigue contando para la detección de duplicados. Una empresa que vuelve como "candidata nueva" hace que `/prospectar` reviente con `400 duplicate entry` al final de todo el trabajo.
+- Las oportunidades en `Por investigar`: son insumo, no ruido. Una tarjeta vieja sin señal viva puede tener un dolor que nunca se leyó.
 
-Leer también el vocabulario vigente con `get_field_metadata` sobre `company.industria`, `opportunity.canal`, `opportunity.angulo` y `opportunity.servicio`. **No para cargar nada** — para no proponer un candidato con un ángulo que no existe.
+Y el vocabulario vigente con `get_field_metadata` sobre `company.industria`, `opportunity.angulo` y `opportunity.servicio`. **No para cargar nada** — para no proponer un candidato con un ángulo que no existe.
 
 ## Paso 1 — El recorte
 
-Un recorte es **industria + geografía**, y sirve para acotar la búsqueda, no para decidir la calificación.
+Un recorte acota dónde buscar, no decide la calificación.
 
-- **Industrias del ICP:** fintech, logística y operaciones, plataformas B2B y SaaS.
-- **Geografía:** Argentina y LatAm, público hispanohablante. Todo el outreach es en español.
-- **Una empresa fuera de esas tres industrias entra por la señal, no por el rubro.** Si la señal es fuerte y hay a quién escribirle, es candidata igual — se anota que entró por la señal.
+- **Industrias del ICP declarado:** fintech, logística y operaciones, plataformas B2B y SaaS. **Una empresa fuera de esas tres entra por el dolor, no por el rubro** — se anota que entró así.
+- **Geografía: mercados hispanos y anglosajones.** El test **no es el país: es el idioma en que se le puede escribir**, español o inglés. EE.UU. es válido. Una brasileña con sitio en inglés también. Una cuyo producto sólo existe en portugués, no.
+- **La escala importa más que el rubro.** Una empresa que no la decide una persona a la que se le pueda escribir no sirve, por buena que sea la señal.
 
-Si Alan no dio recorte, proponerlo y seguir. No frenar por eso.
+**Un recorte fértil no es un rubro: es una situación.** Una región en expansión —Vaca Muerta, el cobre de San Juan, el litio del norte— arrastra a todos sus proveedores a la vez. Nadie publica que necesita una marca, pero cientos de empresas creciendo más rápido que su estructura es un hecho del recorte, no de cada una.
 
-## Paso 2 — Trabajar la fuente
+## Paso 2 — Motor 1: el padrón
 
-Acá está el trabajo real. **Cada familia tiene su procedimiento y no son intercambiables.**
+**Es el motor principal.** Entrega empresas que ya facturan, sin ventana que venza.
 
-En las cuatro vale la misma división de tareas:
+**Dónde salen los padrones:** cámaras sectoriales · parques industriales y tecnológicos · guías oficiales de industria · listados de expositores de ferias · registros municipales y provinciales de proveedores · padrones de proveedores de las grandes operadoras · polos y clusters. **Y los que traiga una `Pista`.**
 
-> **`WebSearch` sirve para encontrar la página. `WebFetch` sirve para leerla.**
-> Un resumen de búsqueda **no es una fuente**: los resumidores agregan cifras que la página no dice. Uno le atribuyó *"más de 40.000 abonados"* a Security 24, y esa cifra no está ni en su sitio ni en su ficha de cámara. **Ningún dato pasa al candidato sin haberse visto en la página, no en el resumen de la página.**
+### Cómo se lee un padrón, y el reparto de herramientas
 
-### Familia B — capital fresco. Ventana: días
+**Playwright para llegar, `WebFetch` para leer.** Medido el 08/08/2026 sobre `guiavacamuerta.com`:
 
-La más corta y la que más se desperdicia. **A las tres semanas ya llegaste tarde.**
+1. **La navegación de un padrón suele ser JavaScript**, y entonces la URL del listado no aparece en un fetch de la portada. Ahí se abre con Playwright, se navega por el menú **haciendo clic**, y se anota la URL a la que se llegó.
+2. **Las páginas de listado suelen ser HTML plano, y `WebFetch` las lee mejor.** Devolvió las 26 empresas de Transporte y Logística con nombre, localidad, correo, teléfono y sitio **en una sola llamada**, donde Playwright necesitó cinco.
 
-**Dónde mirar**, en orden de rendimiento:
+⚠️ **Y la trampa que ya se comió una lectura: adivinar la ruta.** Ese padrón se dio por vacío porque se pidió `/empresas/`, que es **una página de plantilla sin contenido**. La real es `/companias` → `/categorias/NN-nombre.htm`. El mismo error se repitió a los cinco minutos inventando `/categorias/12-transporte-y-logistica.htm`, que dio 404 mientras la buena era `/categorias/04-servicios-de-transporte.htm`.
 
-1. **Prensa de negocios y tecnología** — Contxto, iProfesional, Ámbito, La Nación, Infobae economía, TechCrunch, Forbes, Startupeable, LatamList.
-2. **LAVCA y asociaciones de capital privado**, que publican el movimiento agregado del trimestre.
-3. **La sala de prensa de la propia empresa.**
-4. **El LinkedIn del founder, que suele ser lo primero que sale** — pero se lee a mano, no con navegador automatizado.
+> **El enlace se saca de la navegación del sitio. Siempre. Aunque la ruta inventada parezca obvia.**
 
-**Cómo se consulta:** la búsqueda nombra el evento, no el problema. *"serie A" fintech Argentina*, *"levantó" ronda millones logística LatAm*, acotado a las últimas semanas. Buscar *"fintech que necesita marca"* no devuelve nada usable.
+Y **una página que devuelve algo raro no es un padrón vacío hasta haber comprobado que la URL era la correcta.**
 
-**Qué hay que confirmar abriendo la nota: monto, fecha y ronda.** Los tres. Si la nota no los trae, no alcanza — se busca otra nota que sí, o se descarta.
+Un directorio público de empresas **sí** se puede leer con navegador automatizado. Instagram y LinkedIn **no**, y esa regla no se toca.
 
-**Descalifica:** la ronda tiene más de dos meses · el monto no está publicado · la única fuente es un agregador que resume otra nota.
+⚠️ **Un 403 no cierra una ruta.** `traded.co`, FinSMEs y FinTech Futures bloquean el pedido plano. Lo que corresponde es proponer resolverlas por otra vía —el boletín por correo a `core@codencelab.com`, que ya está conectado— no darlas por inexistentes.
 
-⚠️ **Crunchbase quedó afuera: eliminó su API gratuita en 2025.** No hay acceso programático barato a rondas. La prensa además es **mejor fuente para el mensaje**, porque es lo que el prospecto vio publicado sobre sí mismo.
+De cada empresa del padrón se saca lo mínimo para el Paso 3: nombre, sitio, actividad, localidad.
 
-⚠️ **Al candidato no se le escribe felicitando.** Eso se decide en `/outbound-mensaje`, pero conviene anotarlo en la señal: lo que se usa es la **consecuencia** —levantaron para expandirse, y expandirse es competir por atención contra otros que también levantaron—, no el saludo que reciben doscientas veces.
+## Paso 3 — Leer los seis dolores sobre cada empresa
 
-### Familia A — demanda declarada. Ventana: semanas
+Acá está el trabajo real, y es **por empresa, no por búsqueda**. Se miran sus propias superficies:
 
-La más fuerte de las cuatro. Un aviso abierto es **presupuesto ya asignado a un problema que ellos mismos nombraron, con sus palabras**.
+1. **Su bolsa de empleo propia** — la ruta que produjo las dos mejores señales del sistema. El enlace **se encuentra en la navegación del sitio, no se adivina**: se trae la portada y se leen sus enlaces. Si no aparece ninguno, es que no se encontró, **no que no exista**. Un aviso abierto que nombre el problema es `Demanda declarada`, el dolor más fuerte y de ventana más larga.
+2. **Su puerta de entrada, seguida hasta el final.** Dónde cae el enlace de la biografía, qué recibe el formulario, si se puede comprar o agendar. Una puerta que muere sin nada del otro lado es `Presencia que no vende`, verificable en diez segundos.
+3. **Su sitio y su catálogo.** Precios ausentes, pedidos sólo por WhatsApp, un proceso que se adivina manual: `Proceso manual` o `Volumen sin sistema`.
+4. **Su nombre a través de las superficies.** Si el sitio, el correo y las redes lo escriben distinto, es `Marca que no acompaña` — y es una observación de presencia, no de ausencia.
+5. **La prensa, al final y sólo sobre esta empresa.** Una ronda, una planta nueva, un mercado nuevo: `Crecimiento reciente`, y le pone ventana de días a una tarjeta que sin eso no tenía apuro.
 
-**Hay una sola entrada que funciona: la bolsa de empleo de la propia empresa.** Con una lista de empresas ya identificadas, se mira **su propia página de empleos**.
+⚠️ **`Marca que no acompaña` no se asigna desde un `WebFetch`.** Esa familia casi siempre tiene forma de *"no tienen X"*, y **`WebFetch` no puede establecer una ausencia**. Se propone el ángulo con la deuda escrita, y se cierra corriendo `capturar-portada.mjs` y mirando las capturas.
 
-**El insumo de esta familia es una lista, no un buscador.** Sale de dos lugares: los candidatos que la familia B trajo en esta misma corrida, y las tarjetas en `Por investigar` de Twenty. Igual que la familia C, la A se trabaja **encima** de lo que B ya produjo.
+**Una empresa puede tener varios dolores. Cuantos más, más fuerte la tarjeta**, y el mensaje abre con uno solo.
 
-> **Las dos señales más fuertes que produjo este sistema salieron de páginas de empleo.** La de ICG10 —la que abrió la conversación con Warren— de `icg10.com/careers`. La de Bull Market, de dos búsquedas abiertas al mismo tiempo. **Ninguna de las dos vino de medir nada.**
+## Paso 4 — Motor 2: el evento, como acelerador
 
-⚠️ **Pero esa URL se encuentra, no se adivina.** `/about` y `/team` dando 404 sobre un sitio en español no probó nada. El enlace a empleos se saca de la navegación del propio sitio: se trae la portada y se leen sus enlaces. Si no aparece ninguno, es que no se encontró — **no que no exista**.
+**No es para descubrir empresas. Es para darle urgencia a las que el padrón ya trajo.**
 
-**Y funciona.** El 07/08 se leyeron dos bolsas propias así, las dos encontradas desde la navegación del sitio y las dos con los títulos exactos de cada aviso: `work.belo.app`, con 5 posiciones, y `blanco.app/trabaja-con-nosotros`, encontrada como *"Trabaja con nosotros"* en el menú, con 3.
+Sobre los candidatos que salieron del Paso 3, se mira si además publicaron algo con ventana corta: una ronda, una expansión, una adquisición, un ejecutivo nuevo. Prensa de negocios y tecnología, prensa regional, la sala de prensa de la propia empresa.
 
-⚠️ **La búsqueda abierta en portales quedó cerrada el 07/08.** `getonbrd.com/jobs/city/buenos-aires` devuelve **403** a un pedido plano, y Bumeran, Computrabajo, Indeed y Glassdoor sólo salen como páginas de listado — que es justamente lo que esta skill prohíbe registrar como fuente. **No se gasta una búsqueda ahí.** Si vale la pena mirar un portal, se dice y lo mira Alan, igual que LinkedIn Jobs.
+**Qué hay que confirmar abriendo la nota:** el hecho, la fecha y el monto si es una ronda. Si la nota no los trae, no alcanza.
 
-**Cómo se verifica: se abre el aviso y se lee entero.** La fuente que se registra es **la URL del aviso**, no la del listado de resultados. Una fuente que salía de un listado devolvía 403.
+⚠️ **Un agregador que resume otra nota no es fuente.** El 08/08 uno fechó la ronda de Hunty en agosto de **2026** cuando Forbes Colombia y Portafolio la fechan en agosto de **2025**. Un año de diferencia, y sólo se vio al abrir las originales.
 
-⚠️ **Una bolsa leída sin avisos relevantes es un resultado, no un fracaso**, y se escribe con el alcance declarado. Belo tenía 5 posiciones abiertas al 07/08 y **ninguna nombraba un problema que Codence resuelva**: eso descarta la familia A para esa empresa y hay que decirlo así, no dejarlo en silencio.
+**Se puede correr el motor 2 solo** cuando el pedido es explícitamente sobre eventos recientes. Pero una corrida que produce **sólo** tarjetas de `Crecimiento reciente` es la señal de que se volvió al defecto viejo: hay que decirlo.
 
-**Descalifica:** el aviso está cerrado · es una consultora reclutando para un tercero sin nombrarlo · el puesto es de otra cosa y el problema aparece de pasada.
-
-**Dos búsquedas de la misma función al mismo tiempo valen más que una.** Es volumen que no da abasto, no una vacante.
-
-⚠️ **La trampa:** un aviso abierto también significa que ya eligieron resolverlo contratando. Eso no descalifica, pero se anota en la señal, porque el mensaje va a tener que decir qué agrega Codence a eso en vez de fingir que no lo vio.
-
-⚠️ **LinkedIn Jobs no se lee acá.** No hay forma legítima de leerlo programáticamente y la sanción es la cuenta, que es el único canal de distribución. Si vale la pena mirarlo, se dice y lo mira Alan.
-
-### Familia D — fricción operativa. Se recoge trabajando A
-
-**No se sale a buscarla sola.** `D sola` es la combinación más débil del catálogo, y desde el 07/08 ya no se lee midiendo el sitio del prospecto: se lee de lo que la empresa publica, igual que las otras tres.
-
-Mientras se leen los avisos de la familia A, se anota si además **describen trabajo manual** — carga de datos, conciliación, seguimiento uno por uno — o si la dotación no se corresponde con el volumen. Eso convierte una `A` en una **`A + D`**, que es una tarjeta mejor.
-
-**Descalifica:** es una deducción y no una observación · no hay evidencia de que la empresa adopte herramientas digitales, con lo cual el ciclo de convencimiento no lo justifica.
-
-### Familia C — la marca no acompaña. Se evalúa, no se busca
-
-Es la que habilita el pitch de rebranding y **la más fácil de arruinar**. Tiene ángulo propio desde el 07/08.
-
-**Entrada:** los candidatos que ya salieron de A o B en esta misma corrida, o las tarjetas en `Por investigar` de Twenty. Nunca una búsqueda abierta.
-
-**Se mira la portada completa, en capturas.** El script vive en el otro repo:
-
-```bash
-node "d:\Admin\Desktop\Codence Studio\CLAUDE\CODENCE\Proyectos\Agencia\Estructura\codence-auditorias\scripts\capturar-portada.mjs" https://dominio.com
-```
-
-Devuelve la página entera más tramos, con consentimientos cerrados y animaciones apagadas, y un `manifiesto.json` con las condiciones y las advertencias. **Hay que mirar las capturas**, no el nombre de los archivos.
-
-⚠️ **La trampa que ya costó una tarjeta:** las señales de marca casi siempre tienen forma de *"no tienen X"* o *"no nombran a Y"* — y **`WebFetch` no puede establecer una ausencia.** Sobre un sitio armado con JavaScript devuelve el cascarón sin fallar y sin avisar, así que la ausencia se lee como hallazgo. Se afirmó que InsightPlay no nombraba a nadie de su equipo: su portada mide 6.235 px y en el tercer tramo hay una foto del equipo entero. **Al medir bien, el ángulo tampoco se sostenía** — esa portada muestra premios, clientes nombrados, programas de partner y cuatro certificaciones.
-
-⚠️ **Y re-verificar con la herramienta que produjo el error no verifica nada.** Esa señal falsa sobrevivió a dos re-verificaciones porque las tres lecturas usaron el mismo método ciego.
-
-**Descalifica, y no se negocia:**
-
-> **La inquietud estética no es razón para rebrandear. Un problema comercial identificable, sí.**
-
-Si no se puede nombrar el problema comercial en una frase, no hay señal. Se dice y se sigue.
-
-**`B + C` es el ICP más claro para rebranding** — levantaron y la marca no acompaña. Ahí `C` hereda la ventana de días de `B`, y el mensaje abre por la expansión, no por la marca.
-
----
-
-## Paso 3 — El filtro del ICP, antes de verificar
+## Paso 5 — El filtro del ICP, antes de verificar
 
 Verificar cuesta caro. Descartar cuesta barato. **En este orden:**
 
 | Se mira | Descarta si |
 |---|---|
 | **Escala** | Es tan grande que no la decide una persona a la que se le pueda escribir |
-| **Etapa** | Es una startup en etapa de idea. **La empresa ya factura y está en expansión** |
-| **Idioma** | No es de público hispanohablante |
+| **Etapa** | Es una startup en etapa de idea. **La empresa ya factura** |
+| **Idioma** | No se le puede escribir en español ni en inglés |
 | **Ya está** | Aparece en Twenty, incluidas las borradas |
 
-**La escala es el descarte más frecuente y el más barato.** Mirarla primero.
+**La escala es el descarte más frecuente y el más barato. Mirarla primero.**
 
-Recién después de pasar esos cuatro se abre la fuente y se lee.
+## Paso 6 — Verificar, una por una
 
-## Paso 4 — Verificar, una por una
-
-Nada llega al Paso 5 sin esto. **Estas reglas no se adaptan por contexto:**
+Nada llega al Paso 7 sin esto. **Estas reglas no se adaptan por contexto:**
 
 - **Toda fuente que se registra tiene que haberse abierto.** No el resultado de búsqueda: la página.
 - **`WebFetch` confirma que algo está, nunca que algo falta.**
+- **Un resumen de búsqueda no es una fuente.** Tres veces el 08/08 un resumen atribuyó a una fuente algo que la fuente no decía.
 - **Adivinar rutas no es buscar.**
-- **Un resumen de búsqueda no es una fuente.**
-- **Describir el mecanismo que produce una observación es una afirmación aparte.** Que en 12 de 15 capturas no aparezca el conteo de me gusta está medido; que *la cuenta lo oculte* es una causa deducida. Si no se comprobó el mecanismo, se describe lo observado y listo.
-- **Una ausencia en una página no es una ausencia en la empresa.** Se concluyó que ICG10 no tenía operación de marketing: tienen 1.464 publicaciones en Instagram. Antes de afirmar que a una empresa le falta una función, hay que haber mirado dónde esa función dejaría rastro.
-- **Instagram se lee con `WebFetch`**, que es un pedido público plano y devuelve biografía, enlace y seguidores. **Nunca con navegador automatizado**, igual que LinkedIn.
+- **Re-verificar con la herramienta que produjo el error no verifica nada.**
+- **Describir el mecanismo que produce una observación es una afirmación aparte.**
+- **Una ausencia en una página no es una ausencia en la empresa.**
+- **Instagram se lee con `WebFetch`**, nunca con navegador automatizado.
 
-**Y la ventana se comprueba acá.** Una señal fuera de su ventana no es una señal: es un dato viejo. Se anota y se espera la próxima.
+**Y la ventana se comprueba acá**, si el dolor viene con una: **días** para el crecimiento reciente, **semanas** para un aviso abierto, sin vencimiento para los demás.
 
-| Ventana | Vence | Qué la cierra |
-|---|---|---|
-| **Días** | 1-2 semanas | La noticia deja de ser noticia |
-| **Semanas** | 3-8 semanas | El aviso se cierra, el puesto se cubre |
-| **Vigilar** | Sin vencimiento | No hay urgencia |
+## Paso 7 — Entregar el candidato
 
-## Paso 5 — Entregar el candidato
-
-Un candidato entregado trae **exactamente esto**, y no una tarjeta:
+Un candidato trae **exactamente esto**, y no una tarjeta:
 
 | | |
 |---|---|
 | **Empresa** | Nombre y sitio |
-| **Industria** | Del vocabulario vigente. Si no encaja en ninguna, decirlo — no forzar |
-| **Familia** | A, B, C o D. Si son varias, todas: **cuantas más familias, más fuerte la tarjeta** |
-| **Ventana** | Cuál es y **la fecha en que vence**, calculada, no el nombre de la ventana |
-| **Señal** | Escrita con la anatomía de abajo |
+| **Industria** | Del vocabulario vigente. Si no encaja, decirlo — no forzar |
+| **Dolor y ángulo** | Cuál de los seis, con el ángulo del vocabulario. Si son varios, todos |
+| **Ventana** | Cuál es y **la fecha en que vence**, calculada — o "sin vencimiento" |
+| **Señal** | Escrita con la anatomía de `senales.md` |
 | **Fuente** | La URL exacta, abierta y comprobada |
-| **Qué falta** | Decisor, canal, o lo que sea. **Escrito como lista de tareas propuestas, una por deuda, no como una frase.** Cada una con qué la cierra, si vence, y si la puede hacer solo Alan. `/prospectar` las carga como Tasks |
+| **Ruta** | Por dónde se llegó. Sirve para saber qué ruta rinde |
+| **Qué falta** | **Como lista de tareas propuestas, una por deuda**, con qué la cierra, si vence, y si sólo la puede hacer Alan |
 
-### La anatomía de una señal escrita
+**Alan elige cuáles van.** Los elegidos pasan a `/prospectar`. **Acá no se escribe nada en Twenty**, salvo el estado de las `Pistas` que se trabajaron.
 
-Las ocho señales ya cargadas comparten una forma, y es replicable:
+## Paso 8 — Reportar
 
-1. **Un hecho contable y citable** — un número, un nombre propio, una frase literal del prospecto.
-2. **La cita textual entre comillas angulares** «...», para marcar que es copy suyo y no paráfrasis.
-3. **Una tensión implícita, nunca declarada como juicio.** Ninguna dice *"su marca es mala"*. Dicen dos hechos que no cierran: seis clientes de moda reconocibles *contra* 550 seguidores; un desarrollo de USD 370 millones *y* el enlace sin etiquetar. **El lector saca la conclusión.**
-4. **La fecha de verificación**, cuando el dato es volátil.
-5. **El alcance declarado**, cuando la medición es parcial — *"sobre la primera página del catálogo, que muestra 10 productos y tiene paginación de 5"*.
-6. **Una fuente que abre y que muestra la señal entera.**
-7. **Las deudas anotadas adentro del propio campo**, en mayúsculas: *"PENDIENTE: falta la observación de marca que sostenga el ángulo"*.
+Cuántas se miraron, cuántas quedaron, y **por qué quedó afuera cada una**. Descartada por escala es distinto de descartada por no tener dolor verificable.
 
-### Y después, el traspaso
+**Y el reparto de ángulos de la corrida.** Es la métrica que dice si la doctrina está funcionando: **si todos los candidatos tienen el mismo ángulo, la corrida falló aunque traiga diez.**
 
-Alan elige cuáles van. Los elegidos pasan a **`/prospectar`**, que carga Company, Person, Opportunity y la Note, leyendo el vocabulario en vivo. **Acá no se escribe nada en Twenty.**
+**Si un candidato entró con señal floja, decirlo.** Una lista larga con tarjetas flojas es peor que una corta.
 
-## Paso 6 — Reportar, incluido lo que no entró
-
-Cuántas se miraron, cuántas quedaron, y **por qué quedó afuera cada una que no quedó**. Descartada por escala es una decisión distinta de descartada por no tener señal verificable: decir cuál fue.
-
-**Si un candidato entró con señal floja, decirlo.** Una lista larga con tarjetas flojas es peor que una corta: cada una sin señal es un mensaje que no se va a poder escribir.
-
-**Un descarte que puede cambiar no se tira.** Una ronda vencida o un aviso cerrado son señales que volverán a aparecer. Esa empresa se propone como tarjeta en `Por investigar` vía `/prospectar`, con el faltante escrito. **No se abre un archivo aparte para guardarlas** — el registro vive en un solo lugar y ese lugar es Twenty.
+**Un descarte que puede cambiar no se tira:** se propone como tarjeta en `Por investigar` con el faltante escrito, o como `Pista`. El registro vive en Twenty, no en un archivo aparte.
 
 ---
 
 ## Cuánto entregar
 
-**Entre 5 y 10 candidatos verificados por corrida es suficiente**, y conviene no pasarse.
+**Entre 5 y 10 candidatos verificados por corrida**, y conviene no pasarse. El volumen sostenible escribiendo uno por uno es de 10-15 mensajes por día. Una lista de cuarenta candidatos flojos agranda la cola de tarjetas trabadas.
 
-El volumen sostenible escribiendo uno por uno es de 10-15 mensajes por día, con 2-3 seguimientos cada uno. Una lista de cuarenta candidatos flojos no acelera nada: agranda la cola de tarjetas que después quedan trabadas en `/outbound-hoy` sin poder escribirse.
-
-**Si una corrida entera no produjo ningún candidato, eso es un resultado.** Decirlo, decir qué fuentes se trabajaron, y proponer otro recorte u otra familia. Inventar candidatos para no volver con las manos vacías es el peor resultado posible.
+**Si una corrida no produjo ningún candidato, eso es un resultado** — pero antes de decirlo hay que poder nombrar **tres rutas que no se probaron**. Inventar candidatos para no volver con las manos vacías es el peor resultado posible.
 
 ---
 
 ## Reglas que no se negocian
 
-**La señal no se busca, se encuentra. Lo que se busca es el hecho que la empresa publicó.**
+**La señal es el dolor, y vale aunque la empresa no lo haya declarado.** Lo que no cambia es qué se puede afirmar sobre él.
 
-**Ningún candidato sale sin una observación específica y verificable sobre esa empresa, con su fuente abierta.** Es la regla de *nunca inventar un número*, aplicada al primer contacto.
+**Ningún candidato sale sin una observación específica y verificable sobre esa empresa, con su fuente abierta.**
 
-**Un resumen de búsqueda no es una fuente.**
+**Un resumen de búsqueda no es una fuente. `WebFetch` no puede establecer una ausencia.**
 
-**`WebFetch` no puede establecer una ausencia.**
+**No apuntar un navegador automatizado a Instagram ni a LinkedIn.** Padrones públicos sí.
 
-**No apuntar un navegador automatizado a Instagram ni a LinkedIn.** La sanción es la cuenta, y es el único canal de distribución mientras no haya pauta.
+**Este comando no carga nada en Twenty ni le escribe a nadie.** Cargar es `/prospectar`, escribir es `/outbound-mensaje`, **aprobar lo hace Alan en el CRM**, y mandar lo sigue apretando él.
 
-**Este comando no carga nada en Twenty ni le escribe a nadie.** Entrega candidatos. Cargar es `/prospectar`, escribir es `/outbound-mensaje`, **aprobar lo hace Alan en el CRM**, y mandar lo sigue apretando él — en Gmail si el canal es `Email`, con `/enviar` armando el borrador; a mano si es LinkedIn o WhatsApp.
-
-**Las taxonomías se adaptan; las reglas de evidencia no.** Agregar una familia o un ángulo es una decisión de negocio. Qué cuenta como fuente y qué se puede afirmar, no.
+**Las taxonomías se adaptan; las reglas de evidencia no.**

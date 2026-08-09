@@ -23,38 +23,50 @@ Y traer las empresas que ya están, con `find_many_companies`: **no duplicar**. 
 
 ## Paso 1 — El ICP
 
-Está en `docs/contexto-outbound.md` del repo `codence-auditorias`. Las tres industrias declaradas son **Fintech, Logística y B2B / SaaS**; una empresa fuera de esas tres entra **por la señal, no por el rubro**.
+Está en `docs/contexto-outbound.md` del repo `codence-auditorias`. Las tres industrias declaradas son **Fintech, Logística y B2B / SaaS**; una empresa fuera de esas tres entra **por el dolor, no por el rubro**.
 
-**La escala importa.** Una empresa demasiado grande no la decide una persona a la que se le pueda escribir.
+**La escala importa, y es el descarte más barato.** Una empresa demasiado grande no la decide una persona a la que se le pueda escribir.
+
+**Geografía: mercados hispanos y anglosajones.** El test **no es el país: es el idioma en que se le puede escribir**, español o inglés. Una empresa de EE.UU. es válida. Una brasileña con sitio en inglés también — Einship entró así. Una cuyo producto sólo existe en portugués, no: Jusfy quedó afuera por eso y no por ser de Brasil. **El idioma del prospecto se anota, porque decide en qué idioma se le escribe.**
 
 ## Paso 2 — La señal
 
 Es lo que hace o deshace la tarjeta.
 
-**La señal no se busca, se encuentra.** Buscar el síntoma en un buscador devuelve a quien vende la cura: pedir *"logística argentina seguimiento por WhatsApp"* trae a los que ofrecen eso como producto. **Primero se identifica la empresa, después se miran sus propias superficies.** Lo único que sí se busca de cero es **el hecho que la empresa publicó** — una ronda, un aviso abierto —, y de eso se ocupa `/buscar`.
+> **La señal es el dolor. Lo publicado es una ruta para llegar a la empresa, no la única, y muchas veces la peor.**
 
-### Las cuatro familias, y su ventana
+**El dolor vale aunque la empresa no lo haya declarado.** A veces no saben que lo necesitan, y casi siempre no lo hicieron público. Lo que no cambia es qué se puede afirmar sobre él.
 
-La fricción operativa dejó de ser *la* señal el 07/08: es una de cuatro. **La familia decide el ángulo y con qué abre el mensaje; la ventana decide a quién se le escribe primero.** El detalle de cada una está en `senales.md`.
+Lo que sí sigue en pie es que **el síntoma no se busca en un buscador**: pedir *"logística argentina seguimiento por WhatsApp"* trae a los que venden eso. **Primero se identifica la empresa, después se miran sus propias superficies.**
 
-| Familia | Qué es | Ventana | Ángulo |
+### Los seis dolores, y su ventana
+
+**El dolor decide el ángulo, el servicio y con qué abre el mensaje; la ventana decide a quién se le escribe primero.** El detalle de cada uno está en `senales.md`.
+
+| Dolor | Ángulo | Servicio | Ventana |
 |---|---|---|---|
-| **A** — demanda declarada | Un aviso abierto que nombra el problema. **La más fuerte** | Semanas | `Demanda declarada` |
-| **B** — capital fresco | Ronda con monto y fecha, expansión, adquisición | **Días** | `Crecimiento reciente` |
-| **C** — la marca no acompaña | Creció y su marca se quedó donde estaba | Vigilar | `Marca que no acompaña` |
-| **D** — fricción operativa | Hacen a mano algo que ya no da a mano | Vigilar | Los tres de fricción |
+| **Demanda declarada** — un aviso abierto que nombra el problema. **El más fuerte** | `Demanda declarada` | El que el aviso nombre | Semanas |
+| **Crecimiento que la estructura no acompaña** — ronda, expansión, planta nueva, una región entera creciendo | `Crecimiento reciente` | Cualquiera | **Días** |
+| **La marca no acompaña** — creció y su marca se quedó donde estaba | `Marca que no acompaña` | Rebranding | Vigilar |
+| **La presencia no sostiene el negocio** — sin sitio, o uno donde no se puede comprar ni agendar | `Presencia que no vende` | Diseño web | Vigilar |
+| **Fricción operativa** — hacen a mano algo que ya no da a mano | Los tres de fricción | Software a medida · Automatización | Vigilar |
+| **Lo que no encaja** | `Otro`, **y se propone uno nuevo** | — | — |
 
-**Cuantas más familias, más fuerte la tarjeta.** `B + C` es el ICP más claro para rebranding y abre por la expansión, no por la marca. `D sola` es la más débil: verificar antes de escribir.
+**Cuantos más dolores, más fuerte la tarjeta.** `Crecimiento + Marca` es el ICP más claro para rebranding y abre por la expansión, no por la marca. La fricción deducida sola es la más débil: verificar antes de escribir.
 
 **Una señal fuera de su ventana no es una señal: es un dato viejo.** Se anota y se espera la próxima.
 
-⚠️ **`Marca que no acompaña` no se usa por impresión estética.** *La inquietud estética no es razón para rebrandear; un problema comercial identificable, sí.* Si no se puede nombrar el problema comercial en una frase, la señal no existe. Y esa familia casi siempre tiene forma de *"no tienen X"*, que es justo lo que `WebFetch` no puede establecer — ver las reglas de abajo.
+⚠️ **`Crecimiento reciente` es el dolor más fácil de ver y el que peor convirtió.** Al 08/08/2026 tenía 14 de 21 tarjetas y ninguna contactada. Que sea fácil de encontrar no lo hace fuerte: si una tanda entra entera con ese ángulo, decirlo.
+
+⚠️ **`Marca que no acompaña` no se usa por impresión estética.** *La inquietud estética no es razón para rebrandear; un problema comercial identificable, sí.* Si no se puede nombrar el problema comercial en una frase, la señal no existe. Y ese dolor casi siempre tiene forma de *"no tienen X"*, que es justo lo que `WebFetch` no puede establecer — ver las reglas de abajo.
 
 Dónde mirar, en orden de rendimiento:
 
-1. **Sus búsquedas de empleo.** Un aviso abierto es presupuesto ya asignado a un problema que ellos mismos nombraron. Es la señal más fuerte que existe.
+1. **Sus búsquedas de empleo.** Un aviso abierto es presupuesto ya asignado a un problema que ellos mismos nombraron. Es la señal más fuerte que existe. El enlace **se encuentra en la navegación del sitio, no se adivina**.
 2. **Sus puertas de entrada, seguidas hasta el final.** Dónde cae el enlace de la biografía, qué recibe el formulario, qué pasa después de enviar. Una puerta que muere sin nada del otro lado es un hallazgo verificable en diez segundos.
 3. **Sus superficies públicas.** Instagram, LinkedIn, el sitio. Qué publican, con qué frecuencia, y qué pasa con lo que publican.
+4. **Su nombre a través de esas superficies.** Si el sitio, el correo y las redes lo escriben distinto, eso es marca y es una observación de presencia, no de ausencia.
+5. **La prensa, al final y sólo sobre esta empresa.** Le pone ventana de días a una tarjeta que sin eso no tenía apuro.
 
 ### Las reglas de evidencia
 
@@ -84,13 +96,26 @@ Dónde mirar, en orden de rendimiento:
 
 Si ninguna puerta califica, la tarjeta queda en `Por investigar` con el faltante escrito.
 
+### Hasta dos contactos por empresa
+
+Decidido el 08/08/2026. **Una tarjeta puede llevar dos personas, y son dos roles distintos:**
+
+- **Quien decide** — el que puede decir que sí. Es el punto de contacto de la Opportunity.
+- **Quien sufre el dolor** — el que convive con el proceso manual, el que carga los datos, el que atiende el WhatsApp. No firma, pero sabe que el problema existe y lo reconoce en una línea.
+
+**Se busca el segundo sólo en las tarjetas que lo valen**, no en todas: una señal fuerte con decisor difícil lo justifica, una tarjeta floja no. Cada uno lleva **su propio ángulo y su propio mensaje** — escribirle lo mismo a los dos es la peor versión de esto.
+
+**La tarjeta muere cuando mueren los dos**, no cuando calla uno.
+
+⚠️ **Los C-level responden un 30,2% menos que los no ejecutivos**, medido por Gong sobre más de un millón de ciclos de venta. No es razón para no escribirles: es razón para que el segundo contacto exista.
+
 ## Paso 4 — Cargar en Twenty
 
 Tres registros por prospecto, más la nota, más una tarea por cada deuda:
 
 **Company** — `name`, `domainName` (el sitio), `industria`.
 
-**Person**, sólo si hay decisor — `name` partido en nombre y apellido, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`, atada a la Company.
+**Person**, sólo si hay decisor — `name` partido en nombre y apellido, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`, atada a la Company. **Hasta dos por empresa**, las dos atadas a la Company; la que decide va además como `pointOfContact` de la Opportunity.
 
 **Opportunity** — `name` igual al de la empresa, y:
 

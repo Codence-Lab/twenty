@@ -64,6 +64,7 @@ Si la señal ya no está: decirlo, no escribir el mensaje, y proponer volver la 
 | `Demanda declarada` | **Lo que el aviso dice**, citado. *"Están buscando un Email Marketing & Growth Lead"* es un hecho | *"Les falta generación de demanda"*, que es un juicio |
 | `Crecimiento reciente` | **La consecuencia** de haber levantado: expandirse es competir por atención contra otros que también levantaron | **La felicitación.** *"¡Felicitaciones por la Serie A!"* es el saludo que reciben doscientas veces y que manda todo el que les quiere vender algo |
 | `Marca que no acompaña` | **El problema comercial**, nombrado en una frase. Si viene con crecimiento reciente, abre por la expansión | La estética. *"Su marca se ve vieja"* no es un motivo |
+| `Presencia que no vende` | **La puerta que no lleva a ningún lado**, seguida hasta el final y contada como lo que le pasa a quien quiere comprarles | Una crítica al diseño. El problema es comercial: alguien quiso y no pudo |
 | Los tres de fricción | **Lo observado**, no el mecanismo que uno le supone | Una deducción presentada como hallazgo |
 
 ⚠️ **Con `Demanda declarada` hay una trampa:** un aviso abierto también significa que ya eligieron resolverlo contratando. El mensaje tiene que decir qué agrega Codence a eso, **no fingir que no lo vio**.
@@ -83,12 +84,35 @@ Si la señal ya no está: decirlo, no escribir el mensaje, y proponer volver la 
 
 **Los 300 caracteres son un límite duro, no una sugerencia.** Contarlos.
 
+**El idioma es el del prospecto: español o inglés.** Se escribe en el idioma en que la empresa se comunica — el de su sitio, el de su prensa. Una empresa de EE.UU. va en inglés; una brasileña con sitio en inglés, en inglés. Los largos de arriba valen igual en los dos.
+
 ### Qué lleva el mensaje
 
 1. **Quién escribe.** `Soy Alan, de Codence: trabajamos marca y sitios web.` Va primero y no se saltea.
 2. **La observación específica**, en una línea, verificable por el destinatario en segundos.
 3. **Qué implica**, sin diagnóstico grandilocuente.
 4. **Una pregunta o una puerta chica.** No una propuesta.
+
+### Lo que dicen los datos ajenos
+
+Medido por **Gong sobre 85 millones de correos en frío y más de un millón de ciclos de venta a ejecutivos**. Es la única fuente de outbound con datos propios a escala que se revisó: el resto de la literatura es marketing de proveedor que se contradice solo. Vale como número, y sólo esto:
+
+- **Cuerpo de 50 a 100 palabras.** Pasadas las 100 la tasa de respuesta cae fuerte. Coincide con los 5-8 renglones que ya usábamos.
+- **Asunto de 1 a 4 palabras.**
+- **Vender en el mensaje cuesta hasta un 57% de respuesta.** Es la razón medida de algo que ya era regla acá.
+- **Un CTA de interés le gana a pedir una reunión.** Pedir reunión directo rinde peor.
+- **El lenguaje de ROI baja el éxito un 15%.** Y palabras como «AI» o «plataforma» también.
+
+⚠️ **Nada de esto reemplaza la observación específica.** Un mensaje de 60 palabras sin señal verificable sigue sin salir.
+
+### Si el mensaje es para el segundo contacto
+
+Una tarjeta puede llevar dos personas: **quien decide** y **quien sufre el dolor**. No se les escribe lo mismo.
+
+- **A quien decide**, la consecuencia comercial: qué le cuesta a la empresa que eso siga así.
+- **A quien sufre el dolor**, la observación tal cual, sin traducirla a lenguaje de negocio. Reconoce el problema porque lo vive.
+
+**Escribirle el mismo texto a los dos es la peor versión de esto**, y se nota si comparan. Cada uno lleva su ángulo en la tarjeta.
 
 ⚠️ **Una nota de conexión no abre la venta: consigue que te acepten.** Ese es todo su trabajo. El argumento va en el mensaje siguiente, cuando ya hay conversación. Una nota que intenta cerrar algo en 300 caracteres se lee como lo que es.
 

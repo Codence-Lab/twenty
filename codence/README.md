@@ -24,6 +24,32 @@ Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, as
 >
 > ### Lo que se hizo
 >
+> **El catálogo de señales se reescribió entero, y es el cambio más grande del
+> día.** El sistema había derivado a cazar una sola cosa —rondas de inversión— y
+> el número lo prueba: **14 de 21 tarjetas con el ángulo `Crecimiento reciente`,
+> y ninguna de las 14 contactada jamás.** Las tres únicas que produjeron algo
+> salieron de lo que el sistema había dejado de mirar: ICG10 y Bull Market de
+> páginas de empleo, Datcisions de mirarle la portada.
+>
+> El defecto era de diseño. El catálogo mezclaba **qué hace a una empresa un
+> prospecto** con **cómo llego hasta ella**, y como la segunda pregunta tiene una
+> respuesta fácil de buscar en Google, se comió a la primera. Ahora van
+> separadas, y la regla nueva es:
+>
+> > **La señal es el dolor. Lo publicado es una ruta para llegar a la empresa, no
+> > la única, y muchas veces la peor.**
+>
+> Lo que sale de ahí: **seis dolores** en vez de cuatro familias, un ángulo nuevo
+> —`Presencia que no vende`, el que mapea a Diseño web—, **el padrón como motor
+> principal** y la prensa degradada a acelerador, y una regla dura contra el error
+> que se repitió tres veces en el día: *ninguna lista de fuentes es cerrada, y
+> antes de decir que no hay candidatos hay que poder nombrar tres rutas que no se
+> probaron*.
+>
+> **Y una bandeja de entrada: el objeto `Pistas`**, que aparece en la barra
+> lateral. Ahí caen enlaces, padrones, ideas y capturas. `/buscar` arranca
+> leyéndola y `/outbound-hoy` cuenta las que llevan mucho sin mirar.
+>
 > **El circuito de aprobación del canal Email, cerrado.** Cinco campos nuevos en
 > `opportunity`, tres vistas, la skill `/enviar` con sus dos modos, y las otras
 > cuatro skills ajustadas al reparto nuevo. El detalle está más abajo, en
@@ -53,6 +79,28 @@ Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, as
 > **Y quién escribe va primero.** `Soy Alan, de Codence: trabajamos marca y
 > sitios web.` Una nota de conexión no abre la venta: consigue que te acepten.
 > El argumento va en el mensaje siguiente, cuando ya hay conversación.
+>
+> ### La doctrina nueva se probó el mismo día, y funcionó
+>
+> Primera corrida de `/buscar` con motor de padrón, sobre la Guía Vaca Muerta.
+> **Seis candidatos, y cero con el ángulo viejo:** cuatro de `Presencia que no
+> vende` —Test.Ing, MEHSA, Cruz del Sur y AXIS— y dos de `Marca que no
+> acompaña` —Asesores & NovaMind y ÁgilDev Patagonia—. El pipeline pasó de 21 a
+> 27 tarjetas y las 14 de `Crecimiento reciente` quedaron donde estaban.
+>
+> ⚠️ **El reparo, porque la métrica corta para los dos lados:** 4 de 6 cayeron
+> en un solo ángulo. Es otro que el de antes, pero sigue concentrado. Un padrón
+> de proveedores chicos deja ver desde afuera sobre todo la puerta de entrada;
+> para sacar `Demanda declarada` hay que leerles la bolsa de empleo, y estas
+> empresas casi no tienen.
+>
+> **Y cuatro atribuciones falsas atrapadas en un día**, todas abriendo la fuente
+> original: la ronda de Hunty fechada en 2026 cuando Forbes Colombia y Portafolio
+> la fechan en **2025**; los «40.000 abonados» de Security 24; una cifra de win
+> rate atribuida a una página que no tiene ninguna; y la portada de Test.Ing que
+> `WebFetch` dio por vacía y con navegador tiene 26 imágenes. **La regla de
+> evidencia no es paranoia: es lo único que separa al sistema de escribir cifras
+> inventadas.**
 >
 > ### Lo que falta
 >
@@ -114,7 +162,7 @@ Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, as
 
 | | |
 |---|---|
-| [`senales.md`](senales.md) | **Qué hace que una empresa sea un prospecto.** Las 4 familias, con su ventana |
+| [`senales.md`](senales.md) | **Qué hace que una empresa sea un prospecto, y cómo se llega a ella.** Los 6 dolores con su ventana, y el catálogo abierto de rutas |
 | [`evidencia.md`](evidencia.md) | Las fuentes que puede citar una página de argumento, con su ficha |
 
 **La regla de fuentes cambió el 07/08.** Antes era *solo primarias*. Ahora: **cualquiera, siempre que la cita diga qué clase de evidencia es.** No se prohíbe la encuesta de un proveedor; se prohíbe presentarla como si fuera facturación medida.
@@ -133,6 +181,14 @@ docker compose up -d
 Entra por **http://localhost:3000**.
 
 Para apagarlo: `docker compose stop`. Los datos viven en volúmenes de Docker y sobreviven.
+
+⚠️ **Si Docker Desktop está cerrado, el CRM cae y con él su servidor MCP.** Pasó el 08/08. El ejecutable **no está en `Program Files`**: es una instalación por usuario y vive en
+
+```
+C:\Users\Alan Dev\AppData\Local\Programs\DockerDesktop\Docker Desktop.exe
+```
+
+Los contenedores vuelven solos al levantarlo, pero **el servidor tarda unos 4 minutos** en responder en `/healthz` después de que el motor arranca. El disco sigue en `D:\DockerDesktopWSL` y los datos no se tocan.
 
 ## Los scripts
 
@@ -166,6 +222,19 @@ Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Twenty ya resolv�
 | **Opportunity** | El outbound — `stage` es el **Estado**, más 16 campos custom: 11 del prospecto y 5 del circuito de aprobación |
 | **Note** | La bitácora: la investigación de `/prospectar` y el historial de mensajes |
 | **Task** | Lo que falta hacer, con `status`, `dueAt` y `assignee`. Nativo, sin campos custom |
+| **Pista** | **La bandeja de entrada.** Objeto propio, agregado el 08/08 — `tipo`, `enlace`, `estado`, `detalle` |
+
+**`Person` admite dos por empresa desde el 08/08:** quien decide y quien sufre el
+dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga
+sólo de la Company. Se busca la segunda sólo en las tarjetas que lo valen, y cada
+una lleva su propio ángulo y su propio mensaje.
+
+⚠️ **`Pista` es el único objeto propio, y es el que hace aparecer una entrada en
+la barra lateral izquierda.** Crearlo le agregó solo las relaciones por defecto
+—adjuntos, notas, tareas y línea de tiempo—, así que **acepta capturas
+arrastradas sin declarar ningún campo de archivo**. Es también la puerta por
+donde entra lo que el agente no puede leer: LinkedIn e Instagram no se tocan con
+navegador automatizado, pero Alan sí los ve.
 
 `task.status` tiene cuatro opciones. Las tres de fábrica —**To do**, **In progress**, **Done**— hablan de la tarea. La cuarta se agregó el 08/08 y habla de otra cosa:
 
@@ -195,13 +264,19 @@ En `.claude/skills/`, y se descubren al abrir Claude Code **en esta carpeta** (`
 
 | | |
 |---|---|
-| `/buscar` | Sale a encontrar candidatos por familia de señal. **No carga nada**: entrega |
+| `/buscar` | Trabaja padrones de empresas reales y lee sobre cada una los 6 dolores. **No carga nada**: entrega |
 | `/prospectar` | Investiga, califica y carga los 3 registros, la nota, y una tarea por deuda |
 | `/outbound-hoy` | La cola del día, las trabadas con qué le falta, y el registro del toque de LinkedIn y WhatsApp |
 | `/outbound-mensaje` | Redacta en el formato y el largo del canal, y lo deja en `Redactado`. **No envía** |
 | `/enviar` | Arma en Gmail el borrador de lo aprobado, y verifica contra el buzón qué salió. **Solo canal Email** |
 
-**De las cuatro familias de `senales.md`, solo A y B se buscan de cero** — un aviso de empleo y una ronda son hechos publicados e indexados. La familia C se evalúa encima de lo que A y B trajeron, y la D se recoge de paso leyendo los avisos de A.
+**El motor de `/buscar` es el padrón, no la prensa.** Se toma una lista de empresas reales —una cámara, un parque, una guía de industria, los expositores de una feria— y sobre cada una se leen sus propias superficies buscando los seis dolores. La prensa de eventos quedó como **acelerador**: le pone urgencia a una tarjeta que el padrón ya trajo.
+
+⚠️ **Playwright para llegar, `WebFetch` para leer.** El menú de un padrón suele ser JavaScript, así que la URL del listado no sale de un fetch de la portada: eso se resuelve navegando con Playwright. Pero las páginas de listado son HTML plano y `WebFetch` las lee mejor — sobre `guiavacamuerta.com` devolvió **26 empresas de transporte y logística con correo y sitio en una sola llamada**, donde Playwright necesitó cinco.
+
+⚠️ **Y la trampa real no era el JavaScript: era adivinar la ruta.** Ese padrón se dio por vacío al pedir `/empresas/`, que es una página de plantilla; la buena es `/companias` → `/categorias/NN-nombre.htm`. El error se repitió cinco minutos después inventando otra ruta que dio 404. **El enlace se saca de la navegación del sitio, siempre.**
+
+⚠️ **Y un 403 no cierra una ruta.** `traded.co`, FinSMEs y FinTech Futures bloquean el pedido plano; lo que corresponde es buscarles el boletín por correo, no darlas por inexistentes. **403 significa que el servidor entendió el pedido y se negó**, no que la página no exista.
 
 Hablan con Twenty por su **servidor MCP**, declarado en `.mcp.json` como `twenty` → `http://localhost:3000/mcp`. La clave no está en el archivo: sale de `TWENTY_API_KEY` del entorno de usuario de Windows.
 

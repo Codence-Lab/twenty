@@ -71,10 +71,15 @@ const GRADO = [
   { label: '3º', value: 'GRADO_3' },
   { label: 'Sin conexión', value: 'SIN_CONEXION' },
 ];
-/* Un ángulo por familia de señal de `senales.md`, más los tres de fricción que
- * venían del sistema viejo. `Marca que no acompaña` es la familia C: existía en
- * el catálogo desde el 31/07 y no tenía ángulo, así que Datcisions —cuya única
- * señal es de marca— quedaba en `Otro`, que no compara contra nada. */
+/* Un ángulo por dolor de `senales.md`, más los tres de fricción que venían del
+ * sistema viejo. `Marca que no acompaña` es el dolor de marca: existía en el
+ * catálogo desde el 31/07 y no tenía ángulo, así que Datcisions —cuya única
+ * señal es de marca— quedaba en `Otro`, que no compara contra nada.
+ *
+ * `Presencia que no vende` se agregó el 08/08 por la misma razón y es el que
+ * mapea a Diseño web: sin sitio propio, un sitio donde no se puede comprar ni
+ * agendar, una puerta que muere sin nada del otro lado. Antes caía en `Proceso
+ * manual`, que describe otra cosa — le pasó a Amarras 11, que no tiene sitio. */
 const ANGULO = [
   'Proceso manual',
   'Dependencia de persona clave',
@@ -82,9 +87,29 @@ const ANGULO = [
   'Crecimiento reciente',
   'Demanda declarada',
   'Marca que no acompaña',
+  'Presencia que no vende',
   'Otro',
 ];
 const SERVICIO = ['Rebranding', 'Diseño web', 'Software a medida', 'Automatización AI-native'];
+
+/* La bandeja de entrada, agregada el 08/08. Una pista es material crudo que
+ * todavía no es un prospecto: un enlace, un padrón, una captura, una idea.
+ * Existe porque hasta ahora eso no tenía dónde caer y se perdía en la
+ * conversación. Es también la puerta por donde entra lo que el agente no puede
+ * leer solo: LinkedIn e Instagram no se tocan con navegador automatizado, pero
+ * Alan sí los ve, y una captura suya entra por acá. */
+const TIPO_PISTA = ['Prospecto posible', 'Fuente o padrón', 'Idea', 'Referencia'];
+const ESTADO_PISTA = ['Sin mirar', 'En cola', 'Usada', 'Descartada'];
+
+/* Amarillo es lo que espera a que alguien la mire, azul lo que ya está en la
+ * cola de una corrida, y gris lo cerrado — la misma lógica de color que el
+ * Estado y la Aprobación. */
+const COLOR_ESTADO_PISTA = {
+  'Sin mirar': 'yellow',
+  'En cola': 'blue',
+  Usada: 'green',
+  Descartada: 'gray',
+};
 
 /* Los estados terminales van en gris y los de avance en la escala fría → cálida,
  * para que el Kanban se lea de un vistazo. No es decoración: `Convertido`,
@@ -144,6 +169,25 @@ const opciones = (lista, colores) =>
   });
 
 /* ── La declaración ──────────────────────────────────────────────────────── */
+
+/* Los objetos propios. Company, Person y Opportunity son nativos de Twenty y no
+ * se declaran acá: sólo se les agregan campos. Un objeto propio, en cambio, hay
+ * que crearlo, y al crearlo aparece como entrada en la barra lateral izquierda.
+ *
+ * Crear el objeto le agrega solo las relaciones por defecto —adjuntos, notas,
+ * tareas y línea de tiempo—, así que una Pista acepta capturas arrastradas sin
+ * que haya que declarar ningún campo de archivo. */
+const OBJETOS = [
+  {
+    nameSingular: 'pista',
+    namePlural: 'pistas',
+    labelSingular: 'Pista',
+    labelPlural: 'Pistas',
+    icon: 'IconBulb',
+    description:
+      'Material crudo que todavía no es un prospecto: un enlace, un padrón, una captura, una idea. /buscar las lee antes de salir a buscar nada.',
+  },
+];
 
 const CAMPOS = [
   {
@@ -310,6 +354,45 @@ const CAMPOS = [
     icon: 'IconMailbox',
     description: 'El id del borrador en el Gmail de Codence. Lo escribe /enviar y lo consume /enviar --confirmar.',
   },
+
+  /* La bandeja. El `name` del objeto ya lo crea Twenty solo, así que acá van
+   * los cuatro que agregan algo. Las imágenes no figuran: son adjuntos, y la
+   * relación viene con el objeto. */
+  {
+    objeto: 'pista',
+    name: 'tipo',
+    label: 'Tipo',
+    type: 'SELECT',
+    icon: 'IconCategory',
+    description: 'Qué clase de material es. Decide qué hace /buscar con ella: una fuente se convierte en ruta, un prospecto posible entra directo a verificación.',
+    options: opciones(TIPO_PISTA),
+  },
+  {
+    objeto: 'pista',
+    name: 'enlace',
+    label: 'Enlace',
+    type: 'LINKS',
+    icon: 'IconLink',
+    description: 'A dónde apunta. Admite secundarios si son varios.',
+  },
+  {
+    objeto: 'pista',
+    name: 'estado',
+    label: 'Estado',
+    type: 'SELECT',
+    icon: 'IconProgressCheck',
+    description: 'Una pista que lleva semanas en Sin mirar es la misma falla que un borrador parado en En Gmail: /outbound-hoy las cuenta.',
+    options: opciones(ESTADO_PISTA, COLOR_ESTADO_PISTA),
+    defaultValue: `'${aValor(ESTADO_PISTA[0])}'`,
+  },
+  {
+    objeto: 'pista',
+    name: 'detalle',
+    label: 'Detalle',
+    type: 'RICH_TEXT',
+    icon: 'IconNotes',
+    description: 'Contexto, texto pegado, o por qué llamó la atención. Lo que no entra en el título.',
+  },
 ];
 
 /* ── El cliente ──────────────────────────────────────────────────────────── */
@@ -401,9 +484,12 @@ async function sincronizarOpciones(campo, existente) {
 }
 
 async function main() {
-  const objetos = desenvolver(await api('/objects?limit=60'));
+  const leerObjetos = async () => {
+    const lista = desenvolver(await api('/objects?limit=60'));
+    return Object.fromEntries(lista.map((o) => [o.nameSingular, o]));
+  };
 
-  const porNombre = Object.fromEntries(objetos.map((o) => [o.nameSingular, o]));
+  let porNombre = await leerObjetos();
   for (const n of ['company', 'person', 'opportunity']) {
     if (!porNombre[n]) throw new Error(`No existe el objeto ${n}`);
   }
@@ -413,9 +499,45 @@ async function main() {
   let creados = 0;
   let salteados = 0;
   let ajustados = 0;
+  let objetosNuevos = 0;
+
+  /* Los objetos van primero: sus campos necesitan el objectMetadataId, que no
+   * existe hasta que el objeto está creado. Igual de idempotente que los
+   * campos — uno que ya está se saltea. */
+  for (const objeto of OBJETOS) {
+    if (porNombre[objeto.nameSingular]) {
+      console.log(`  =  objeto ${objeto.nameSingular} ya existe, se saltea`);
+      continue;
+    }
+
+    if (ensayo) {
+      console.log(`  +  objeto ${objeto.nameSingular} → "${objeto.labelPlural}" en la barra lateral`);
+      objetosNuevos++;
+      continue;
+    }
+
+    await api('/objects', { method: 'POST', body: JSON.stringify(objeto) });
+    console.log(`  +  objeto ${objeto.nameSingular} → "${objeto.labelPlural}" en la barra lateral`);
+    objetosNuevos++;
+  }
+
+  /* Releer sólo si se creó alguno: el objeto nuevo trae su id y su campo `name`,
+   * y sin eso el bucle de campos de abajo no tiene a dónde colgarlos. */
+  if (objetosNuevos && !ensayo) porNombre = await leerObjetos();
 
   for (const campo of CAMPOS) {
     const obj = porNombre[campo.objeto];
+
+    /* En ensayo, los campos de un objeto que todavía no existe no se pueden
+     * comparar contra nada. Se reportan como a crear, que es lo que van a ser. */
+    if (!obj) {
+      if (!ensayo) throw new Error(`No existe el objeto ${campo.objeto} para el campo ${campo.name}`);
+      const detalle = campo.options ? ` (${campo.options.length} opciones)` : '';
+      console.log(`  +  ${campo.objeto}.${campo.name}  ${campo.type}${detalle}`);
+      creados++;
+      continue;
+    }
+
     const existente = (obj.fields ?? []).find((f) => f.name === campo.name);
 
     if (existente) {
@@ -478,7 +600,8 @@ async function main() {
   }
 
   const ajuste = ajustados ? `, ${ajustados} con la lista ${ensayo ? 'a ajustar' : 'ajustada'}` : '';
-  console.log(`\n${creados} campo(s) ${ensayo ? 'a crear' : 'creados'}, ${salteados} ya existían${ajuste}.`);
+  const objs = objetosNuevos ? `${objetosNuevos} objeto(s) ${ensayo ? 'a crear' : 'creados'}, ` : '';
+  console.log(`\n${objs}${creados} campo(s) ${ensayo ? 'a crear' : 'creados'}, ${salteados} ya existían${ajuste}.`);
 }
 
 main().catch((e) => {
