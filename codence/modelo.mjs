@@ -117,6 +117,32 @@ const ESTADO_PISTA = ['Sin mirar', 'En cola', 'Usada', 'Descartada'];
 const TIPO_DOCUMENTO = ['Cómo se usa', 'Decisión', 'Referencia'];
 const ESTADO_DOCUMENTO = ['Vigente', 'A revisar', 'Vieja'];
 
+/* El contenido, agregado el 10/08. Un solo objeto para el blog y para redes: lo
+ * que cambia entre un artículo y un post es el `formato` y el `canal`, no la
+ * pieza. Agregar un canal nuevo es agregar una opción, no tocar el modelo. */
+const FORMATO_CONTENIDO = ['Artículo', 'Post', 'Carrusel', 'Video'];
+const CANAL_CONTENIDO = ['Blog', 'LinkedIn', 'Instagram', 'X'];
+const ESTADO_CONTENIDO = [
+  'Idea',
+  'Borrador',
+  'A revisar',
+  'Aprobado',
+  'Programado',
+  'Publicado',
+];
+
+/* La misma lógica de color que el resto: amarillo lo que espera a Alan, azul lo
+ * que ya pasó su revisión, violeta lo que está en vuelo —fecha puesta, todavía
+ * no salió— y verde lo cerrado. */
+const COLOR_ESTADO_CONTENIDO = {
+  Idea: 'gray',
+  Borrador: 'orange',
+  'A revisar': 'yellow',
+  Aprobado: 'blue',
+  Programado: 'purple',
+  Publicado: 'green',
+};
+
 const COLOR_ESTADO_DOCUMENTO = {
   Vigente: 'green',
   'A revisar': 'yellow',
@@ -235,6 +261,20 @@ const OBJETOS = [
     icon: 'IconBook',
     description:
       'Cómo funciona este sistema, escrito para leer. El README del repo es la fuente; esto es el resumen legible desde adentro del CRM.',
+  },
+  /* El contenido, agregado el 10/08. Un objeto solo para el blog y las redes: la
+   * pieza es la misma y lo que cambia es el formato y por dónde sale. El
+   * calendario de salida es la vista Calendar de Twenty sobre `publicarEl`, y el
+   * tablero de producción es el Kanban sobre `estado`: las dos salen gratis de
+   * los campos, igual que el Kanban del outbound sale de `stage`. */
+  {
+    nameSingular: 'contenido',
+    namePlural: 'contenidos',
+    labelSingular: 'Contenido',
+    labelPlural: 'Contenidos',
+    icon: 'IconPencil',
+    description:
+      'Los artículos del blog y las piezas de redes, de la idea a la publicación. El plan editorial vive en codence-bases: operacion/web-copy.md.',
   },
 ];
 
@@ -484,6 +524,75 @@ const CAMPOS = [
     type: 'RICH_TEXT',
     icon: 'IconFileText',
     description: 'El documento. Se lee acá adentro, sin salir del CRM.',
+  },
+
+  /* El contenido. El `name` de la pieza lo crea Twenty solo, así que acá van los
+   * siete que agregan algo.
+   *
+   * Lo que NO está y hay que crear a mano en la UI: la relación de una pieza con
+   * la que deriva —un post que sale de un artículo—. Este archivo no maneja
+   * RELATION, y agregarle soporte por un solo campo no se justifica todavía. */
+  {
+    objeto: 'contenido',
+    name: 'formato',
+    label: 'Formato',
+    type: 'SELECT',
+    icon: 'IconLayoutGrid',
+    description: 'Qué clase de pieza es. Un artículo suele parir varios posts: eso se ve en la relación, no acá.',
+    options: opciones(FORMATO_CONTENIDO),
+    defaultValue: `'${aValor(FORMATO_CONTENIDO[0])}'`,
+  },
+  {
+    objeto: 'contenido',
+    name: 'canal',
+    label: 'Canal',
+    type: 'MULTI_SELECT',
+    icon: 'IconShare',
+    description: 'Por dónde sale. Es multi porque una misma pieza puede publicarse en más de un lado sin dejar de ser una.',
+    options: opciones(CANAL_CONTENIDO),
+  },
+  {
+    objeto: 'contenido',
+    name: 'estado',
+    label: 'Estado',
+    type: 'SELECT',
+    icon: 'IconProgressCheck',
+    description: 'De la idea a la publicación. Es la columna del Kanban: mirarla tiene que alcanzar para saber de quién es el próximo movimiento.',
+    options: opciones(ESTADO_CONTENIDO, COLOR_ESTADO_CONTENIDO),
+    defaultValue: `'${aValor(ESTADO_CONTENIDO[0])}'`,
+  },
+  {
+    objeto: 'contenido',
+    name: 'publicarEl',
+    label: 'Publicar el',
+    type: 'DATE',
+    icon: 'IconCalendarEvent',
+    description: 'Cuándo sale. Es la clave del calendario de salida: sin fecha, la pieza no aparece en esa vista.',
+  },
+  {
+    objeto: 'contenido',
+    name: 'servicio',
+    label: 'Servicio',
+    type: 'SELECT',
+    icon: 'IconTargetArrow',
+    description: 'En cuál de los cinco aterriza. Misma regla que el outbound: una pieza que no aterriza en un servicio deja al lector sin adónde ir.',
+    options: opciones(SERVICIO, COLOR_SERVICIO),
+  },
+  {
+    objeto: 'contenido',
+    name: 'cuerpo',
+    label: 'Cuerpo',
+    type: 'RICH_TEXT',
+    icon: 'IconFileText',
+    description: 'El texto de la pieza. Se escribe y se lee acá adentro, sin salir del CRM.',
+  },
+  {
+    objeto: 'contenido',
+    name: 'enlace',
+    label: 'Enlace',
+    type: 'LINKS',
+    icon: 'IconLink',
+    description: 'Dónde quedó publicada. Admite secundarios cuando la misma pieza salió en varios canales.',
   },
 ];
 

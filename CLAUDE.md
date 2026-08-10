@@ -5,8 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > **Codence: las bases están en `D:\codence-bases`** (repo `Codence-Lab/codence-bases`).
 > Identidad, modelo de negocio, tono de voz y marca se leen de ahí, no se copian acá. Lo
 > propio de este repo (ICP, señales, skills de outbound) está en [`codence/`](codence/).
-> Al 09/08/2026 el modelo de negocio está en evaluación: ver `bases/modelo-de-negocio.md`
-> antes de escribir mensajes o tocar los ángulos del catálogo.
+> Desde el 09/08/2026 Codence entrega en **Pods**: ver `bases/modelo-de-negocio.md`. No
+> cambia nada del outbound — el primer mensaje sigue abriendo por un dolor y aterrizando en
+> uno de los cinco servicios. El Pod es la forma de entrega y aparece recién en la propuesta.
 
 ## Project Overview
 
