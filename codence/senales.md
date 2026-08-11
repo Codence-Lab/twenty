@@ -39,10 +39,24 @@ Cada uno mapea a un servicio. Ese mapeo es lo que hace que `angulo` sirva para c
 **Hacen a mano algo que ya no da a mano.**
 
 - **Ángulos:** `Proceso manual` · `Volumen sin sistema` · `Dependencia de persona clave`
-- **Servicios:** Software a medida · Automatización AI-native
+- **Servicios:** Software a medida · Automatización de procesos · Agentes AI. **Son tres desde el 11/08/2026 y hay regla para elegir** — abajo
 - **Ventana:** vigilar
 - **Qué lo evidencia:** carga de datos a mano, conciliación, seguimiento uno por uno · pedidos que entran sólo por WhatsApp · dotación que no se corresponde con el volumen · dependencia declarada de una persona · avisos que describen trabajo manual
 - **Qué lo descalifica:** es una deducción y no una observación · no hay evidencia de que la empresa adopte herramientas digitales, con lo cual el ciclo de convencimiento no lo justifica
+
+### Cuál de los tres, que hasta el 11/08 no estaba escrito
+
+**Este dolor mapeaba a dos servicios sin ninguna regla para elegir entre ellos.** Con el tercero había que resolverlo, y la regla decide por **lo que se observa en la empresa**, no por lo que haríamos nosotros:
+
+| Lo que se ve | El servicio | Qué lo delata en la evidencia |
+|---|---|---|
+| Falta quien atienda, responda o consulte | **Agentes AI** | Pedidos y consultas que entran sólo por WhatsApp o DM · un horario de atención publicado y contestando a mano · avisos de puestos para responder consultas repetidas |
+| Los sistemas existen y no se hablan; hay trabajo a mano entre ellos | **Automatización de procesos** | Carga de datos de un sistema a otro · conciliación · seguimiento uno por uno · varias herramientas nombradas en avisos de puestos |
+| El sistema no existe | **Software a medida** | Volumen que no se corresponde con la dotación y sin ninguna herramienta a la vista · planillas como sistema · un proceso central que sólo una persona sabe correr |
+
+> **Se descartaron tres criterios antes de éste, y el que los tiró abajo a todos es el mismo: el outbound tiene que poder aplicarlo antes de la primera llamada.** *El tamaño de la operación* no se verifica desde afuera. *¿Hay software de por medio?* describe cómo lo resolvemos nosotros. *Adentro vs. afuera* se cae porque un agente también puede ser interno. El razonamiento completo está en `identidad.md` §4 de `codence-bases`.
+
+⚠️ **Si de la evidencia no sale cuál de los tres, el servicio es `Software a medida` y el mensaje abre por el trabajo manual, no por la solución.** Es el más ancho de los tres y el que menos promete: equivocarse hacia `Agentes AI` es prometer semanas y un mensual chico a alguien que necesitaba un proyecto, y eso se paga en la llamada.
 
 ## 2. La marca no acompaña al negocio
 **La empresa creció y su marca se quedó donde estaba.** Es la más fácil de arruinar.
@@ -72,7 +86,7 @@ Cada uno mapea a un servicio. Ese mapeo es lo que hace que `angulo` sirva para c
 ## 4. Crecimiento que la estructura no acompaña
 **Acaban de conseguir con qué, y tienen que mostrar resultados.**
 
-- **Ángulo:** `Crecimiento reciente` · **Servicio:** cualquiera de los cinco · **Ventana:** días
+- **Ángulo:** `Crecimiento reciente` · **Servicio:** cualquiera de los seis · **Ventana:** días
 - **Qué lo evidencia:** una ronda con monto y fecha · apertura de un mercado, un país, una planta o un local · adquisición · un ejecutivo nuevo en una función relevante · un producto nuevo · **una región entera en expansión**, que arrastra a todos sus proveedores
 - **Qué lo descalifica:** el hecho tiene más de dos meses · el monto no está publicado, si es una ronda · la única fuente es un agregador que resume otra nota
 
@@ -113,9 +127,10 @@ Cada uno mapea a un servicio. Ese mapeo es lo que hace que `angulo` sirva para c
 |---|---|
 | **Crecimiento + Marca** | **El ICP más claro para rebranding.** Abre por la expansión, no por la marca |
 | **Crecimiento + mercado nuevo** | Igual, y suma `GTM` al servicio. Abre por lo que no traen consigo a ese mercado |
-| **Demanda declarada + Fricción** | Por el aviso, que es un hecho suyo |
+| **Demanda declarada + Fricción** | Por el aviso, que es un hecho suyo. **Si el aviso es para responder consultas, el servicio es `Agentes AI`** — un puesto abierto para contestar lo mismo todo el día es la evidencia más limpia que hay de ese dolor |
 | **Marca sola** | Alcanza, si el problema comercial se puede nombrar |
 | **Fricción sola, deducida** | **La más débil.** Verificar antes de escribir |
+| **Presencia que no vende + Fricción de atención** | Sin sitio y atendiendo por WhatsApp a mano. Abre por la puerta que no existe —`Diseño web`— y **los agentes no se nombran en el primer mensaje**: es la segunda conversación, no el pitch |
 
 ## Las ventanas
 

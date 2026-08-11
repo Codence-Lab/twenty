@@ -15,7 +15,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 >
 > Desde el 09/08/2026 Codence entrega en **Pods**: ver `bases/modelo-de-negocio.md`. No
 > cambia nada del outbound — el primer mensaje sigue abriendo por un dolor y aterrizando en
-> uno de los cinco servicios. El Pod es la forma de entrega y aparece recién en la propuesta.
+> uno de los servicios. El Pod es la forma de entrega y aparece recién en la propuesta.
+>
+> Desde el 11/08/2026 **los servicios son seis**: entró `Agentes AI` y `Automatización
+> AI-native` pasó a `Automatización de procesos`. El dolor 1 de `senales.md` ahora mapea a
+> tres servicios y **tiene regla escrita para elegir** — leerla antes de clasificar una
+> tarjeta.
 >
 > Desde el 10/08/2026 el **ICP es producto digital** (fintech, apps, plataformas B2B / SaaS)
 > que ya levantó o ya factura. `bases/identidad.md` todavía nombra logística y Alan lo va a

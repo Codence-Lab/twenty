@@ -113,7 +113,27 @@ const ANGULO = [
  * el único que no viaja solo: acompaña a Rebranding y Diseño web cuando la
  * empresa entra a un mercado donde no la conoce nadie. El caso típico es una
  * del exterior apuntando a la Argentina. Ver el dolor 4 de senales.md. */
-const SERVICIO = ['Rebranding', 'Diseño web', 'Software a medida', 'Automatización AI-native', 'GTM'];
+/* `Agentes AI` entró el 11/08 como sexto servicio, y en la misma decisión
+ * `Automatización AI-native` pasó a `Automatización de procesos`. La frontera
+ * entre los tres que se tocan está en identidad.md §4 y en el dolor 1 de
+ * senales.md: falta quien atienda → Agentes AI · los sistemas no se hablan →
+ * Automatización · el sistema no existe → Software a medida.
+ *
+ * El rename va en forma {label, value} y no como string, y no es un capricho:
+ * `aValor` deriva el valor del rótulo, así que el rótulo nuevo produciría
+ * `AUTOMATIZACION_DE_PROCESOS`, que no existe en la instancia.
+ * `sincronizarOpciones` empareja por `value`, de modo que lo leería como una
+ * opción nueva más una que desaparece — y una opción que desaparece deja a sus
+ * registros con un valor fuera de la taxonomía, fuera de la cola y en silencio.
+ * Conservando el valor viejo, el rename es sólo un rótulo. */
+const SERVICIO = [
+  'Rebranding',
+  'Diseño web',
+  'Software a medida',
+  { label: 'Automatización de procesos', value: 'AUTOMATIZACION_AI_NATIVE' },
+  'Agentes AI',
+  'GTM',
+];
 
 /* La bandeja de entrada, agregada el 08/08. Una pista es material crudo que
  * todavía no es un prospecto: un enlace, un padrón, una captura, una idea.
@@ -205,12 +225,17 @@ const COLOR_APROBACION = {
 
 /* Los cuatro primeros son los que da la paleta por posición; GTM va en amarillo
  * porque lo eligió Alan al crearlo. Se declara para que la reconciliación de
- * color no se lo pise. */
+ * color no se lo pise.
+ *
+ * Se clavea por rótulo —`opciones` busca `colores[label]`—, así que el rename
+ * del 11/08 obliga a cambiar la clave: con la vieja, Automatización caería en el
+ * color por posición y cambiaría sola. */
 const COLOR_SERVICIO = {
   Rebranding: 'blue',
   'Diseño web': 'purple',
   'Software a medida': 'sky',
-  'Automatización AI-native': 'turquoise',
+  'Automatización de procesos': 'turquoise',
+  'Agentes AI': 'green',
   GTM: 'yellow',
 };
 
@@ -218,8 +243,16 @@ const PALETA = ['blue', 'purple', 'sky', 'turquoise', 'green', 'yellow', 'orange
 
 /**
  * Twenty guarda el valor interno en MAYÚSCULA_CON_GUIONES y muestra el rótulo.
- * El rótulo es el que ya usabas; el valor es derivado, así que renombrar la
- * etiqueta visible nunca rompe los datos.
+ * El valor es derivado del rótulo.
+ *
+ * ⚠️ Esto decía que renombrar la etiqueta visible nunca rompe los datos. Es
+ * falso, y por derivar el valor de acá: cambiar el rótulo cambia el valor, y
+ * `sincronizarOpciones` empareja por `value`, así que un rename declarado como
+ * string se aplica como una opción nueva más una que desaparece. Los registros
+ * que usaban la que desapareció quedan con un valor fuera de la taxonomía.
+ *
+ * Renombrar sin romper nada se hace con la forma {label, value} de `opciones`,
+ * conservando el valor viejo. Ahí sí el rótulo es sólo un rótulo. Ver SERVICIO.
  */
 const aValor = (etiqueta) =>
   etiqueta
@@ -603,7 +636,7 @@ const CAMPOS = [
     label: 'Servicio',
     type: 'SELECT',
     icon: 'IconTargetArrow',
-    description: 'En cuál de los cinco aterriza. Misma regla que el outbound: una pieza que no aterriza en un servicio deja al lector sin adónde ir.',
+    description: 'En cuál de los seis aterriza. Misma regla que el outbound: una pieza que no aterriza en un servicio deja al lector sin adónde ir.',
     options: opciones(SERVICIO, COLOR_SERVICIO),
   },
   {
