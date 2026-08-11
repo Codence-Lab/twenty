@@ -3,9 +3,71 @@
 Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, así que traer releases de `twentyhq/twenty` no genera conflictos acá.
 
 **Las bases de Codence no están acá.** Identidad, modelo de negocio, tono de voz y marca
-viven en `D:\codence-bases` (repo `Codence-Lab/codence-bases`) y se leen de ahí. Acá está
-lo que cambia con cada semana de outbound: el ICP, el catálogo de señales, las skills y el
-estado de las tarjetas. Si algo de esto contradice a las bases, gana la base y se corrige acá.
+viven en el repo **`Codence-Lab/codence-bases`** y se leen de ahí. Acá está lo que cambia con
+cada semana de outbound: el ICP ([`icp.md`](icp.md)), el catálogo de señales
+([`senales.md`](senales.md)), las skills y el estado de las tarjetas. Si algo de esto contradice
+a las bases, gana la base y se corrige acá.
+
+> ## 📍 Al 10/08/2026
+>
+> ### El ICP pasó a producto digital
+>
+> **Sale logística, entran las apps.** El recorte vigente es **empresas de producto
+> digital que ya levantaron o ya facturan**: fintech, apps y plataformas B2B / SaaS,
+> que son ejemplos de la categoría y no la lista cerrada.
+>
+> **El motivo está medido, no es una corazonada.** De las 26 tarjetas cargadas hasta
+> hoy, **las 13 descalificadas eran casi todas proveedores regionales sin producto
+> digital** —MEHSA, Cruz del Sur, AXIS, Landmark, Asesores & NovaMind, Test.Ing,
+> ÁgilDev, Centro de Chapas, Security 24— y todas se trabaron en el mismo punto:
+> **no había una persona a la que escribirle.** Los seis candidatos que rindió la
+> guía de Vaca Muerta terminaron descalificados los seis. La ruta funcionaba; lo que
+> no encajaba era el ICP.
+>
+> ### El ICP por fin tiene archivo
+>
+> **Antes no lo tenía, y este README decía que sí.** El texto estaba duplicado en dos
+> skills, y `/prospectar` apuntaba a `docs/contexto-outbound.md` de `codence-auditorias`,
+> **que ya estaba muerto**: hoy ese archivo sólo dice «se mudó». Es la misma falla de
+> las cuatro copias que se cerró el 09/08, sobreviviendo en un rincón.
+>
+> Ahora está en **[`icp.md`](icp.md)**, hermano de `senales.md`, y las skills lo apuntan.
+>
+> ### Dos correcciones que salieron de escribirlo
+>
+> | Qué | Antes | Ahora |
+> |---|---|---|
+> | **Piso de etapa** | «la empresa ya factura» | **Post-ronda institucional o factura** |
+> | **Instagram** | no existía | **15k+ prioriza la cola. No descarta** |
+>
+> ⚠️ **El piso de etapa era una desviación de la base, no una decisión.**
+> `bases/identidad.md` ya definía lead calificado como *«usuarios pagos, MRR validado,
+> **o ronda de inversión temprana**»*. `/buscar` lo había endurecido por su cuenta y
+> venía descartando startups recién levantadas. Se corrige hacia la base.
+>
+> ⚠️ **Instagram prioriza y no descarta, y la distinción es el punto entero.** Un piso
+> duro de 15k se comía el mejor caso de `Marca que no acompaña` —pocos seguidores contra
+> clientes reales, que es literalmente Datcisions— y casi todo el fintech B2B. Vive en
+> el campo nuevo `company.seguidoresIg`.
+>
+> ### La trampa de `modelo.mjs`, esta vez esquivada
+>
+> Sacar `Logística` de la taxonomía **le habría vaciado el campo a Einship**, que está
+> viva en `Calificado`. El script borra toda opción no declarada: lo avisa, pero lo
+> aplica. **El orden correcto es migrar primero y declarar después**, y así se hizo —
+> Einship a `B2B / SaaS`, y Amarras 11, MEHSA y Cruz del Sur a `Otro`.
+>
+> ### Lo que quedó pendiente, y es de Alan
+>
+> **`Codence-Lab/codence-bases` está un commit atrás**, y son 17 archivos y 2290
+> líneas: el pase a Pod de `modelo-de-negocio.md`, `marca-visual.md`, `bases/marca/`
+> entero, y las tres de `operacion/`. Alan tiene cambios que hacer antes de pushear.
+>
+> **Hasta que eso salga, `bases/identidad.md` sigue nombrando logística en su ICP**, y
+> `icp.md` lleva una advertencia al pie diciéndolo. La regla es que gana la base: la
+> advertencia se borra cuando la base se actualice.
+>
+> ---
 
 > ## 📍 Al 09/08/2026
 >
@@ -413,6 +475,14 @@ C:\Users\Alan Dev\AppData\Local\Programs\DockerDesktop\Docker Desktop.exe
 ```
 
 Los contenedores vuelven solos al levantarlo, pero **el servidor tarda unos 4 minutos** en responder en `/healthz` después de que el motor arranca. El disco sigue en `D:\DockerDesktopWSL` y los datos no se tocan.
+
+## Los documentos
+
+| | |
+|---|---|
+| [`icp.md`](icp.md) | **A quién le escribe Codence**, y qué descarta una empresa antes de gastar trabajo en verificarla. Única fuente del ICP: las skills lo apuntan, no lo copian |
+| [`senales.md`](senales.md) | **Qué hace que una empresa sea un prospecto**: los seis dolores, sus ángulos, sus ventanas y las rutas de descubrimiento |
+| [`evidencia.md`](evidencia.md) | Qué cuenta como fuente y qué se puede afirmar. **No se adapta cuando cambia el ICP** |
 
 ## Los scripts
 

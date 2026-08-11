@@ -141,7 +141,9 @@ Cada uno mapea a un servicio. Ese mapeo es lo que hace que `angulo` sirva para c
 
 **Entrega empresas que ya facturan, sin ventana que venza.** Es la ruta principal desde el 08/08/2026.
 
-Cámaras sectoriales · parques industriales y tecnológicos · guías oficiales de industria · listados de expositores de ferias · registros municipales y provinciales de proveedores · padrones de proveedores de las grandes operadoras · polos y clusters.
+Portafolios publicados de fondos de venture · listados de camadas de aceleradoras e incubadoras · cámaras y asociaciones fintech · rankings y tiendas de apps por categoría y país · directorios de SaaS y marketplaces de integraciones · listados de expositores de ferias de producto · polos y parques tecnológicos.
+
+⚠️ **La lista cambió el 10/08/2026 con el ICP.** Antes eran padrones industriales y regionales —cámaras sectoriales, guías de Oil & Gas, registros provinciales de proveedores—. Rindieron, pero entregaban empresas sin decisor al que escribirle: los seis candidatos de la guía de Vaca Muerta terminaron descalificados. **El recorte vigente es producto digital, y está en [`icp.md`](icp.md).**
 
 Sobre cada empresa del padrón se leen sus propias superficies buscando los seis dolores.
 

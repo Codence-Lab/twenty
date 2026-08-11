@@ -50,7 +50,20 @@ const ESTADO = [
 ];
 
 const CANAL = ['LinkedIn', 'Email', 'WhatsApp'];
-const INDUSTRIA = ['Fintech', 'Logística', 'B2B / SaaS', 'Otro'];
+/* El recorte cambió el 10/08: sale `Logística`, entra `Apps`. El ICP pasó a ser
+ * producto digital que ya levantó o ya factura, y el motivo está medido — de las
+ * 26 tarjetas cargadas hasta ese día, las 13 descalificadas eran casi todas
+ * proveedores regionales que se trababan en el mismo punto: no había una persona
+ * a la que escribirle. Ver `codence/icp.md`.
+ *
+ * ⚠️ Antes de correr esto con `Logística` afuera hubo que migrar las cuatro
+ * empresas que la usaban: Einship a `B2B / SaaS` porque está viva, y Amarras 11,
+ * MEHSA y Cruz del Sur a `Otro`. Este script borra toda opción no declarada, así
+ * que al revés les habría vaciado el campo.
+ *
+ * `Apps` queda en la posición 1 y hereda el violeta que tenía `Logística`: la
+ * paleta se asigna por posición, así que B2B / SaaS y Otro no cambian de color. */
+const INDUSTRIA = ['Fintech', 'Apps', 'B2B / SaaS', 'Otro'];
 /* El circuito de aprobación. Es un estado y no prosa en una Note a propósito:
  * se filtra, se ordena y se ve en el Kanban, que es lo que convierte a Twenty
  * en la bandeja de aprobación en vez de en un archivo.
@@ -285,8 +298,23 @@ const CAMPOS = [
     label: 'Industria',
     type: 'SELECT',
     icon: 'IconBuildingFactory',
-    description: 'Las tres declaradas en contexto-outbound más Otro. Una empresa fuera de las tres entra por la señal, no por el rubro.',
+    description: 'Las tres del recorte de codence/icp.md más Otro. El ICP es producto digital que ya levantó o ya factura; una empresa fuera de eso entra por la señal, no por el rubro.',
     options: opciones(INDUSTRIA),
+  },
+  /* Instagram prioriza, no descarta. Decidido el 10/08: 15k seguidores o más
+   * sube el candidato en la cola, menos no lo saca. Es un campo y no prosa en la
+   * señal justamente para que se pueda ordenar y filtrar en el CRM.
+   *
+   * Un piso duro se comía el mejor caso de `Marca que no acompaña` —pocos
+   * seguidores contra clientes reales, que es Datcisions— y casi todo el fintech
+   * B2B. El porqué entero está en codence/icp.md. */
+  {
+    objeto: 'company',
+    name: 'seguidoresIg',
+    label: 'Seguidores IG',
+    type: 'NUMBER',
+    icon: 'IconBrandInstagram',
+    description: 'Cuántos seguidores tiene en Instagram. 15.000 o más prioriza el candidato; menos no lo descarta. Se lee con WebFetch, nunca con navegador automatizado.',
   },
   {
     objeto: 'person',

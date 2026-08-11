@@ -2,12 +2,24 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Codence: las bases están en `D:\codence-bases`** (repo `Codence-Lab/codence-bases`).
+> **Codence: las bases viven en el repo `Codence-Lab/codence-bases`.**
 > Identidad, modelo de negocio, tono de voz y marca se leen de ahí, no se copian acá. Lo
-> propio de este repo (ICP, señales, skills de outbound) está en [`codence/`](codence/).
+> propio de este repo (ICP, señales, skills de outbound) está en [`codence/`](codence/):
+> el ICP vigente es [`codence/icp.md`](codence/icp.md) y el catálogo de dolores
+> [`codence/senales.md`](codence/senales.md).
+>
+> **El repo de bases es privado**, así que `WebFetch` no sirve. Se lee con `gh`:
+> `gh api repos/Codence-Lab/codence-bases/contents/bases/identidad.md --jq .content | base64 -d`.
+> `D:\codence-bases` es la copia de trabajo local, no la fuente — y **si `git status` ahí dice
+> *ahead*, lo que hay en GitHub no es lo último.**
+>
 > Desde el 09/08/2026 Codence entrega en **Pods**: ver `bases/modelo-de-negocio.md`. No
 > cambia nada del outbound — el primer mensaje sigue abriendo por un dolor y aterrizando en
 > uno de los cinco servicios. El Pod es la forma de entrega y aparece recién en la propuesta.
+>
+> Desde el 10/08/2026 el **ICP es producto digital** (fintech, apps, plataformas B2B / SaaS)
+> que ya levantó o ya factura. `bases/identidad.md` todavía nombra logística y Alan lo va a
+> alinear: hasta entonces gana la base, y `codence/icp.md` lo dice al pie.
 
 ## Project Overview
 

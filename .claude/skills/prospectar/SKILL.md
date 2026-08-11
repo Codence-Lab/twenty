@@ -23,11 +23,14 @@ Y traer las empresas que ya están, con `find_many_companies`: **no duplicar**. 
 
 ## Paso 1 — El ICP
 
-Está en `docs/contexto-outbound.md` del repo `codence-auditorias`. Las tres industrias declaradas son **Fintech, Logística y B2B / SaaS**; una empresa fuera de esas tres entra **por el dolor, no por el rubro**.
+**Está en [`codence/icp.md`](../../../codence/icp.md), y ahí se lee.** No se copia acá: si esta skill y ese archivo dicen cosas distintas, gana el archivo.
 
-**La escala importa, y es el descarte más barato.** Una empresa demasiado grande no la decide una persona a la que se le pueda escribir.
+Lo mínimo para operar, al 10/08/2026:
 
-**Geografía: mercados hispanos y anglosajones.** El test **no es el país: es el idioma en que se le puede escribir**, español o inglés. Una empresa de EE.UU. es válida. Una brasileña con sitio en inglés también — Einship entró así. Una cuyo producto sólo existe en portugués, no: Jusfy quedó afuera por eso y no por ser de Brasil. **El idioma del prospecto se anota, porque decide en qué idioma se le escribe.**
+- **El recorte son empresas de producto digital que ya levantaron o ya facturan.** Los rubros que lo nombran son **fintech, apps y plataformas B2B / SaaS**, y son ejemplos de la categoría, no la lista cerrada. Una empresa fuera de eso entra **por el dolor, no por el rubro**, y se carga con `industria` en `Otro`.
+- **La escala importa, y es el descarte más barato.** Una empresa demasiado grande no la decide una persona a la que se le pueda escribir.
+- **Geografía: mercados hispanos y anglosajones.** El test **no es el país: es el idioma en que se le puede escribir**, español o inglés. Una empresa de EE.UU. es válida. Una brasileña con sitio en inglés también — Einship entró así. Una cuyo producto sólo existe en portugués, no: Jusfy quedó afuera por eso y no por ser de Brasil. **El idioma del prospecto se anota, porque decide en qué idioma se le escribe.**
+- **Al cargar la empresa va también `seguidoresIg`**, si tiene Instagram. Prioriza la cola, no descarta.
 
 ## Paso 2 — La señal
 

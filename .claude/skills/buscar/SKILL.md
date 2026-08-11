@@ -65,19 +65,23 @@ Y el vocabulario vigente con `get_field_metadata` sobre `company.industria`, `op
 
 ## Paso 1 — El recorte
 
-Un recorte acota dónde buscar, no decide la calificación.
+Un recorte acota dónde buscar, no decide la calificación. **El ICP entero está en [`codence/icp.md`](../../../codence/icp.md)** — acá va sólo lo que hace falta para elegir dónde mirar.
 
-- **Industrias del ICP declarado:** fintech, logística y operaciones, plataformas B2B y SaaS. **Una empresa fuera de esas tres entra por el dolor, no por el rubro** — se anota que entró así.
+- **El recorte son empresas de producto digital que ya levantaron o ya facturan:** fintech, apps, plataformas B2B y SaaS. Son **ejemplos de la categoría, no la lista cerrada**. **Una empresa fuera de eso entra por el dolor, no por el rubro** — se anota que entró así.
 - **Geografía: mercados hispanos y anglosajones.** El test **no es el país: es el idioma en que se le puede escribir**, español o inglés. EE.UU. es válido. Una brasileña con sitio en inglés también. Una cuyo producto sólo existe en portugués, no.
 - **La escala importa más que el rubro.** Una empresa que no la decide una persona a la que se le pueda escribir no sirve, por buena que sea la señal.
 
-**Un recorte fértil no es un rubro: es una situación.** Una región en expansión —Vaca Muerta, el cobre de San Juan, el litio del norte— arrastra a todos sus proveedores a la vez. Nadie publica que necesita una marca, pero cientos de empresas creciendo más rápido que su estructura es un hecho del recorte, no de cada una.
+**Un recorte fértil no es un rubro: es una situación.** Un fondo que acaba de cerrar un fondo nuevo y va a desplegarlo, una camada entera de una aceleradora saliendo al mismo tiempo, una categoría de app que se llenó de competidores en seis meses, un mercado que se abre a la banca digital. Nadie publica que necesita una marca, pero decenas de empresas creciendo más rápido que su estructura es un hecho del recorte, no de cada una.
+
+⚠️ **El recorte cambió el 10/08/2026 y los padrones regionales dejaron de servir.** La ruta de Vaca Muerta y las guías de Oil & Gas entregaban proveedores que se trababan siempre en el mismo punto: sin decisor al que escribirle. **Las rutas que sirven ahora son otras:** portafolios publicados de fondos y aceleradoras, listados de camadas, rankings y tiendas de apps, cámaras y asociaciones fintech, listados de expositores de ferias de producto. **Ninguna de estas listas es cerrada** — vale la misma regla de siempre: antes de reportar que no hay candidatos, hay que poder nombrar tres rutas que no se probaron.
 
 ## Paso 2 — Motor 1: el padrón
 
 **Es el motor principal.** Entrega empresas que ya facturan, sin ventana que venza.
 
-**Dónde salen los padrones:** cámaras sectoriales · parques industriales y tecnológicos · guías oficiales de industria · listados de expositores de ferias · registros municipales y provinciales de proveedores · padrones de proveedores de las grandes operadoras · polos y clusters. **Y los que traiga una `Pista`.**
+**Dónde salen los padrones**, con el recorte del 10/08: portafolios publicados de fondos de venture · listados de camadas de aceleradoras e incubadoras · cámaras y asociaciones fintech · rankings y tiendas de apps por categoría y país · directorios de SaaS y marketplaces de integraciones · listados de expositores de ferias de producto y de fintech · polos y parques tecnológicos. **Y los que traiga una `Pista`.**
+
+⚠️ **Los padrones industriales y regionales quedaron fuera del recorte.** La guía de Vaca Muerta rindió seis candidatos el 08/08 y **los seis terminaron descalificados**, siempre por lo mismo: no había una persona a la que escribirle. La ruta funcionaba; lo que no encajaba era el ICP.
 
 ### Cómo se lee un padrón, y el reparto de herramientas
 
@@ -131,11 +135,19 @@ Verificar cuesta caro. Descartar cuesta barato. **En este orden:**
 | Se mira | Descarta si |
 |---|---|
 | **Escala** | Es tan grande que no la decide una persona a la que se le pueda escribir |
-| **Etapa** | Es una startup en etapa de idea. **La empresa ya factura** |
+| **Etapa** | No levantó capital institucional **ni** factura. La idea sola no entra |
 | **Idioma** | No se le puede escribir en español ni en inglés |
 | **Ya está** | Aparece en Twenty, incluidas las borradas |
 
 **La escala es el descarte más frecuente y el más barato. Mirarla primero.**
+
+⚠️ **El piso de etapa se corrigió el 10/08.** Decía *"la empresa ya factura"*, que era más duro que la base: `bases/identidad.md` define lead calificado como *"usuarios pagos, MRR validado, **o ronda de inversión temprana"***. Una post-ronda que todavía no factura **entra**.
+
+### Y fuera de la tabla: Instagram prioriza, no descarta
+
+**Se lee siempre y se anota el número.** 15.000 seguidores o más **sube el candidato en la cola**; menos **no lo saca**.
+
+**Está fuera de la tabla a propósito.** Un piso duro se comería el mejor caso de `Marca que no acompaña` —pocos seguidores contra clientes reales, que es literalmente Datcisions— y casi todo el fintech B2B. El porqué entero está en `codence/icp.md`.
 
 ## Paso 6 — Verificar, una por una
 
@@ -160,6 +172,7 @@ Un candidato trae **exactamente esto**, y no una tarjeta:
 |---|---|
 | **Empresa** | Nombre y sitio |
 | **Industria** | Del vocabulario vigente. Si no encaja, decirlo — no forzar |
+| **Seguidores IG** | El número, o "sin Instagram". **Prioriza la cola, no descarta** |
 | **Dolor y ángulo** | Cuál de los seis, con el ángulo del vocabulario. Si son varios, todos |
 | **Ventana** | Cuál es y **la fecha en que vence**, calculada — o "sin vencimiento" |
 | **Señal** | Escrita con la anatomía de `senales.md` |
