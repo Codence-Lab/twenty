@@ -112,6 +112,26 @@ Pendientes. Publican metodología de valuación de marca, que es más de lo que 
 
 ---
 
+### NeuralSoft en Megatrans — el caso testigo de La Capital
+
+**Qué dice.** Megatrans, empresa de telemetría y monitoreo con 30 años en el mercado, reemplazó su ERP por MyLogic de NeuralSoft en poco más de un año, con integración de aplicaciones y rediseño de procesos. Resultados publicados: **«la automatización permitió ahorrar cerca de 47 horas de trabajo administrativo por mes»** sobre un promedio de **1.500 órdenes mensuales**, errores de carga manual reducidos prácticamente a cero, **dos colaboradores reubicados** a funciones estratégicas y **una semana de retardo eliminada** en la puesta en marcha de servicios.
+
+**Y la frase que más sirve, de Germán Viceconti, Director Comercial de NeuralSoft:** *«Primero hay que construir una base sólida; después, la inteligencia artificial multiplica ese valor»*. Es el argumento del orden entre servicios dicho por un tercero: **la IA no arregla un proceso desordenado, lo multiplica.**
+
+**Qué clase de evidencia es.** **Un caso publicado en prensa, n = 1.** No es un estudio: es una empresa contando su propia implementación. Las cifras las declaran la empresa y su proveedor; nadie las auditó.
+
+**Población y método.** Una sola empresa, argentina, de servicios de conectividad y monitoreo vehicular. Sin grupo de control y sin línea de base publicada más allá de lo que declara el gerente de operaciones.
+
+**Quién la publica.** La Capital (Rosario), 11/08/2026. **El Director Comercial de NeuralSoft está citado en la nota**, así que tiene forma de caso comercial colocado en prensa local. Eso no la invalida —las cifras son concretas y atribuibles— pero decide cómo se cita.
+
+⚠️ **Límite de transferencia, y es el que importa.** **Esto es ERP, automatización de procesos y software a medida. No es marca ni diseño web.** Usarlo en una propuesta de `Rebranding` o `Diseño web` es transferir un resultado de un dominio a otro, que es justo lo que la ficha de McKinsey prohíbe. Aterriza en `Automatización de procesos`, `Software a medida` y `Agentes AI`.
+
+**Cómo se cita.** *«Caso publicado en La Capital, 11/08/2026: Megatrans declara 47 horas administrativas ahorradas por mes tras reemplazar su ERP»*. La naturaleza —caso único, declarado, con el proveedor citado— va adentro de la cita. **Nunca como "está probado que".**
+
+**Fuente.** `lacapital.com.ar/negocios/un-caso-testigo-como-la-inteligencia-artificial-transforma-las-empresas-n10273784.html`
+
+---
+
 ## ❌ Descartada
 
 ### Google / BCG — «los anunciantes digitalmente maduros crecen el doble»
