@@ -428,6 +428,45 @@ const CAMPOS = [
     icon: 'IconCalendarDue',
     description: 'La cola del día son las tarjetas con esta fecha en hoy o antes. Cuatro días entre toques.',
   },
+  /* Cuándo abrió el mensaje sin contestarlo. Agregado el 12/08 sobre dos casos
+   * reales el mismo día —Quinto en Rintin y Graciela en Megatrans—, y no es un
+   * dato de vanidad: separa dos fallas que se arreglan distinto. Si no lo abren,
+   * el problema es el asunto y a quién se eligió; si lo abren y no contestan, el
+   * problema es el cuerpo. Sin el campo eso vivía en prosa dentro de una Note y
+   * no se podía contar.
+   *
+   * Es DATE y no un booleano porque la fecha responde además cuánto tardaron en
+   * abrirlo, y «no visto» es simplemente la ausencia. */
+  {
+    objeto: 'opportunity',
+    name: 'vistoEl',
+    label: 'Visto el',
+    type: 'DATE',
+    icon: 'IconEye',
+    description: 'Cuándo abrió el mensaje sin responder. Vacío es que no consta que lo haya abierto. Cambia cómo se escribe el seguimiento: con medición de que lo vio, no se arranca preguntando si lo vio.',
+  },
+  /* La pausa de la tarjeta, agregada el 12/08. Hasta ahora vivía en `Standby`,
+   * que es un estado de `task.status` — y la propia skill admitía el olor: «se
+   * pone sobre una tarea, pero habla de la tarjeta entera». Un atributo de la
+   * tarjeta guardado en un objeto hijo.
+   *
+   * Se decidió campo y no una opción de `stage`, y el motivo es Duppla: contestó
+   * que Medellín es para el año que viene, así que está en `Respondió` Y en
+   * pausa. `stage` guarda un solo valor, de modo que como estado la pausa habría
+   * pisado la respuesta —el mejor resultado que dio el outbound hasta hoy— y al
+   * despausar nadie sabría a qué etapa vuelve.
+   *
+   * Como fecha responde además la pregunta que importa, que es hasta cuándo, y
+   * se filtra y se ordena igual que `proximoToque`: una tarjeta con fecha futura
+   * sale de la cola sin que haya que leer tareas para saberlo. */
+  {
+    objeto: 'opportunity',
+    name: 'pausadaHasta',
+    label: 'Pausada hasta',
+    type: 'DATE',
+    icon: 'IconPlayerPause',
+    description: 'Hasta cuándo no se la trabaja. Sale de la cola sin cerrarse: conserva su Estado y vuelve sola cuando la fecha llega. Vacío es activa. Para cerrar un prospecto están Sin interés y Descalificado.',
+  },
   {
     objeto: 'opportunity',
     name: 'calificadoEn',

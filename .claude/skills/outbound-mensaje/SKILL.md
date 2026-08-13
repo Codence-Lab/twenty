@@ -263,6 +263,10 @@ Se puede decir *«con la ronda nueva»* o *«vi que levantaron»*. **El número,
 
 **No arrancar con "¿lo viste?"** cuando hay medición de que sí lo vio. Arrancar de un punto concreto del documento.
 
+**Dónde consta:** el campo `vistoEl` de la Opportunity, agregado el 12/08. Con fecha ahí, la pregunta está descartada y el seguimiento arranca de algo concreto. Vacío significa que no consta que lo haya abierto, **no que no lo haya abierto** — un bloqueador impide el registro y el cero nunca prueba una ausencia, igual que con el escaneo.
+
+Y sirve para leer qué falla: si no lo abren, el problema es el asunto y a quién se eligió; si lo abren y no contestan, el problema es el cuerpo.
+
 ## Paso 5 — Entregarlo y dejarlo esperando aprobación
 
 Mostrarle a Alan el texto completo, **el vehículo** y **el conteo de caracteres del cuerpo contra la banda que le toca**. Si el canal es `LinkedIn` o `WhatsApp`, **listo para copiar**: de ahí lo manda él. Si es `Email`, lo que sigue es leerlo en el CRM y aprobarlo, así que alcanza con decirle en qué tarjeta quedó.

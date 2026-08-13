@@ -46,7 +46,7 @@ Repartirlas en grupos, **en este orden de prioridad**:
 
 **C. Trabadas** — todo lo demás que no está en un estado terminal. Para cada una hay que decir **qué le falta**, no "esperando".
 
-**D. En pausa** — las que tienen una tarea en `Standby`. Van al final, **sin fecha y sin urgencia**, diciendo desde cuándo y qué las despausa.
+**D. En pausa** — las que tienen `pausadaHasta` en el futuro. Van al final, **sin fecha y sin urgencia**, diciendo hasta cuándo y qué las despausa.
 
 Los tres estados terminales son **`Convertido`, `Sin interés` y `Descalificado`**. No aparecen en ningún grupo.
 
@@ -67,15 +67,20 @@ Las tarjetas con `aprobacion` en movimiento **ya tienen el mensaje escrito**: no
 
 **Una tarjeta con borrador no aparece además en A ni en B.** Ofrecerle a Alan que le escriba a alguien cuyo mensaje ya está escrito y esperando su visto bueno es hacerle escribir dos veces lo mismo.
 
-### `Standby` pausa el prospecto, no solo la tarea
+### La pausa es `pausadaHasta`, un campo de la tarjeta
 
-Es la cuarta opción de `task.status`, agregada el 08/08. **Significa que el prospecto está en pausa pero sigue en proceso: no se lo descarta.** Tres consecuencias:
+**Cambiado el 12/08.** Hasta entonces la pausa era `Standby`, la cuarta opción de `task.status`, y arrastraba un defecto que la propia regla admitía: *"se pone sobre una tarea, pero habla de la tarjeta entera"*. Un atributo de la tarjeta guardado en un objeto hijo.
 
-1. **Se pone sobre una tarea, pero habla de la tarjeta entera.** Es la diferencia con `To do` y `Done`, que hablan solo de la tarea.
-2. **No es terminal.** No se confunde con `Sin interés` ni `Descalificado`, que sí cierran el prospecto. Una tarjeta en pausa vuelve.
-3. **Una tarjeta con una tarea en `Standby` sale de A, B y C**, y aparece solo en D. Si siguiera en la cola, la pausa no serviría de nada — que es exactamente lo que pasaba con ICG10, saliendo como seguimiento vencido en todos los reportes.
+Ahora es **`pausadaHasta`**, una fecha sobre la Opportunity. **Significa que el prospecto está en pausa pero sigue en proceso: no se lo descarta.** Cuatro consecuencias:
+
+1. **Una tarjeta con `pausadaHasta` en el futuro sale de A, B y C**, y aparece solo en D. Si siguiera en la cola, la pausa no serviría de nada — que es exactamente lo que pasaba con ICG10, saliendo como seguimiento vencido en todos los reportes.
+2. **Vuelve sola.** Llegada la fecha deja de estar en pausa sin que nadie la despause a mano. Vaciar el campo la devuelve antes.
+3. **No es terminal, y no toca el `stage`.** Duppla está en `Respondió` **y** pausada hasta enero de 2027: se eligió campo y no una opción de `stage` justamente para no perder eso. Para cerrar un prospecto están `Sin interés` y `Descalificado`.
+4. **Se filtra y se ordena** igual que `proximoToque`, sin tener que leer tareas para saber quién está pausado.
 
 **`proximoToque` no se borra al pausar:** queda como registro de cuándo le tocaba. Al despausar, se recalcula desde la fecha real, no se hereda la vieja.
+
+⚠️ **`Standby` sigue existiendo en `task.status` y ahora significa menos:** que esa tarea está detenida. **No pausa la tarjeta.** Si lo que hay que pausar es el prospecto, va `pausadaHasta`.
 
 **Después del tercer toque sin respuesta no se agenda otro.** Un cuarto mensaje no mejora la tasa de respuesta: se propone mover a `Sin interés`.
 
