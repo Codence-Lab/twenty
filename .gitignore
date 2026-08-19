@@ -72,3 +72,8 @@ screenshots/
 /.diag*.mjs
 /.compare*.mjs
 /.narrow*.mjs
+
+# Material de clientes: vive en Codence-Lab/codence-clientes, que es privado.
+# Este fork es publico.
+codence/arquitecturas/
+codence/clientes/

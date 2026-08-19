@@ -349,6 +349,28 @@ const CAMPOS = [
     icon: 'IconBrandInstagram',
     description: 'Cuántos seguidores tiene en Instagram. 15.000 o más prioriza el candidato; menos no lo descarta. Se lee con WebFetch, nunca con navegador automatizado.',
   },
+  /* Los dos diagramas de arquitectura, agregados el 19/08. Son LINKS y no un
+   * objeto propio porque lo único que hay que guardar es dónde mirar: el dibujo
+   * vive versionado en codence/arquitecturas/ y se publica aparte.
+   *
+   * Van en company y no en opportunity a propósito: describen a la empresa y
+   * tienen que sobrevivir a que una oportunidad se cierre o se pierda. */
+  {
+    objeto: 'company',
+    name: 'arquitecturaActual',
+    label: 'Arquitectura actual',
+    type: 'LINKS',
+    icon: 'IconSitemap',
+    description: 'Los sistemas que la empresa usa hoy, por área, con los pasos manuales marcados. La fuente versionada es codence/arquitecturas/[empresa].md.',
+  },
+  {
+    objeto: 'company',
+    name: 'arquitecturaPropuesta',
+    label: 'Arquitectura propuesta',
+    type: 'LINKS',
+    icon: 'IconAffiliate',
+    description: 'Lo propuesto y lo ya implementado, diferenciado. Sale del mismo archivo que la arquitectura actual.',
+  },
   {
     objeto: 'person',
     name: 'gradoConexion',
