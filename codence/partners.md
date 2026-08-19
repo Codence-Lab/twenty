@@ -29,7 +29,7 @@ Cada contacto lleva su nivel:
 | ❌ **No hay** | No publica ese canal. Formulario o teléfono, o nada |
 
 **Lo que nunca se hace:** completar un mail con el patrón `nombre@dominio` porque «suele ser así».
-Cuatro de las quince no publican mail, y para ésas el canal es el formulario o el teléfono.
+Cuatro de las dieciséis no publican mail, y para ésas el canal es el formulario o el teléfono.
 
 ---
 
@@ -300,6 +300,35 @@ nunca por tamaño.**
 
 ⚠️ **Su posicionamiento de IA es vertical de mercado, no capacidad técnica:** ningún caso está
 etiquetado como producto ni como IA, sólo *Brand* y *Website*.
+
+## 14islands 🇸🇪
+
+| | |
+|---|---|
+| **Disciplinas** | Diseño web · Branding · Software a medida |
+| **Sitio** | [14islands.com](https://www.14islands.com) |
+| **Mail** | ✅ `hello@14islands.com` — publicado por ellos en la portada y en su página de contacto |
+| **Teléfono** | ❌ No publican |
+| **Formulario** | ❌ No tienen. **El mail es el único canal** |
+| **LinkedIn** | [/company/14islands](https://linkedin.com/company/14islands) |
+| **Instagram** | [@14islands](https://instagram.com/14islands/) |
+| **Ubicación** | Estocolmo (Blekingegatan 14) y Reikiavik (Austurstræti 10a) |
+| **Tamaño** | ⚠️ **No publican dotación ni pisos.** La clasificación sale de su cartera, no de una cifra |
+| **Posicionamiento** | *«We design and build premium digital products, brands, and experiences»* |
+
+**Por qué es par y no producción:** su cartera publicada incluye **Cartier, Google y Naciones
+Unidas**, además de Neko Health, Primer y Breakthrough Energy. Un estudio que factura a esos
+clientes no toma trabajo subcontratado de una agencia más chica, y si lo tomara sería a un precio
+que no deja margen. **No se le manda presupuesto.** Es referral cuando un lead pide algo que juega
+en esa liga, y es competencia cuando no.
+
+⚠️ **La clasificación es una lectura, no un dato.** No publican tamaño de equipo ni pisos de
+presupuesto, así que *"juegan arriba de nuestra banda"* sale de quiénes son sus clientes. Si
+alguna vez hay una conversación real con ellos, esto se corrige con lo que digan.
+
+**Lo que sí vale mirar:** tienen una sección `AI` propia en el menú. Para cuando haya que decidir
+cómo se muestra ese servicio en la web de Codence, es una referencia de cómo lo encuadra un
+estudio premium.
 
 ---
 
