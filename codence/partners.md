@@ -29,7 +29,7 @@ Cada contacto lleva su nivel:
 | ❌ **No hay** | No publica ese canal. Formulario o teléfono, o nada |
 
 **Lo que nunca se hace:** completar un mail con el patrón `nombre@dominio` porque «suele ser así».
-Cuatro de las dieciséis no publican mail, y para ésas el canal es el formulario o el teléfono.
+Cuatro de las diecisiete no publican mail, y para ésas el canal es el formulario o el teléfono.
 
 ---
 
@@ -190,6 +190,45 @@ post-lanzamiento incluidos.
 
 Stack publicado: Node, Python, TypeScript, PostgreSQL, Docker, Kubernetes, AWS, OpenAI. APIs
 oficiales de WhatsApp Business y Meta — **relevante para Agentes AI.**
+
+## Celtis 🇦🇷
+
+| | |
+|---|---|
+| **Rol** | Producción — **de una sola persona** |
+| **Disciplinas** | Automatización de procesos · Software a medida · Agentes AI · Dashboards |
+| **Sitio** | [somosceltis.com](https://somosceltis.com/landing/) |
+| **Mail** | ✅ `celtis.ai@gmail.com` — publicado por ellos en el pie y repetido en el mensaje de error del formulario |
+| **WhatsApp** | ✅ +54 9 11 6029-9844 |
+| **Formulario** | [somosceltis.com/landing](https://somosceltis.com/landing/) — promete respuesta en menos de 24 h |
+| **Instagram** | [@celtis.ai](https://instagram.com/celtis.ai) |
+| **LinkedIn** | ❌ No publica |
+| **Ubicación** | Buenos Aires |
+| **Tamaño** | **Una persona.** José Manuel Diaz Herrera, fundador |
+| **Posicionamiento** | *«Entender. Diseñar. Implementar.»* · *«Estudio de sistemas a medida con IA en el proceso»* |
+
+Lo que vende, con sus palabras: *«Diseñamos sistemas a medida para empresas que se quedaron cortas
+con el SaaS»* — dashboards, automatizaciones, aplicaciones internas e IA adentro del sistema y no
+pegada arriba. Su método publicado son tres pasos: estudiar el flujo de trabajo, construir la
+herramienta, implementar e iterar.
+
+**Por qué entra:** es el perfil más barato de la red y cubre el dolor 1 entero sin estructura
+encima. Para un encargo chico de automatización es la opción que deja margen donde Neuralsoft o
+Thorque cotizan como empresa.
+
+⚠️ **Toma un proyecto por vez, y lo dice él.** No es capacidad elástica, es una agenda: hay que
+preguntarle si está libre antes de comprometer fecha, y no hay a quién escalar si se enferma.
+**Nunca para un encargo con fecha dura.**
+
+⚠️ **Se superpone con tres de los seis servicios de Codence** y se presenta como estudio propio.
+Ejecuta bien por atrás; no se lo pone delante del cliente.
+
+⚠️ **El mail es un Gmail, no un dominio propio.** Lo publican ellos, así que se usa, pero es la
+señal de que del otro lado hay una persona y no una empresa.
+
+⚠️ **El sitio no se puede leer con `WebFetch`:** es React compilado en el navegador. Estos datos
+salieron de las fuentes `.jsx` que sirve el propio sitio en `/landing/sections/`. Si hay que
+volver a chequearlo, ése es el camino, o un navegador real.
 
 ---
 
