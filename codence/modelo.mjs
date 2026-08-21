@@ -4,12 +4,12 @@
  * Heredero directo de scripts/campos-prospecto.mjs del repo codence-auditorias,
  * que se borró el 07/08/2026. La doctrina no cambió: los campos se declaran en
  * UN solo lugar y de ahí sale todo. Cambió el motor — antes derivábamos la
- * ficha, el formulario y las validaciones a mano; ahora eso lo da Twenty y este
+ * ficha, el formulario y las validaciones a mano; ahora eso lo da el CRM y este
  * archivo solo tiene que empujar el esquema por la Metadata API.
  *
  * MODELO NATIVO, decidido el 07/08. La empresa es Company, el decisor es Person
  * y el outbound es una Opportunity cuyo `stage` es el Estado. Se eligió sobre un
- * objeto plano propio porque Twenty ya resuelve 11 de los 21 campos, y porque el
+ * objeto plano propio porque el CRM ya resuelve 11 de los 21 campos, y porque el
  * pipeline en Kanban sale gratis de `stage`.
  *
  * Las taxonomías salen de datos/taxonomias.json del repo viejo, sin inventar
@@ -65,7 +65,7 @@ const CANAL = ['LinkedIn', 'Email', 'WhatsApp'];
  * paleta se asigna por posición, así que B2B / SaaS y Otro no cambian de color. */
 const INDUSTRIA = ['Fintech', 'Apps', 'B2B / SaaS', 'Otro'];
 /* El circuito de aprobación. Es un estado y no prosa en una Note a propósito:
- * se filtra, se ordena y se ve en el Kanban, que es lo que convierte a Twenty
+ * se filtra, se ordena y se ve en el Kanban, que es lo que convierte al CRM
  * en la bandeja de aprobación en vez de en un archivo.
  *
  * `Reformular` reemplazó a `Descartado` el 09/08, y el cambio no es de nombre:
@@ -81,7 +81,7 @@ const APROBACION = [
   'Enviado',
   'Reformular',
 ];
-/* El valor interno va explícito porque Twenty exige UPPER_SNAKE_CASE empezando
+/* El valor interno va explícito porque el CRM exige UPPER_SNAKE_CASE empezando
  * por letra, y "1º" derivaría a "1", que rechaza. El rótulo visible es el que
  * usabas: se lee "1º" en la ficha igual que antes. */
 const GRADO = [
@@ -164,6 +164,47 @@ const ESTADO_CONTENIDO = [
   'Publicado',
 ];
 
+/* La red de partners, agregada el 20/08. `codence/partners.md` se escribió
+ * primero a propósito: es ese archivo el que definió qué campos necesita esto,
+ * y al revés habría habido que rehacer el modelo.
+ *
+ * Los cuatro roles no son una etiqueta: mandarle un presupuesto a un Par quema
+ * el contacto, porque un Par es referral o competencia, nunca proveedor. */
+const ROL_PARTNER = ['Producción', 'Especialista', 'Par', 'Sin datos'];
+
+/* Los seis servicios de Codence enteros, con sus valores internos, más lo que
+ * la red cubre y el catálogo no nombra.
+ *
+ * Reutilizar SERVICIO es el punto y no un atajo: el workflow de presupuestos
+ * empareja el `servicio` de una Opportunity contra el `disciplinas` de un
+ * partner, y `sincronizarOpciones` empareja por `value`. Declarar `Branding`
+ * aparte —como lo llama partners.md— rompería ese join contra `Rebranding` por
+ * una diferencia de rótulo. */
+const DISCIPLINA = [...SERVICIO, 'Data / BI', 'Motion', 'SEO / GEO', 'CRO'];
+
+/* Por dónde se lo contacta. Es uno solo y no multi porque lo que hace falta
+ * saber es cuál se usa, no cuáles existen: cuatro de los diecisiete no publican
+ * mail, y para ésos el canal es el formulario o el teléfono. */
+const CANAL_PARTNER = ['Mail', 'WhatsApp', 'Teléfono', 'Formulario', 'Booking', 'LinkedIn'];
+
+/* La regla que gobierna partners.md, hecha campo: ningún contacto sin verificar
+ * recibe un correo. Verificado es lo que publicó la propia empresa en su sitio;
+ * un patrón `nombre@dominio` que devuelve un agregador es una inferencia y no
+ * se usa. Un mail inferido que rebota no es un error de dato — es reputación de
+ * dominio quemada, y se paga en todos los envíos siguientes. */
+const VERIFICACION = ['Verificado', 'Sin verificar', 'No hay'];
+
+/* `Descartado` no es el final del embudo: es la sección de partners.md que
+ * existe para que un descarte no vuelva a la lista en seis meses. Por eso el
+ * motivo va escrito en `limite` y no se borra el registro. */
+const ESTADO_PARTNER = [
+  'Sin contactar',
+  'Contactado',
+  'En conversación',
+  'Activo',
+  'Descartado',
+];
+
 /* La misma lógica de color que el resto: amarillo lo que espera a Alan, azul lo
  * que ya pasó su revisión, violeta lo que está en vuelo —fecha puesta, todavía
  * no salió— y verde lo cerrado. */
@@ -218,7 +259,7 @@ const COLOR_APROBACION = {
   'En Gmail': 'purple',
   Enviado: 'green',
   /* Naranja y no gris: gris es lo cerrado, y Reformular es la única columna del
-   * Kanban donde hay trabajo pendiente del agente. Nació en gris porque Twenty
+   * Kanban donde hay trabajo pendiente del agente. Nació en gris porque el CRM
    * le asigna un color solo a la opción nueva. */
   Reformular: 'orange',
 };
@@ -239,10 +280,47 @@ const COLOR_SERVICIO = {
   GTM: 'yellow',
 };
 
+const COLOR_ROL_PARTNER = {
+  Producción: 'green',
+  Especialista: 'blue',
+  Par: 'purple',
+  'Sin datos': 'gray',
+};
+
+/* Los seis servicios conservan el color que tienen en el outbound y en
+ * Contenido: el mismo servicio tiene que dar el mismo color mire uno donde
+ * mire. Las cuatro que agrega la red salen de la parte de la paleta que
+ * SERVICIO no usa, para que se distingan de un vistazo de las que Codence
+ * vende. */
+const COLOR_DISCIPLINA = {
+  ...COLOR_SERVICIO,
+  'Data / BI': 'orange',
+  Motion: 'pink',
+  'SEO / GEO': 'red',
+  CRO: 'gray',
+};
+
+/* Verde el que se puede usar, amarillo el que espera verificación y gris el
+ * canal que no existe. El amarillo es el mismo que en el resto del sistema:
+ * algo que espera a que Alan lo mire. */
+const COLOR_VERIFICACION = {
+  Verificado: 'green',
+  'Sin verificar': 'yellow',
+  'No hay': 'gray',
+};
+
+const COLOR_ESTADO_PARTNER = {
+  'Sin contactar': 'gray',
+  Contactado: 'blue',
+  'En conversación': 'yellow',
+  Activo: 'green',
+  Descartado: 'gray',
+};
+
 const PALETA = ['blue', 'purple', 'sky', 'turquoise', 'green', 'yellow', 'orange', 'red', 'gray'];
 
 /**
- * Twenty guarda el valor interno en MAYÚSCULA_CON_GUIONES y muestra el rótulo.
+ * El CRM guarda el valor interno en MAYÚSCULA_CON_GUIONES y muestra el rótulo.
  * El valor es derivado del rótulo.
  *
  * ⚠️ Esto decía que renombrar la etiqueta visible nunca rompe los datos. Es
@@ -278,7 +356,7 @@ const opciones = (lista, colores) =>
 
 /* ── La declaración ──────────────────────────────────────────────────────── */
 
-/* Los objetos propios. Company, Person y Opportunity son nativos de Twenty y no
+/* Los objetos propios. Company, Person y Opportunity son nativos del CRM y no
  * se declaran acá: sólo se les agregan campos. Un objeto propio, en cambio, hay
  * que crearlo, y al crearlo aparece como entrada en la barra lateral izquierda.
  *
@@ -310,7 +388,7 @@ const OBJETOS = [
   },
   /* El contenido, agregado el 10/08. Un objeto solo para el blog y las redes: la
    * pieza es la misma y lo que cambia es el formato y por dónde sale. El
-   * calendario de salida es la vista Calendar de Twenty sobre `publicarEl`, y el
+   * calendario de salida es la vista Calendar del CRM sobre `publicarEl`, y el
    * tablero de producción es el Kanban sobre `estado`: las dos salen gratis de
    * los campos, igual que el Kanban del outbound sale de `stage`. */
   {
@@ -321,6 +399,23 @@ const OBJETOS = [
     icon: 'IconPencil',
     description:
       'Los artículos del blog y las piezas de redes, de la idea a la publicación. El plan editorial vive en codence-bases: operacion/web-copy.md.',
+  },
+  /* La red de partners, agregada el 20/08. `bases/modelo-de-negocio.md` dice
+   * desde el 09/08 que Codence licita cada proyecto a una red de agencias que no
+   * emplea; `codence/partners.md` es quiénes la componen hoy, y esto es eso
+   * mismo pero filtrable por disciplina y por rol sin salir del CRM.
+   *
+   * Es un objeto propio y no una Company con un campo `rol`: Company es el
+   * prospecto, y meter a los proveedores ahí los pondría en la misma cola que
+   * el outbound. Un partner no se prospecta, se contrata. */
+  {
+    nameSingular: 'partner',
+    namePlural: 'partners',
+    labelSingular: 'Partner',
+    labelPlural: 'Partners',
+    icon: 'IconBuildingCommunity',
+    description:
+      'Quién puede ejecutar trabajo de Codence, qué disciplina cubre y cómo se lo contacta. La fuente versionada, con el porqué de cada clasificación, es codence/partners.md.',
   },
 ];
 
@@ -541,7 +636,7 @@ const CAMPOS = [
     description: 'El asunto exacto que va a salir. Lo llevan el canal Email y el InMail de LinkedIn. Se lee y se corrige en la ficha antes de aprobar.',
     settings: { displayedMaxRows: 2 },
   },
-  /* Los 99 renglones no son decoración: apagado, Twenty recorta el campo a uno
+  /* Los 99 renglones no son decoración: apagado, el CRM recorta el campo a uno
    * solo con puntos suspensivos, y el texto que hay que leer entero antes de
    * aprobar era justo el que no se podía leer. */
   {
@@ -572,7 +667,7 @@ const CAMPOS = [
     description: 'El id del borrador en el Gmail de Codence. Lo escribe /enviar y lo consume /enviar --confirmar.',
   },
 
-  /* La bandeja. El `name` del objeto ya lo crea Twenty solo, así que acá van
+  /* La bandeja. El `name` del objeto ya lo crea el CRM solo, así que acá van
    * los cuatro que agregan algo. Las imágenes no figuran: son adjuntos, y la
    * relación viene con el objeto. */
   {
@@ -611,7 +706,7 @@ const CAMPOS = [
     description: 'Contexto, texto pegado, o por qué llamó la atención. Lo que no entra en el título.',
   },
 
-  /* La documentación. El `name` del objeto lo crea Twenty solo. */
+  /* La documentación. El `name` del objeto lo crea el CRM solo. */
   {
     objeto: 'documento',
     name: 'tipo',
@@ -648,7 +743,7 @@ const CAMPOS = [
     description: 'El documento. Se lee acá adentro, sin salir del CRM.',
   },
 
-  /* El contenido. El `name` de la pieza lo crea Twenty solo, así que acá van los
+  /* El contenido. El `name` de la pieza lo crea el CRM solo, así que acá van los
    * siete que agregan algo.
    *
    * Lo que NO está y hay que crear a mano en la UI: la relación de una pieza con
@@ -716,6 +811,121 @@ const CAMPOS = [
     icon: 'IconLink',
     description: 'Dónde quedó publicada. Admite secundarios cuando la misma pieza salió en varios canales.',
   },
+
+  /* La red de partners. El `name` lo crea el CRM solo, así que acá van los once
+   * que agregan algo. Los seis primeros son los que pidió `partners.md` para que
+   * el workflow de presupuestos pueda filtrar; los cinco de contacto son lo que
+   * hace que el objeto conteste «cómo se lo contacta», que es la mitad de para
+   * qué existe. */
+  {
+    objeto: 'partner',
+    name: 'rol',
+    label: 'Rol',
+    type: 'SELECT',
+    icon: 'IconHierarchy2',
+    description: 'Qué se le puede pedir. Producción toma el encargo entero y es a quien va el presupuesto; Especialista entra dentro de un Pod y sólo cotiza su parte; a un Par no se le manda nada, se le deriva.',
+    options: opciones(ROL_PARTNER, COLOR_ROL_PARTNER),
+    /* Nace en `Sin datos` a propósito. Un partner nuevo sin clasificar no puede
+     * caer por descuido en la única opción que dispara un presupuesto. */
+    defaultValue: `'${aValor('Sin datos')}'`,
+  },
+  {
+    objeto: 'partner',
+    name: 'disciplinas',
+    label: 'Disciplinas',
+    type: 'MULTI_SELECT',
+    icon: 'IconTools',
+    description: 'Qué cubre. Los seis primeros son los servicios de Codence y comparten valor interno con el Servicio de una Opportunity: eso es lo que permite buscar quién ejecuta un encargo ya vendido. Las otras cuatro son lo que la red agrega y el catálogo no nombra.',
+    options: opciones(DISCIPLINA, COLOR_DISCIPLINA),
+  },
+  {
+    objeto: 'partner',
+    name: 'estado',
+    label: 'Estado',
+    type: 'SELECT',
+    icon: 'IconProgressCheck',
+    description: 'En qué punto está la relación. Descartado no borra el registro: el motivo queda escrito en Límite para que no vuelva a la lista en seis meses.',
+    options: opciones(ESTADO_PARTNER, COLOR_ESTADO_PARTNER),
+    defaultValue: `'${aValor(ESTADO_PARTNER[0])}'`,
+  },
+  {
+    objeto: 'partner',
+    name: 'pais',
+    label: 'País',
+    type: 'TEXT',
+    icon: 'IconWorld',
+    description: 'Dónde está, con la ciudad si cambia algo. Es texto y no una lista porque la lista crecería con cada alta y este script borra toda opción que no esté declarada. Importa por zona horaria y por idioma, no como dato de ficha.',
+  },
+  {
+    objeto: 'partner',
+    name: 'canal',
+    label: 'Canal',
+    type: 'SELECT',
+    icon: 'IconPlugConnected',
+    description: 'Por dónde se lo contacta de verdad. Es uno solo porque lo que hace falta saber es cuál se usa: cuatro de los diecisiete no publican mail, y para ésos el canal es el formulario o el teléfono.',
+    options: opciones(CANAL_PARTNER),
+  },
+  {
+    objeto: 'partner',
+    name: 'verificacion',
+    label: 'Verificación',
+    type: 'SELECT',
+    icon: 'IconShieldCheck',
+    description: 'Si el contacto lo publicó la propia empresa o sale de un directorio. Sin verificar no se usa nunca: un mail inferido que rebota es reputación de dominio quemada, y se paga en todos los envíos siguientes.',
+    options: opciones(VERIFICACION, COLOR_VERIFICACION),
+    defaultValue: `'${aValor(VERIFICACION[1])}'`,
+  },
+  {
+    objeto: 'partner',
+    name: 'mail',
+    label: 'Mail',
+    type: 'EMAILS',
+    icon: 'IconMail',
+    description: 'Sólo los publicados por ellos mismos. Un patrón nombre@dominio que devuelve un agregador es una inferencia y no entra acá.',
+  },
+  {
+    objeto: 'partner',
+    name: 'telefono',
+    label: 'Teléfono',
+    type: 'PHONES',
+    icon: 'IconPhone',
+    description: 'Teléfono o WhatsApp publicado. Para los que no publican mail suele ser el único canal que queda además del formulario.',
+  },
+  {
+    objeto: 'partner',
+    name: 'enlaces',
+    label: 'Enlaces',
+    type: 'LINKS',
+    icon: 'IconLink',
+    description: 'El sitio como principal, y como secundarios el formulario, el booking, LinkedIn y el programa de partners si lo tiene. Un programa de partners publicado es la puerta de entrada más barata que hay.',
+  },
+  /* El campo que evita el error caro. Cada partner de `partners.md` tiene un ⚠️
+   * que gobierna cómo se lo usa —Celtis toma un proyecto por vez, Santex es de
+   * desborde y no de capacidad nueva, Orbyn es competencia directa en Agentes
+   * AI—, y eso no se deduce del rol ni de las disciplinas. Sin esto, el objeto
+   * se lee como una lista de proveedores intercambiables, que es justamente lo
+   * que no son.
+   *
+   * Los 99 renglones por la misma razón que en el borrador del outbound: si se
+   * recorta a un renglón, la advertencia que hay que leer antes de contratar es
+   * la que no se lee. */
+  {
+    objeto: 'partner',
+    name: 'limite',
+    label: 'Límite',
+    type: 'TEXT',
+    icon: 'IconAlertTriangle',
+    description: 'Qué NO se le pide, y por qué. Es la advertencia que gobierna cómo se lo usa, y en los descartados es el motivo del descarte. Un partner sin límite escrito todavía no está relevado del todo.',
+    settings: { displayedMaxRows: 99 },
+  },
+  {
+    objeto: 'partner',
+    name: 'detalle',
+    label: 'Detalle',
+    type: 'RICH_TEXT',
+    icon: 'IconNotes',
+    description: 'Tamaño, posicionamiento, precios publicados, el ángulo con el que conviene abrir. Todo lo que en codence/partners.md va debajo de la tabla.',
+  },
 ];
 
 /* ── El cliente ──────────────────────────────────────────────────────────── */
@@ -748,12 +958,12 @@ const desenvolver = (j) => j?.data?.objects ?? j?.objects ?? j?.data ?? j;
 /**
  * Un campo que ya existe se saltea — salvo que sea una taxonomía y su lista haya
  * cambiado acá. Sin esto, agregar una opción serían DOS cambios (este archivo y
- * la interfaz de Twenty), y la regla es que las taxonomías vivan en un solo
+ * la interfaz del CRM), y la regla es que las taxonomías vivan en un solo
  * lugar. Se descubrió al agregarle a `angulo` la familia C: el bucle la salteaba
  * en silencio y el archivo quedaba mintiendo sobre el esquema real.
  *
  * Empareja por `value` y conserva el `id` de cada opción que sobrevive. Es la
- * lectura conservadora: no está comprobado si Twenty reconcilia por id o por
+ * lectura conservadora: no está comprobado si el CRM reconcilia por id o por
  * valor, y perder el emparejamiento reescribiría datos ya cargados.
  *
  * Devuelve true si tocó algo.
@@ -767,7 +977,7 @@ async function sincronizarOpciones(campo, existente) {
   );
 
   /* El color entra en la comparación desde el 09/08. Antes era un punto ciego:
-   * una opción creada desde la interfaz nace con el color que Twenty le asigna,
+   * una opción creada desde la interfaz nace con el color que el CRM le asigna,
    * y el declarado acá no se aplicaba nunca. Le pasó a `Reformular`, que quedó
    * en gris junto a los estados terminales siendo el único accionable. */
   const igual =
@@ -819,7 +1029,7 @@ async function sincronizarOpciones(campo, existente) {
  * Lo mismo que sincronizarOpciones, para lo que no es una taxonomía: el texto
  * de la descripción, que se lee en la ficha, y los ajustes de visualización.
  * Sin esto, corregir cualquiera de los dos en un campo que ya existe eran DOS
- * cambios —este archivo y la interfaz de Twenty—, que es exactamente el defecto
+ * cambios —este archivo y la interfaz del CRM—, que es exactamente el defecto
  * que ya se había arreglado para las listas.
  *
  * `displayedMaxRows` es lo que decide si un TEXT largo se lee entero en la
@@ -944,7 +1154,7 @@ async function main() {
   }
 
   /* El Estado no es un campo nuevo: es `stage`, que ya existe con las cinco
-   * etapas de ejemplo de Twenty. Se reescriben sus opciones por las nuestras.
+   * etapas de ejemplo del CRM. Se reescriben sus opciones por las nuestras.
    * Ojo — esto pisa las etapas de fábrica, y es a propósito: el pipeline de
    * Codence es el Estado del outbound, no "New / Screening / Meeting". */
   const stage = (porNombre.opportunity.fields ?? []).find((f) => f.name === 'stage');

@@ -417,14 +417,36 @@ clasificar.
 - **Antes de agregar uno nuevo:** ¿tiene mail publicado por ellos mismos? Si no, entra igual pero
   con el canal que tenga, nunca con un mail inferido.
 
-## Lo que falta, y no está acá
+## Esto también vive en el CRM
 
-**El objeto `partner` en `modelo.mjs`**, para que el workflow de presupuestos pueda filtrar por
-disciplina y por rol. Los campos que necesita salen de este archivo: rol, disciplinas (multi),
-canal de contacto, nivel de verificación, estado y país.
+**Desde el 20/08 hay un objeto `partner`**, y los diecisiete están cargados. Se ve en **Partners**,
+en la barra lateral izquierda.
+
+Este archivo **sigue siendo la fuente.** El CRM guarda lo que hace falta para filtrar y para
+contactar; acá queda el porqué de cada clasificación, que es lo que no entra en una ficha.
+
+| | |
+|---|---|
+| **El esquema** | `codence/modelo.mjs` — declara el objeto y sus once campos |
+| **Los datos** | `codence/partners.mjs` — vuelca esta lista al CRM, idempotente por nombre |
+
+Los seis campos que pedía este archivo están: **rol, disciplinas, canal, verificación, estado y
+país.** Más los de contacto —mail, teléfono, enlaces— y dos que salieron de escribirlo:
+
+- **`limite`** es el ⚠️ de cada ficha hecho campo. Es lo que evita el error caro, y no se deduce
+  del rol ni de las disciplinas: que Santex sea de desborde, que Orbyn sea competencia directa,
+  que Celtis tome un proyecto por vez. **Un partner sin límite escrito todavía no está relevado
+  del todo.**
+- **`detalle`** es todo lo que en este archivo va debajo de la tabla.
+
+**Las disciplinas comparten valor interno con el `servicio` de una Opportunity.** No es un detalle
+de implementación: es lo que permite preguntarle al CRM quién ejecuta un encargo ya vendido. Por
+eso la disciplina de marca se llama **`Rebranding`** en el CRM aunque acá se lea *Branding* — un
+rótulo distinto rompería el emparejamiento.
 
 ⚠️ **La trampa que avisa el `README.md`:** `modelo.mjs` **borra toda opción de un SELECT que no esté
-declarada.** El orden correcto es **migrar primero y declarar después.**
+declarada.** Agregar una disciplina se hace ahí y en ningún otro lado; tocarla desde la interfaz
+del CRM la pierde en la corrida siguiente.
 
-**Este archivo va primero a propósito.** Se consulta a mano y sirve solo, y es lo que define qué
-campos necesita el objeto. Al revés hay que rehacer el modelo.
+**Este archivo se escribió primero a propósito**, y por eso el objeto salió bien de una: es lo que
+definió qué campos necesitaba. Al revés habría habido que rehacer el modelo.

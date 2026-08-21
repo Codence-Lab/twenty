@@ -490,9 +490,10 @@ Los contenedores vuelven solos al levantarlo, pero **el servidor tarda unos 4 mi
 |---|---|
 | `modelo.mjs` | Declara qué es un prospecto y lo empuja por la Metadata API |
 | `migrar.mjs` | Vuelca el respaldo del CRM propio al modelo nativo. Corrió una vez el 07/08/2026 |
+| `partners.mjs` | Vuelca la red de `partners.md` al CRM. Idempotente por nombre |
 | `reparar.mjs` | Devuelve los 8 prospectos si un borrado se los lleva. Ver *Trampas* |
 
-Los tres necesitan la clave de API, que se genera en *Ajustes → API y Webhooks*, y aceptan `--ensayo` para ver qué harían sin escribir.
+Los cuatro necesitan la clave de API, que se genera en *Ajustes → API y Webhooks*, y aceptan `--ensayo` para ver qué harían sin escribir.
 
 La leen de `TWENTY_KEY` **o de `TWENTY_API_KEY`**, que es la que ya está en el entorno de usuario de Windows porque la consume el servidor MCP. Es la misma credencial, así que no hay que declararla dos veces:
 
@@ -501,7 +502,7 @@ node codence/modelo.mjs --ensayo          # toma TWENTY_API_KEY del entorno
 TWENTY_KEY=... node codence/modelo.mjs    # o se pasa explícita
 ```
 
-Los dos son **idempotentes**: `modelo.mjs` saltea el campo que ya existe, `migrar.mjs` saltea la empresa que ya está. Correrlos dos veces no duplica nada.
+Son **idempotentes**: `modelo.mjs` saltea el campo que ya existe, `migrar.mjs` la empresa que ya está, `partners.mjs` el partner que ya está. Correrlos dos veces no duplica nada.
 
 ⚠️ **Pero un campo que ya existe todavía puede tener la lista cambiada**, y saltearlo sin más era un defecto: hasta el 07/08, agregarle una opción a una taxonomía eran **dos** cambios —este archivo *y* la interfaz de Twenty— porque el bucle no aplicaba nunca la lista declarada. El archivo no quedaba incompleto: quedaba **mintiendo sobre el esquema real**, sin avisar. Hoy `sincronizarOpciones()` la reconcilia, conservando el `id` de cada opción que sobrevive para no reescribir datos cargados. **Si una opción desaparece, avisa y aplica igual** — la declaración es la fuente de verdad, y queda escrito cuál fue.
 
@@ -518,14 +519,16 @@ Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Twenty ya resolv�
 | **Task** | Lo que falta hacer, con `status`, `dueAt` y `assignee`. Nativo, sin campos custom |
 | **Pista** | **La bandeja de entrada.** Objeto propio, agregado el 08/08 — `tipo`, `enlace`, `estado`, `detalle` |
 | **Documento** | **La documentación del sistema**, legible desde adentro del CRM. Objeto propio, agregado el 09/08 — `tipo`, `estado`, `revisadoEn`, `contenido` |
+| **Contenido** | **El blog y las redes**, de la idea a la publicación. Objeto propio, agregado el 10/08 — `formato`, `canal`, `estado`, `publicarEl`, `servicio`, `cuerpo`, `enlace` |
+| **Partner** | **Quién ejecuta el trabajo.** Objeto propio, agregado el 20/08 — `rol`, `disciplinas`, `estado`, `pais`, `canal`, `verificacion`, `mail`, `telefono`, `enlaces`, `limite`, `detalle`. La fuente es [`partners.md`](partners.md) |
 
 **`Person` admite dos por empresa desde el 08/08:** quien decide y quien sufre el
 dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga
 sólo de la Company. Se busca la segunda sólo en las tarjetas que lo valen, y cada
 una lleva su propio ángulo y su propio mensaje.
 
-⚠️ **`Pista` y `Documento` son los dos objetos propios, y cada uno hace aparecer
-una entrada en la barra lateral izquierda.** Crearlos les agrega solo las
+⚠️ **`Pista`, `Documento`, `Contenido` y `Partner` son los cuatro objetos propios,
+y cada uno hace aparecer una entrada en la barra lateral izquierda.** Crearlos les agrega solo las
 relaciones por defecto —adjuntos, notas, tareas y línea de tiempo—, así que una
 Pista **acepta capturas arrastradas sin declarar ningún campo de archivo**. Es
 también la puerta por donde entra lo que el agente no puede leer: LinkedIn e
@@ -545,7 +548,9 @@ Instagram no se tocan con navegador automatizado, pero Alan sí los ve.
 
 `Opportunity.stage` se reescribió con los 9 estados del outbound: *Por investigar → Calificado → Contactado → Seguimiento 1 → Seguimiento 2 → Respondió*, y los tres terminales *Convertido / Sin interés / Descalificado* en gris.
 
-**Los rótulos visibles son los de siempre; el valor interno va derivado** (`Logística` → `LOGISTICA`). Renombrar una etiqueta no rompe los datos.
+**Los rótulos visibles son los de siempre; el valor interno va derivado** (`Calificado` → `CALIFICADO`).
+
+⚠️ **Renombrar una etiqueta declarada como string SÍ rompe los datos**, y esto decía lo contrario. Cambiar el rótulo cambia el valor derivado, `sincronizarOpciones()` empareja por valor, y el rename se aplica como una opción nueva más una que desaparece: los registros que usaban la vieja quedan con un valor fuera de la taxonomía. Se renombra con la forma `{label, value}` de `opciones()`, conservando el valor viejo. El caso vivo es `Automatización de procesos`, que por dentro sigue siendo `AUTOMATIZACION_AI_NATIVE`.
 
 ## Reglas que vinieron del sistema viejo
 
