@@ -91,11 +91,11 @@ Verificar cuesta caro. Descartar cuesta barato. **En este orden:**
 | **Escala** | Es tan grande que no la decide una persona a la que se le pueda escribir |
 | **Etapa** | No levantó capital institucional **ni** factura. La idea sola no entra |
 | **Idioma** | No se le puede escribir en español ni en inglés |
-| **Ya está** | Aparece en Twenty, **incluidas las borradas** |
+| **Ya está** | Aparece en el CRM, **incluidas las borradas** |
 
 **La escala es el descarte más frecuente y el más barato. Mirarla primero.**
 
-⚠️ **Las borradas cuentan.** Twenty no borra de verdad, marca `deletedAt`, y un registro borrado
+⚠️ **Las borradas cuentan.** Codence CRM no borra de verdad, marca `deletedAt`, y un registro borrado
 sigue contando para la detección de duplicados. Una empresa que vuelve como candidata nueva hace
 que `/prospectar` reviente con `400 duplicate entry` al final de todo el trabajo.
 

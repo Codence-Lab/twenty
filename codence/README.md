@@ -1,6 +1,21 @@
 # codence/
 
-Lo propio de Codence sobre Twenty. Vive en una carpeta que upstream no tiene, así que traer releases de `twentyhq/twenty` no genera conflictos acá.
+Lo propio de Codence sobre el fork. **El CRM se llama Codence CRM**; por debajo es un fork de
+[Twenty](https://github.com/twentyhq/twenty), y por eso los paquetes se siguen llamando
+`twenty-front`, `twenty-server` y demás. Esta carpeta upstream no la tiene, así que traer releases
+de `twentyhq/twenty` no genera conflictos acá.
+
+⚠️ **El rename a Codence CRM está en el fuente, pero la instancia que usa Alan corre desde la
+imagen publicada `twentycrm/twenty:v2.29.0`.** Lo que se ve en pantalla lo decide la imagen, no
+este código: la pestaña sigue diciendo *Twenty* hasta que se construya una imagen propia desde
+este repo. Los siete lugares visibles ya están cambiados y esperan ese build — el título de la
+pestaña vive en [`title-utils.ts`](../packages/twenty-front/src/utils/title-utils.ts), y el autor
+que aparece en la línea de tiempo cuando escribe un agente, en
+[`getTimelineActivityAuthorFullName.ts`](../packages/twenty-front/src/modules/activities/timeline-activities/utils/getTimelineActivityAuthorFullName.ts).
+
+**Lo único que cambia sin rebuild es el nombre del workspace**, que es un dato y no código: se
+edita en *Ajustes → General*. Hoy dice `Codence`, que es lo que se lee en la barra lateral y en
+*«Bienvenido, Codence»* al entrar.
 
 **Las bases de Codence no están acá.** Identidad, modelo de negocio, tono de voz y marca
 viven en el repo **`Codence-Lab/codence-bases`** y se leen de ahí. Acá está lo que cambia con
@@ -277,7 +292,7 @@ a las bases, gana la base y se corrige acá.
 > | **`Reformular`** reemplaza a `Descartado` | `opportunity.aprobacion` | Declarado en `modelo.mjs`, y el circuito escrito en las tres skills |
 > | **`Descartado`** | `task.status` | `/outbound-hoy` lo cuenta como cerrada para destrabar la tarjeta |
 > | **`GTM`** | `opportunity.servicio` | Declarado, con su fila en la tabla de aterrizaje y su variante en `senales.md` |
-> | Vistas nuevas, y las de Opportunities pasadas a Kanban | Twenty | La vista *Para aprobar* dejó de existir: la reemplaza el Kanban **Aprobación**, agrupado por ese campo |
+> | Vistas nuevas, y las de Opportunities pasadas a Kanban | La interfaz del CRM | La vista *Para aprobar* dejó de existir: la reemplaza el Kanban **Aprobación**, agrupado por ese campo |
 >
 > ⚠️ **`Descalificado` no es nuevo:** está en `opportunity.stage` desde el 07/08 y
 > seis tarjetas ya lo usan. No hizo falta declarar nada.
@@ -289,7 +304,7 @@ a las bases, gana la base y se corrige acá.
 > es media tarea: la otra mitad es declararla.**
 >
 > **El color entró en la reconciliación por el mismo motivo.** Una opción creada a
-> mano nace con el color que Twenty le asigna y el declarado no se aplicaba nunca:
+> mano nace con el color que el CRM le asigna y el declarado no se aplicaba nunca:
 > `Reformular` había quedado en gris, junto a los terminales, siendo la única
 > columna del Kanban con trabajo pendiente. Ahora `sincronizarOpciones()` compara
 > también el color, y va en naranja.
@@ -438,7 +453,7 @@ a las bases, gana la base y se corrige acá.
 > LinkedIn cuesta la cuenta.
 >
 > **Y lo que no es técnico:** el toque 2 de Warren venció el 04/08 y no salió.
-> ICG10 sigue en `Contactado`. Su bitácora entera está en Twenty.
+> ICG10 sigue en `Contactado`. Su bitácora entera está en el CRM.
 >
 > Lo de Warren es el caso que justificó el circuito de aprobación: el mensaje
 > estaba escrito y nadie lo mandó, y como nada lo vigilaba, la ventana de la
@@ -504,11 +519,11 @@ TWENTY_KEY=... node codence/modelo.mjs    # o se pasa explícita
 
 Son **idempotentes**: `modelo.mjs` saltea el campo que ya existe, `migrar.mjs` la empresa que ya está, `partners.mjs` el partner que ya está. Correrlos dos veces no duplica nada.
 
-⚠️ **Pero un campo que ya existe todavía puede tener la lista cambiada**, y saltearlo sin más era un defecto: hasta el 07/08, agregarle una opción a una taxonomía eran **dos** cambios —este archivo *y* la interfaz de Twenty— porque el bucle no aplicaba nunca la lista declarada. El archivo no quedaba incompleto: quedaba **mintiendo sobre el esquema real**, sin avisar. Hoy `sincronizarOpciones()` la reconcilia, conservando el `id` de cada opción que sobrevive para no reescribir datos cargados. **Si una opción desaparece, avisa y aplica igual** — la declaración es la fuente de verdad, y queda escrito cuál fue.
+⚠️ **Pero un campo que ya existe todavía puede tener la lista cambiada**, y saltearlo sin más era un defecto: hasta el 07/08, agregarle una opción a una taxonomía eran **dos** cambios —este archivo *y* la interfaz del CRM— porque el bucle no aplicaba nunca la lista declarada. El archivo no quedaba incompleto: quedaba **mintiendo sobre el esquema real**, sin avisar. Hoy `sincronizarOpciones()` la reconcilia, conservando el `id` de cada opción que sobrevive para no reescribir datos cargados. **Si una opción desaparece, avisa y aplica igual** — la declaración es la fuente de verdad, y queda escrito cuál fue.
 
 ## El modelo
 
-Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Twenty ya resolvía 11 de los 21 campos que tenía el CRM viejo, y el pipeline en Kanban sale gratis de `Opportunity.stage`.
+Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Codence CRM ya resolvía 11 de los 21 campos que tenía el CRM viejo, y el pipeline en Kanban sale gratis de `Opportunity.stage`.
 
 | Objeto | Qué guarda |
 |---|---|
@@ -580,7 +595,7 @@ En `.claude/skills/`, y se descubren al abrir Claude Code **en esta carpeta** (`
 
 ⚠️ **Y un 403 no cierra una ruta.** `traded.co`, FinSMEs y FinTech Futures bloquean el pedido plano; lo que corresponde es buscarles el boletín por correo, no darlas por inexistentes. **403 significa que el servidor entendió el pedido y se negó**, no que la página no exista.
 
-Hablan con Twenty por su **servidor MCP**, declarado en `.mcp.json` como `twenty` → `http://localhost:3000/mcp`. La clave no está en el archivo: sale de `TWENTY_API_KEY` del entorno de usuario de Windows.
+Hablan con el CRM por su **servidor MCP**, declarado en `.mcp.json` como `twenty` → `http://localhost:3000/mcp`. La clave no está en el archivo: sale de `TWENTY_API_KEY` del entorno de usuario de Windows.
 
 ⚠️ **Un servidor MCP se carga al iniciar la sesión.** Si se cambia `.mcp.json`, la sesión en curso sigue con lo viejo.
 
@@ -588,7 +603,7 @@ Hablan con Twenty por su **servidor MCP**, declarado en `.mcp.json` como `twenty
 
 ## El circuito de aprobación del canal Email
 
-Agregado el 08/08. Resuelve los dos cortes que tenía el outbound: no había en Twenty nada que distinguiera *"esperando visto bueno"* de *"nunca se escribió"*, y la contabilidad del toque dependía de que Alan se acordara de avisar. Por el segundo se cayó el toque 2 de Warren.
+Agregado el 08/08. Resuelve los dos cortes que tenía el outbound: no había en el CRM nada que distinguiera *"esperando visto bueno"* de *"nunca se escribió"*, y la contabilidad del toque dependía de que Alan se acordara de avisar. Por el segundo se cayó el toque 2 de Warren.
 
 ```
 Sin borrador → Redactado → Aprobado → En Gmail → Enviado
@@ -612,11 +627,11 @@ Manejar el DOM del compositor de Gmail es frágil, las fallas son silenciosas y 
 
 ⚠️ **El conector de Gmail de Claude está sobre `core@codencelab.com` y no tiene herramienta de envío.** Son 16: leer hilos, armar y editar borradores, y etiquetas. Ninguna manda. Eso fija el diseño: la agente arma, Alan aprieta.
 
-⚠️ **Y es una conexión de Claude, no de Twenty.** El servidor de Twenty no puede usar ese token. Su `send_email` nativo existe y manda de verdad, pero exige cuenta conectada propia. Queda como mejora futura si algún día se quiere envío sin clic: proyecto en Google Cloud, `AUTH_GOOGLE_*` y `MESSAGING_PROVIDER_GMAIL_ENABLED` en `packages/twenty-docker/.env`, y ojo que con la pantalla de consentimiento en modo *Testing* el refresh token de Google **caduca a los 7 días** y la cuenta se desconecta sola.
+⚠️ **Y es una conexión de Claude, no del CRM.** El servidor del CRM no puede usar ese token. Su `send_email` nativo existe y manda de verdad, pero exige cuenta conectada propia. Queda como mejora futura si algún día se quiere envío sin clic: proyecto en Google Cloud, `AUTH_GOOGLE_*` y `MESSAGING_PROVIDER_GMAIL_ENABLED` en `packages/twenty-docker/.env`, y ojo que con la pantalla de consentimiento en modo *Testing* el refresh token de Google **caduca a los 7 días** y la cuenta se desconecta sola.
 
 ## Trampas
 
-**Twenty no borra de verdad: marca `deletedAt`.** Un registro borrado sigue contando para la detección de duplicados, así que rehacer una migración devuelve `400 duplicate entry`. Se listan con `filter=deletedAt[is]:NOT_NULL` y se restauran con `PATCH {"deletedAt": null}`.
+**Codence CRM no borra de verdad: marca `deletedAt`.** Un registro borrado sigue contando para la detección de duplicados, así que rehacer una migración devuelve `400 duplicate entry`. Se listan con `filter=deletedAt[is]:NOT_NULL` y se restauran con `PATCH {"deletedAt": null}`.
 
 ⚠️ **Un DELETE sobre un registro que ya pasó por la papelera lo purga de verdad.** Así se perdió la empresa ICG10 Capital el 07/08 y hubo que recrearla.
 

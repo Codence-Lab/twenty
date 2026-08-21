@@ -1,6 +1,6 @@
 ---
 name: outbound-hoy
-description: La agenda de outbound del día. Lee los prospectos de Twenty, dice a quién le toca primer mensaje y a quién seguimiento, avisa de las tarjetas trabadas, y registra lo que Alan confirma que mandó. Usar al empezar el día o cuando Alan pregunte a quién le toca escribirle.
+description: La agenda de outbound del día. Lee los prospectos del CRM, dice a quién le toca primer mensaje y a quién seguimiento, avisa de las tarjetas trabadas, y registra lo que Alan confirma que mandó. Usar al empezar el día o cuando Alan pregunte a quién le toca escribirle.
 ---
 
 # /outbound-hoy — la agenda del día
@@ -13,7 +13,7 @@ El registro del toque se reparte por canal: **para `LinkedIn` y `WhatsApp` lo ha
 
 ## El modelo, en dos líneas
 
-Un prospecto vive repartido en tres objetos de Twenty:
+Un prospecto vive repartido en tres objetos del CRM:
 
 - **Company** — la empresa: `name`, `domainName`, `industria`
 - **Person** — el contacto: `name`, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`. **Puede haber dos por empresa** desde el 08/08: quien decide y quien sufre el dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga sólo de la Company
@@ -25,7 +25,7 @@ La bitácora son **Notes** atadas a la empresa y a la oportunidad. Y lo que falt
 
 ## Paso 0 — Ver el vocabulario vigente
 
-Antes de nombrar un estado o un canal, leer las opciones reales del campo — no las de memoria. Con las herramientas del servidor MCP de Twenty:
+Antes de nombrar un estado o un canal, leer las opciones reales del campo — no las de memoria. Con las herramientas del servidor MCP del CRM:
 
 ```
 get_field_metadata sobre opportunity.stage, opportunity.canal, opportunity.angulo,

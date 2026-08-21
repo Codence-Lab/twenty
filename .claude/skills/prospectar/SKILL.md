@@ -1,6 +1,6 @@
 ---
 name: prospectar
-description: Investiga empresas, las califica contra el ICP de Codence y las carga en Twenty, cada una con su señal de fricción y la fuente que la respalda. Usar cuando Alan pegue una lista de empresas o pida buscar prospectos de una industria y un país.
+description: Investiga empresas, las califica contra el ICP de Codence y las carga en el CRM, cada una con su señal de fricción y la fuente que la respalda. Usar cuando Alan pegue una lista de empresas o pida buscar prospectos de una industria y un país.
 ---
 
 # /prospectar — conseguir el lead
@@ -19,7 +19,7 @@ Leer las opciones reales con `get_field_metadata` sobre `company.industria`, `op
 
 **Cargar un valor fuera de la taxonomía hace desaparecer la tarjeta de la cola en silencio.** Si hace falta una opción que no existe, decirlo y proponerla — no forzar una que no encaja.
 
-Y traer las empresas que ya están, con `find_many_companies`: **no duplicar**. Twenty además rechaza duplicados, y sus registros borrados siguen contando.
+Y traer las empresas que ya están, con `find_many_companies`: **no duplicar**. El CRM además rechaza duplicados, y sus registros borrados siguen contando.
 
 ## Paso 1 — El ICP
 
@@ -112,7 +112,7 @@ Decidido el 08/08/2026. **Una tarjeta puede llevar dos personas, y son dos roles
 
 ⚠️ **Los C-level responden un 30,2% menos que los no ejecutivos**, medido por Gong sobre más de un millón de ciclos de venta. No es razón para no escribirles: es razón para que el segundo contacto exista.
 
-## Paso 4 — Cargar en Twenty
+## Paso 4 — Cargar en el CRM
 
 Tres registros por prospecto, más la nota, más una tarea por cada deuda:
 

@@ -2,8 +2,8 @@
  * reparar.mjs — devuelve los 8 prospectos a su estado migrado.
  *
  * POR QUÉ EXISTE. El 07/08/2026, después de migrar, se borró la información de
- * demo que Twenty siembra sola y el borrado se llevó también los 8 prospectos.
- * Al intentar rehacer la migración, Twenty la rechazó con "duplicate entry":
+ * demo que el CRM siembra sola y el borrado se llevó también los 8 prospectos.
+ * Al intentar rehacer la migración, el CRM la rechazó con "duplicate entry":
  * sus registros no se borran de verdad, se marcan con `deletedAt`, y la
  * detección de duplicados los sigue viendo.
  *
@@ -77,7 +77,7 @@ async function main() {
   const prospectos = respaldo.prospectos;
 
   /* Los nombres que son nuestros. Todo lo demás en la papelera es la
-   * información de demo de Twenty y se queda ahí. */
+   * información de demo del CRM y se queda ahí. */
   const empresas = new Set(prospectos.map((p) => p.empresa));
   const personas = new Set(prospectos.filter((p) => p.contacto).map((p) => p.contacto));
 

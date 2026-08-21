@@ -1,5 +1,5 @@
 /**
- * migrar.mjs — vuelca los prospectos del CRM propio al modelo nativo de Twenty.
+ * migrar.mjs — vuelca los prospectos del CRM propio al modelo nativo de Codence CRM.
  *
  * Corre una vez, el 07/08/2026, sobre
  * D:\respaldo-crm-codence-2026-08-07\prospectos.json — el respaldo que se tomó
@@ -85,7 +85,7 @@ const enlace = (url, etiqueta) =>
   url ? { primaryLinkUrl: url, primaryLinkLabel: etiqueta ?? '', secondaryLinks: [] } : null;
 
 /**
- * Parte "Warren Ifergane" en nombre y apellido. Twenty guarda FULL_NAME
+ * Parte "Warren Ifergane" en nombre y apellido. El CRM guarda FULL_NAME
  * separado y no acepta una sola cadena.
  *
  * Con dos palabras es obvio; con tres o más, la primera es el nombre y el resto
@@ -105,7 +105,7 @@ async function migrar(p, existentes) {
   const linea = [];
 
   if (existentes.has(p.empresa.toLowerCase())) {
-    return { salteado: true, motivo: 'la empresa ya existe en Twenty' };
+    return { salteado: true, motivo: 'la empresa ya existe en el CRM' };
   }
 
   /* 1. La empresa */
@@ -222,7 +222,7 @@ async function main() {
   const yaHay = await api('/companies?limit=200');
   const lista = yaHay?.data?.companies ?? yaHay?.data ?? [];
   const existentes = new Set(lista.map((c) => String(c.name).toLowerCase()));
-  if (existentes.size) console.log(`  (ya hay ${existentes.size} empresa(s) en Twenty)\n`);
+  if (existentes.size) console.log(`  (ya hay ${existentes.size} empresa(s) en el CRM)\n`);
 
   let ok = 0;
   let salteados = 0;

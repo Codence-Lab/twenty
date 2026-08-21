@@ -34,7 +34,7 @@ Lo que sí hace solo, y es la mitad que hoy falla, es **verificar qué salió**.
 
 ## Paso 0 — Traer lo aprobado
 
-Con las herramientas del servidor MCP de Twenty, `find_many_opportunities` filtrando por `aprobacion` en `APROBADO` y estado no terminal, con su Company y su punto de contacto.
+Con las herramientas del servidor MCP del CRM, `find_many_opportunities` filtrando por `aprobacion` en `APROBADO` y estado no terminal, con su Company y su punto de contacto.
 
 ```
 select:     ["id","name","canal","aprobacion","borradorAsunto","borradorCuerpo",
@@ -65,7 +65,7 @@ Leer también el vocabulario vigente de `aprobacion` y `canal` con `get_field_me
 
 **Nada de tono partido en dos fragmentos cortos ni estructura de reversal** — *"No es X. Es Y."*, *"Esto no es un problema de diseño. Es un problema de sistema."* Está prohibido por la guía de marca.
 
-`/outbound-mensaje` ya lo revisa, **y acá se revisa de nuevo con una expresión regular sobre `borradorCuerpo`.** No es redundancia: entre que se redactó y que se aprobó, el texto pasó por la ficha de Twenty, donde Alan pudo editarlo. Lo que sale es lo que está en el campo, así que es el campo lo que hay que revisar.
+`/outbound-mensaje` ya lo revisa, **y acá se revisa de nuevo con una expresión regular sobre `borradorCuerpo`.** No es redundancia: entre que se redactó y que se aprobó, el texto pasó por la ficha del CRM, donde Alan pudo editarlo. Lo que sale es lo que está en el campo, así que es el campo lo que hay que revisar.
 
 **Nunca nombrar un color.** Vale igual acá.
 

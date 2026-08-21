@@ -1,13 +1,13 @@
 ---
 name: buscar
-description: Sale a encontrar prospectos nuevos. Trabaja padrones de empresas reales y lee sobre cada una los seis dolores del catálogo, descarta contra el ICP y contra lo que ya está en Twenty, y entrega candidatos listos para /prospectar. No carga nada en Twenty. Usar cuando Alan pida buscar prospectos, llenar la lista, o encontrar empresas de un rubro, una región o una fuente.
+description: Sale a encontrar prospectos nuevos. Trabaja padrones de empresas reales y lee sobre cada una los seis dolores del catálogo, descarta contra el ICP y contra lo que ya está en el CRM, y entrega candidatos listos para /prospectar. No carga nada en el CRM. Usar cuando Alan pida buscar prospectos, llenar la lista, o encontrar empresas de un rubro, una región o una fuente.
 ---
 
 # /buscar — llenar la lista
 
 **El cuello de botella es la lista, no el sistema de registro.** Este comando existe para eso y nada más.
 
-**No carga nada en Twenty.** Entrega candidatos verificados; `/prospectar` los carga.
+**No carga nada en el CRM.** Entrega candidatos verificados; `/prospectar` los carga.
 
 **Argumento:** un recorte. Puede ser un rubro y una geografía (`logística, Neuquén`), una región (`el corredor de Vaca Muerta`), un padrón concreto, o nada — si no viene, se propone uno y se sigue.
 
@@ -55,10 +55,10 @@ find_many_pistas  con estado = SIN_MIRAR
 
 ⚠️ **Y si una pista trae una imagen adjunta, hay que mirarla.** Es la puerta por donde entra lo que no se puede leer solo: LinkedIn e Instagram no se tocan con navegador automatizado, pero Alan sí los ve.
 
-**Después, lo que ya existe en Twenty**, de sólo lectura:
+**Después, lo que ya existe en el CRM**, de sólo lectura:
 
 - `find_many_companies` — para no devolver una empresa que ya está.
-- Y **las borradas también**: `filter=deletedAt[is]:NOT_NULL` por REST. Twenty no borra de verdad, marca `deletedAt`, y un registro borrado sigue contando para la detección de duplicados. Una empresa que vuelve como "candidata nueva" hace que `/prospectar` reviente con `400 duplicate entry` al final de todo el trabajo.
+- Y **las borradas también**: `filter=deletedAt[is]:NOT_NULL` por REST. Codence CRM no borra de verdad, marca `deletedAt`, y un registro borrado sigue contando para la detección de duplicados. Una empresa que vuelve como "candidata nueva" hace que `/prospectar` reviente con `400 duplicate entry` al final de todo el trabajo.
 - Las oportunidades en `Por investigar`: son insumo, no ruido. Una tarjeta vieja sin señal viva puede tener un dolor que nunca se leyó.
 
 Y el vocabulario vigente con `get_field_metadata` sobre `company.industria`, `opportunity.angulo` y `opportunity.servicio`. **No para cargar nada** — para no proponer un candidato con un ángulo que no existe.
@@ -137,7 +137,7 @@ Verificar cuesta caro. Descartar cuesta barato. **En este orden:**
 | **Escala** | Es tan grande que no la decide una persona a la que se le pueda escribir |
 | **Etapa** | No levantó capital institucional **ni** factura. La idea sola no entra |
 | **Idioma** | No se le puede escribir en español ni en inglés |
-| **Ya está** | Aparece en Twenty, incluidas las borradas |
+| **Ya está** | Aparece en el CRM, incluidas las borradas |
 
 **La escala es el descarte más frecuente y el más barato. Mirarla primero.**
 
@@ -180,7 +180,7 @@ Un candidato trae **exactamente esto**, y no una tarjeta:
 | **Ruta** | Por dónde se llegó. Sirve para saber qué ruta rinde |
 | **Qué falta** | **Como lista de tareas propuestas, una por deuda**, con qué la cierra, si vence, y si sólo la puede hacer Alan |
 
-**Alan elige cuáles van.** Los elegidos pasan a `/prospectar`. **Acá no se escribe nada en Twenty**, salvo el estado de las `Pistas` que se trabajaron.
+**Alan elige cuáles van.** Los elegidos pasan a `/prospectar`. **Acá no se escribe nada en el CRM**, salvo el estado de las `Pistas` que se trabajaron.
 
 ## Paso 8 — Reportar
 
@@ -190,7 +190,7 @@ Cuántas se miraron, cuántas quedaron, y **por qué quedó afuera cada una**. D
 
 **Si un candidato entró con señal floja, decirlo.** Una lista larga con tarjetas flojas es peor que una corta.
 
-**Un descarte que puede cambiar no se tira:** se propone como tarjeta en `Por investigar` con el faltante escrito, o como `Pista`. El registro vive en Twenty, no en un archivo aparte.
+**Un descarte que puede cambiar no se tira:** se propone como tarjeta en `Por investigar` con el faltante escrito, o como `Pista`. El registro vive en el CRM, no en un archivo aparte.
 
 ---
 
@@ -212,6 +212,6 @@ Cuántas se miraron, cuántas quedaron, y **por qué quedó afuera cada una**. D
 
 **No apuntar un navegador automatizado a Instagram ni a LinkedIn.** Padrones públicos sí.
 
-**Este comando no carga nada en Twenty ni le escribe a nadie.** Cargar es `/prospectar`, escribir es `/outbound-mensaje`, **aprobar lo hace Alan en el CRM**, y mandar lo sigue apretando él.
+**Este comando no carga nada en el CRM ni le escribe a nadie.** Cargar es `/prospectar`, escribir es `/outbound-mensaje`, **aprobar lo hace Alan en el CRM**, y mandar lo sigue apretando él.
 
 **Las taxonomías se adaptan; las reglas de evidencia no.**

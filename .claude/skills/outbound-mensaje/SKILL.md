@@ -1,6 +1,6 @@
 ---
 name: outbound-mensaje
-description: Redacta el mensaje de outbound para un prospecto de Twenty, en el formato y el largo del canal que tenga asignado, y lo deja esperando aprobación en el CRM. No envía nada. Usar cuando Alan pida escribirle a un prospecto o preparar los seguimientos del día.
+description: Redacta el mensaje de outbound para un prospecto del CRM, en el formato y el largo del canal que tenga asignado, y lo deja esperando aprobación en el CRM. No envía nada. Usar cuando Alan pida escribirle a un prospecto o preparar los seguimientos del día.
 ---
 
 # /outbound-mensaje — redactar, no enviar
@@ -31,7 +31,7 @@ De ahí en más, el camino depende del canal:
 
 ## Paso 0 — Traer el prospecto entero
 
-Con las herramientas del servidor MCP de Twenty: la Opportunity, su Company, su punto de contacto, y **las Notes atadas**.
+Con las herramientas del servidor MCP del CRM: la Opportunity, su Company, su punto de contacto, y **las Notes atadas**.
 
 **La bitácora no es opcional.** Ahí está la investigación que justifica el mensaje, el historial de lo que ya se dijo, y —cuando lo hay— lo que salió mal antes. Escribir sin leerla es repetir errores ya cometidos.
 
