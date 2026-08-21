@@ -25,10 +25,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > Desde el 10/08/2026 el **ICP es producto digital** (fintech, apps, plataformas B2B / SaaS)
 > que ya levantó o ya factura. `bases/identidad.md` todavía nombra logística y Alan lo va a
 > alinear: hasta entonces gana la base, y `codence/icp.md` lo dice al pie.
+>
+> ⚠️ **Antes de ofrecerle Agentes AI a un cliente, revisar la cláusula de continuidad del
+> contrato.** El generador del back-office la emite diciendo que el mensual cubre *«el consumo
+> previsto en el SOW»*, es decir que **topea el uso**. `bases/modelo-de-negocio.md` deja abierta la
+> otra salida —cotizar el mensual con margen para el pico— y pide elegir **una de las dos antes de
+> firmar el primero**: el mensual es plano y el costo que cubre es variable, así que sin esa
+> decisión el spread se evapora sin que se note hasta el cierre del mes.
+>
+> **Qué mirar:** `operacion/contratos.md` §*Agentes AI* y `bases/modelo-de-negocio.md` §*El riesgo,
+> anotado antes de que aparezca*. Si se elige la otra salida, **hay que cambiar la cláusula** en
+> `D:\codence-backoffice`, `src/domain/contratos/clausulas.ts`.
 
 ## Project Overview
 
-Twenty is an open-source CRM built with modern technologies in a monorepo structure. The codebase is organized as an Nx workspace with multiple packages.
+**Codence CRM** is Codence's CRM. Under the hood it is a fork of [Twenty](https://github.com/twentyhq/twenty),
+the open-source CRM, which is why every package, command and environment variable is still named
+`twenty-*` / `TWENTY_*` — those names are upstream's and are not renamed, so releases keep merging
+cleanly. **In prose, docs and anything user-facing it is "Codence CRM", or just "el CRM".**
+
+The codebase is organized as an Nx workspace with multiple packages.
 
 ## Key Commands
 
