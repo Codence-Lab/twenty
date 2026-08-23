@@ -391,6 +391,42 @@ CRM.** Sólo el WhatsApp.
 **Qué falta:** abrir el sitio en un navegador real y leer qué hacen. Hasta entonces no se puede
 clasificar.
 
+## Vention 🇺🇸
+
+**Entra el 23/08/2026, y no por la vía habitual:** Alan lo trajo como referencia de cómo se
+explica un Pod, no como candidato a ejecutar. Se anota igual porque publica un canal de partners
+y porque es la mejor pieza de la competencia sobre el modelo que Codence vende.
+
+| | |
+|---|---|
+| **Rol** | Par |
+| **Disciplinas** | Software a medida · Producto · IA · Equipos POD |
+| **Sitio** | [ventionteams.com](https://ventionteams.com) |
+| **Mail** | ✅ `hello@ventionteams.com` · ✅ **`vendors.partnership@ventionteams.com`** — el canal de partners, publicado por ellos · ✅ `careers@ventionteams.com` |
+| **Teléfono** | ✅ +1 (718) 374-5043 (global) · ✅ +1 (800) 338-4090 (EE.UU., gratuito) · ✅ +44 20 7117 2842 (Londres) |
+| **Formulario** | [ventionteams.com/company/contact-us](https://ventionteams.com/company/contact-us) |
+| **Ubicación** | Nueva York (575 Lexington Ave, piso 14) · San Francisco · Londres · Berlín · Viena · Limassol |
+| **Tamaño** | Dice **3.000 expertos**, 15+ centros de entrega, 20+ años (© desde 2002), ISO 27001. **Son cifras propias, sin verificar** |
+| **Posicionamiento** | *«POD teams are the fastest around, blending expertise and flexibility»* |
+
+⚠️ **Es un Par por tamaño pero de otro orden que los demás de esta sección**, que van de 11 a 50
+personas. Vention es contratista principal con oficinas en seis países: **no va a subcontratar a
+Codence.** Lo que sí sirve es lo de siempre en esta categoría — referral cuando un lead queda
+grande, y competencia a la que conviene leer.
+
+**Por qué está acá de verdad: su página de Pods es la referencia de layout.** Doce secciones que
+van de *qué es un POD* a *cuándo aplicarlo*, con una tabla comparativa contra Scrum, dos
+composiciones de equipo enfrentadas (Core y Extended), seis beneficios en tarjetas, seis
+desafíos con su solución, y cinco casos ajenos citados con enlace. **Es lo que Codence no puede
+copiar entero y conviene mirar por partes**, porque la mitad de esa página se apoya en cosas que
+Codence no tiene: cifras de terceros como propias, plazos publicados (*«2 semanas del contacto al
+kickoff»*) y nombres de clientes.
+
+> ⚠️ **Su copy de Pods no se toma como modelo de tono.** Usa *powerhouse framework*, *elevate*,
+> *top tiers of the market* y *the fastest around*, que son exactamente los claims que
+> `bases/branding.md` §3 descarta y que `bases/identidad.md` §5 prohíbe por escrito. **Se toma la
+> arquitectura de la página, no cómo está escrita.**
+
 ---
 
 # Descartados

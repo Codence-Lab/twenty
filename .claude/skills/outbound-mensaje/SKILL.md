@@ -253,6 +253,29 @@ Se puede decir *«con la ronda nueva»* o *«vi que levantaron»*. **El número,
 
 ⚠️ **La expresión regular tiene que aceptar coma además de punto.** *"No es el problema, es la punta de otra cosa"* es el mismo giro con otra puntuación, y se coló en un borrador del 09/08 justamente porque el patrón buscaba `\.` y no `[.,]`.
 
+> ### Desde el 23/08/2026 el control es de nueve reglas, no de una
+>
+> **`identidad.md` §5 se reescribió entera** y ahora trae nueve reglas con su forma de verificación,
+> cinco de ellas como expresión regular. **Este paso las hereda todas.** El verificador está en
+> `codence-bases/.claude/skills/copy-codence/auditar.py` y la skill `copy-codence` explica cada una.
+>
+> **Las tres que más pesan acá:**
+>
+> 1. **Nada de contrato, alcance, hitos ni plazos.** Vale para el correo igual que para la web: el
+>    prospecto ya sabe que va a leer qué contrata antes de firmar, y decírselo en un primer mensaje
+>    gasta caracteres en algo que no le informa nada.
+> 2. **Ninguna oración se construye negando una alternativa** — ni *«no es X, es Y»*, ni *«instead
+>    of»*, ni *«rather than»*, ni apertura con *nadie / nada / nunca*.
+> 3. **Ninguna oración enuncia una ley general sobre el mundo.** Se describe lo observado en esa
+>    empresa, no una verdad sobre el sector.
+>
+> ⚠️ **La regla 6 —mínimo tres oraciones por bloque de cuerpo— no aplica en este paso.** Los topes
+> de largo por vehículo mandan, y la nota de conexión de 300 caracteres no da para eso. Los topes
+> salen de datos de Gong sobre 85 millones de correos y no se tocan por criterio de tono.
+>
+> ⚠️ **La regla 3 sí aplica y es la que más se rompe acá:** ningún sustantivo abstracto sin su
+> referente. Si el mensaje dice que algo *«cuesta»*, dice qué cuesta.
+
 **Nunca nombrar un color.** Ni "los ejes en rojo" ni "la barra azul".
 
 **La misma pasada de expresiones regulares cubre el relleno de cortesía y la cifra de una ronda.** Son tres controles sobre el mismo texto y se corren juntos, antes de entregar.
