@@ -92,6 +92,7 @@ tiene y ellos no. Argentina, en español, punto de entrada publicado.
 | **Mail** | ✅ `info@arounda.agency` |
 | **Booking** | ✅ [calendly.com/arounda/1-hour](https://calendly.com/arounda/1-hour) |
 | **Formulario** | [arounda.agency/contact](https://arounda.agency/contact) — responde en 12 h |
+| **Partners** | ✅ [arounda.agency/referral](https://arounda.agency/referral) |
 | **LinkedIn** | [/company/arounda](https://linkedin.com/company/arounda) |
 | **Otros** | [Dribbble](https://dribbble.com/arounda) · [Behance](https://behance.net/arounda) · [@arounda.agency](https://instagram.com/arounda.agency) |
 | **Ubicación** | Tallinn (Estonia) y Odesa (Ucrania). Las otras seis oficinas son direcciones registradas |
@@ -104,7 +105,19 @@ días y cancelación en cualquier momento, en niveles de media jornada, jornada 
 **Es el único que publica precios:** proyectos desde **USD 6.000**; MVP entre USD 10k y 80k+.
 Sirve de referencia de costo.
 
+**El programa de partners tiene tres vías, verificado el 28/08/2026 en `/referral`:** *Referral*
+—Codence deriva el proyecto, Arounda toma la cuenta entera y paga 10% de comisión al cierre—,
+*White Label* —firman NDA y ejecutan de cara al cliente bajo la marca de quien deriva, sin
+aparecer— y *Co-Branded* —colaboración con visibilidad compartida y caso de estudio conjunto.
+**Sólo la segunda deja el proyecto del lado de Codence**, que es el rol que le corresponde a
+Arounda acá: Producción, no referral.
+
 ⚠️ **Zona horaria.** Europa del Este: 5 a 6 horas de diferencia con Argentina.
+
+**Contactado el 28/08/2026.** Mail a `info@arounda.agency` proponiendo específicamente la vía
+White Label — Codence cierra y sostiene la cuenta, Arounda ejecuta bajo NDA — y dejando la
+posibilidad de un caso de estudio Co-Branded para después de la primera entrega, no como
+condición de arrancar. Sin respuesta todavía.
 
 ## Santex 🇦🇷
 
