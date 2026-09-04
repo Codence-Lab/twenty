@@ -180,7 +180,21 @@ const ROL_PARTNER = ['Producción', 'Especialista', 'Par', 'Sin datos'];
  * partner, y `sincronizarOpciones` empareja por `value`. Declarar `Branding`
  * aparte —como lo llama partners.md— rompería ese join contra `Rebranding` por
  * una diferencia de rótulo. */
-const DISCIPLINA = [...SERVICIO, 'Data / BI', 'Motion', 'SEO / GEO', 'CRO'];
+/* Las cuatro últimas entraron el 04/09/2026, cuando Alan sacó la sección de
+ * descartados: un partner fuera de las seis disciplinas sigue siendo capacidad
+ * relevada, y sin una etiqueta que lo nombre no aparece nunca en la búsqueda de
+ * quién cubre un scope. Eso es lo que las hace falta, y no completar el mapa. */
+const DISCIPLINA = [
+  ...SERVICIO,
+  'Data / BI',
+  'Motion',
+  'SEO / GEO',
+  'CRO',
+  'Automatización industrial',
+  'Infraestructura IT',
+  'Domótica',
+  'Producto / reventa',
+];
 
 /* Por dónde se lo contacta. Es uno solo y no multi porque lo que hace falta
  * saber es cuál se usa, no cuáles existen: cuatro de los diecisiete no publican
@@ -194,9 +208,14 @@ const CANAL_PARTNER = ['Mail', 'WhatsApp', 'Teléfono', 'Formulario', 'Booking',
  * dominio quemada, y se paga en todos los envíos siguientes. */
 const VERIFICACION = ['Verificado', 'Sin verificar', 'No hay'];
 
-/* `Descartado` no es el final del embudo: es la sección de partners.md que
- * existe para que un descarte no vuelva a la lista en seis meses. Por eso el
- * motivo va escrito en `limite` y no se borra el registro. */
+/* `Descartado` quedó sin usar el 04/09/2026, cuando Alan sacó la sección de
+ * descartados de partners.md: nunca se sabe cuándo cae un scope donde alguno
+ * sirve, así que el archivo dejó de cerrarles la puerta de antemano. La opción
+ * sigue declarada para lo que sí es un cierre real —uno que dice que no, o un
+ * contacto que rebota—, y aun ahí el motivo va escrito en `limite` y el registro
+ * no se borra. Lo que reemplaza al descarte por catálogo es la disciplina: las
+ * cuatro últimas de DISCIPLINA existen para que un partner fuera de las seis se
+ * pueda encontrar en vez de archivar. */
 const ESTADO_PARTNER = [
   'Sin contactar',
   'Contactado',
@@ -298,6 +317,13 @@ const COLOR_DISCIPLINA = {
   Motion: 'pink',
   'SEO / GEO': 'red',
   CRO: 'gray',
+  /* Tonos tierra para lo que se ejecuta sobre hierro. Es el tercer grupo de la
+   * lista y conviene que se lea como tal: las seis de Codence en la escala fría,
+   * las cuatro de software que la red agrega en la cálida, y éstas aparte. */
+  'Automatización industrial': 'brown',
+  'Infraestructura IT': 'bronze',
+  Domótica: 'gold',
+  'Producto / reventa': 'plum',
 };
 
 /* Verde el que se puede usar, amarillo el que espera verificación y gris el
@@ -844,7 +870,7 @@ const CAMPOS = [
     label: 'Estado',
     type: 'SELECT',
     icon: 'IconProgressCheck',
-    description: 'En qué punto está la relación. Descartado no borra el registro: el motivo queda escrito en Límite para que no vuelva a la lista en seis meses.',
+    description: 'En qué punto está la relación. Descartado se reserva para un cierre real, uno que dijo que no o un contacto que rebotó, y aun así no borra el registro: el motivo queda escrito en Límite. Un partner que ejecuta algo fuera de las seis disciplinas no se descarta, se etiqueta con la disciplina que le corresponde.',
     options: opciones(ESTADO_PARTNER, COLOR_ESTADO_PARTNER),
     defaultValue: `'${aValor(ESTADO_PARTNER[0])}'`,
   },
