@@ -343,6 +343,19 @@ const COLOR_ESTADO_PARTNER = {
   Descartado: 'gray',
 };
 
+/* En qué anda cada directorio de trabajo. Tres estados y no más: lo que importa
+ * es si sus pendientes entran hoy en la cola o no. `En pausa` es el caso de
+ * codence-auditorias, parado desde el 07/08/2026 con trabajo abierto adentro:
+ * archivarlo perdería las deudas y dejarlo activo las mezclaría con lo que sí
+ * se está haciendo hoy. */
+const ESTADO_PROYECTO = ['Activo', 'En pausa', 'Archivado'];
+
+const COLOR_ESTADO_PROYECTO = {
+  Activo: 'green',
+  'En pausa': 'yellow',
+  Archivado: 'gray',
+};
+
 const PALETA = ['blue', 'purple', 'sky', 'turquoise', 'green', 'yellow', 'orange', 'red', 'gray'];
 
 /**
@@ -442,6 +455,28 @@ const OBJETOS = [
     icon: 'IconBuildingCommunity',
     description:
       'Quién puede ejecutar trabajo de Codence, qué disciplina cubre y cómo se lo contacta. La fuente versionada, con el porqué de cada clasificación, es codence/partners.md.',
+  },
+  /* Los directorios de trabajo, agregado el 04/09/2026. Un registro por carpeta
+   * de `D:\codence-*`, y existe por una sola razón: darle a una Task algo a qué
+   * atarse cuando lo pendiente es de un repo y no de un prospecto.
+   *
+   * Crear el objeto hace que el server genere solo `targetProyecto` sobre
+   * `taskTarget`, igual que con Pista. Eso es todo lo que hacía falta: la ficha
+   * del proyecto muestra sus tareas sin que nadie construya una pantalla.
+   *
+   * Es un objeto propio y no una Company, por lo mismo que Partner: Company es
+   * el prospecto, y un directorio no se prospecta.
+   *
+   * La lista de directorios también está en la tabla de codence-bases/CLAUDE.md,
+   * que es prosa para leer. Esto es lo mismo pero apuntable desde una tarea. */
+  {
+    nameSingular: 'proyecto',
+    namePlural: 'proyectos',
+    labelSingular: 'Proyecto',
+    labelPlural: 'Proyectos',
+    icon: 'IconFolder',
+    description:
+      'Cada directorio de trabajo de Codence. Existe para que una tarea pendiente sepa de qué repo es: la sección Tareas de la ficha son los pendientes de esa carpeta.',
   },
 ];
 
@@ -951,6 +986,48 @@ const CAMPOS = [
     type: 'RICH_TEXT',
     icon: 'IconNotes',
     description: 'Tamaño, posicionamiento, precios publicados, el ángulo con el que conviene abrir. Todo lo que en codence/partners.md va debajo de la tabla.',
+  },
+  /* ── Proyecto ──
+   *
+   * Cuatro campos y ninguno más. Todo lo que un proyecto es de verdad ya vive en
+   * su propio repo —README, CLAUDE.md, decisiones.md—, y duplicarlo acá crearía
+   * la segunda fuente que la doctrina de codence-bases prohíbe. Esto es apenas
+   * lo que hace falta para encontrar el registro desde una carpeta y decidir si
+   * sus pendientes entran hoy en la cola. */
+  {
+    objeto: 'proyecto',
+    name: 'rutaLocal',
+    label: 'Ruta local',
+    type: 'TEXT',
+    icon: 'IconFolderOpen',
+    description: 'La carpeta en el disco, con la ruta completa tal como la escribe Windows. Es por acá que /pendientes sabe en qué proyecto está parada, así que tiene que coincidir con la ruta real.',
+  },
+  {
+    objeto: 'proyecto',
+    name: 'repo',
+    label: 'Repo',
+    type: 'LINKS',
+    icon: 'IconBrandGithub',
+    description: 'El repositorio en GitHub. Vacío si el directorio no tiene git, que es un dato en sí: lo que no está versionado se pierde sin aviso.',
+  },
+  {
+    objeto: 'proyecto',
+    name: 'estado',
+    label: 'Estado',
+    type: 'SELECT',
+    icon: 'IconProgressCheck',
+    description: 'Si el proyecto está en curso, parado o cerrado. Un proyecto en pausa conserva sus tareas abiertas: la pausa es del trabajo, no de las deudas.',
+    options: opciones(ESTADO_PROYECTO, COLOR_ESTADO_PROYECTO),
+    defaultValue: `'${aValor(ESTADO_PROYECTO[0])}'`,
+  },
+  {
+    objeto: 'proyecto',
+    name: 'queEs',
+    label: 'Qué es',
+    type: 'TEXT',
+    icon: 'IconInfoCircle',
+    description: 'Una línea sobre para qué existe el directorio. Lo demás se lee en su README, que es la fuente.',
+    settings: { displayedMaxRows: 3 },
   },
 ];
 

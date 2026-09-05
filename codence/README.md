@@ -507,8 +507,9 @@ Los contenedores vuelven solos al levantarlo, pero **el servidor tarda unos 4 mi
 | `migrar.mjs` | Vuelca el respaldo del CRM propio al modelo nativo. Corrió una vez el 07/08/2026 |
 | `partners.mjs` | Vuelca la red de `partners.md` al CRM. Idempotente por nombre |
 | `reparar.mjs` | Devuelve los 8 prospectos si un borrado se los lleva. Ver *Trampas* |
+| `proyectos.mjs` | Vuelca los siete directorios de trabajo al CRM. Idempotente por nombre |
 
-Los cuatro necesitan la clave de API, que se genera en *Ajustes → API y Webhooks*, y aceptan `--ensayo` para ver qué harían sin escribir.
+Los cinco necesitan la clave de API, que se genera en *Ajustes → API y Webhooks*, y aceptan `--ensayo` para ver qué harían sin escribir.
 
 La leen de `TWENTY_KEY` **o de `TWENTY_API_KEY`**, que es la que ya está en el entorno de usuario de Windows porque la consume el servidor MCP. Es la misma credencial, así que no hay que declararla dos veces:
 
@@ -517,7 +518,7 @@ node codence/modelo.mjs --ensayo          # toma TWENTY_API_KEY del entorno
 TWENTY_KEY=... node codence/modelo.mjs    # o se pasa explícita
 ```
 
-Son **idempotentes**: `modelo.mjs` saltea el campo que ya existe, `migrar.mjs` la empresa que ya está, `partners.mjs` el partner que ya está. Correrlos dos veces no duplica nada.
+Son **idempotentes**: `modelo.mjs` saltea el campo que ya existe, `migrar.mjs` la empresa que ya está, `partners.mjs` el partner que ya está, `proyectos.mjs` el proyecto que ya está. Correrlos dos veces no duplica nada.
 
 ⚠️ **Pero un campo que ya existe todavía puede tener la lista cambiada**, y saltearlo sin más era un defecto: hasta el 07/08, agregarle una opción a una taxonomía eran **dos** cambios —este archivo *y* la interfaz del CRM— porque el bucle no aplicaba nunca la lista declarada. El archivo no quedaba incompleto: quedaba **mintiendo sobre el esquema real**, sin avisar. Hoy `sincronizarOpciones()` la reconcilia, conservando el `id` de cada opción que sobrevive para no reescribir datos cargados. **Si una opción desaparece, avisa y aplica igual** — la declaración es la fuente de verdad, y queda escrito cuál fue.
 
@@ -535,6 +536,7 @@ Decidido el 07/08/2026: **nativo**, no un objeto plano propio. Codence CRM ya re
 | **Pista** | **La bandeja de entrada.** Objeto propio, agregado el 08/08 — `tipo`, `enlace`, `estado`, `detalle` |
 | **Documento** | **La documentación del sistema**, legible desde adentro del CRM. Objeto propio, agregado el 09/08 — `tipo`, `estado`, `revisadoEn`, `contenido` |
 | **Contenido** | **El blog y las redes**, de la idea a la publicación. Objeto propio, agregado el 10/08 — `formato`, `canal`, `estado`, `publicarEl`, `servicio`, `cuerpo`, `enlace` |
+| **Proyecto** | **Cada directorio de trabajo.** Objeto propio, agregado el 04/09 — `rutaLocal`, `repo`, `estado`, `queEs`. Existe para que una Task sepa de qué repo es. La fuente es [`proyectos.mjs`](proyectos.mjs) |
 | **Partner** | **Quién ejecuta el trabajo.** Objeto propio, agregado el 20/08 — `rol`, `disciplinas`, `estado`, `pais`, `canal`, `verificacion`, `mail`, `telefono`, `enlaces`, `limite`, `detalle`. La fuente es [`partners.md`](partners.md) |
 
 **`Person` admite dos por empresa desde el 08/08:** quien decide y quien sufre el
@@ -542,7 +544,7 @@ dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga
 sólo de la Company. Se busca la segunda sólo en las tarjetas que lo valen, y cada
 una lleva su propio ángulo y su propio mensaje.
 
-⚠️ **`Pista`, `Documento`, `Contenido` y `Partner` son los cuatro objetos propios,
+⚠️ **`Pista`, `Documento`, `Contenido`, `Partner` y `Proyecto` son los cinco objetos propios,
 y cada uno hace aparecer una entrada en la barra lateral izquierda.** Crearlos les agrega solo las
 relaciones por defecto —adjuntos, notas, tareas y línea de tiempo—, así que una
 Pista **acepta capturas arrastradas sin declarar ningún campo de archivo**. Es
@@ -558,6 +560,10 @@ Instagram no se tocan con navegador automatizado, pero Alan sí los ve.
 **Note y Task no son lo mismo, y separarlas fue el ajuste del 07/08:** la Note se lee y no se cierra nunca; la Task se cierra. Antes las dos cosas vivían en la Note, y por eso para saber qué le faltaba a un prospecto había que leer prosa, y para saber qué le faltaba a siete había que abrir siete tarjetas.
 
 **El `dueAt` de una tarea hereda la ventana de su señal.** Es lo que hace que la lista sirva: una deuda que bloquea el mensaje vence el día en que la señal deja de servir. Y el `assignee` marca la propiedad — **asignada a Alan es lo que solo él puede hacer** (leer un grado en LinkedIn, mandar, mirar capturas); sin asignar lo hace el agente.
+
+⚠️ **Desde el 04/09 hay dos clases de tarea, y no se mezclan.** Las de outbound cuelgan de una Company y una Opportunity, y las gobierna `/outbound-hoy`. Las de trabajo cuelgan de un **Proyecto**, una por directorio, y las gobierna `/pendientes`, que vive en `D:codence-harness` como parte del plugin y la consumen los seis repos. **La convención de `assignee` es la misma en las dos**, y ésa es la razón de reutilizar `Task` en vez de inventar un objeto: la pregunta «¿esto lo hago yo o lo hace Alan?» ya tenía respuesta escrita.
+
+⚠️ **Una tarea sin `taskTarget` no existe para nadie.** No aparece en ninguna de las dos colas: queda flotando en la lista global. El prefijo también vale acá — es `targetProyectoId`, no `proyectoId`.
 
 ⚠️ **El `PENDIENTE:` sigue escrito dentro de `senal`, además de existir como tarea.** No es duplicación por descuido: `senal` es lo que se lee en el instante anterior a redactar, y que un dato esté en duda cambia **lo que se puede afirmar**, no solo lo que falta hacer. La regla que evita mantenerlos a mano: **cuando la tarea pasa a `Done`, el `PENDIENTE` sale de `senal` en la misma pasada.** Uno que sobrevive a su tarea cerrada es un defecto.
 
