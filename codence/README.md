@@ -498,6 +498,7 @@ Los contenedores vuelven solos al levantarlo, pero **el servidor tarda unos 4 mi
 | [`icp.md`](icp.md) | **A quién le escribe Codence**, y qué descarta una empresa antes de gastar trabajo en verificarla. Única fuente del ICP: las skills lo apuntan, no lo copian |
 | [`senales.md`](senales.md) | **Qué hace que una empresa sea un prospecto**: los seis dolores, sus ángulos, sus ventanas y las rutas de descubrimiento |
 | [`evidencia.md`](evidencia.md) | Qué cuenta como fuente y qué se puede afirmar. **No se adapta cuando cambia el ICP** |
+| [`outbound-automatizado.md`](outbound-automatizado.md) | **En standby desde el 22/09/2026.** El plan para que búsqueda, redacción y envío por LinkedIn corran solos, con HeyReach. Hasta retomarlo, LinkedIn se sigue mandando a mano |
 
 ## Los scripts
 
