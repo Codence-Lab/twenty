@@ -93,6 +93,12 @@ const PROYECTOS = [
     queEs: 'Infraestructura de desarrollo compartida entre los repos, como plugin de Claude Code.',
   },
   {
+    name: 'codence-docs',
+    ruta: 'D:\\codence-docs',
+    repo: 'Codence-Lab/codence-docs',
+    queEs: 'Espacio de documentos para Codence y sus clientes, sobre AFFiNE self-hosted en Docker. Corre en localhost:3010, todavía sin URL pública.',
+  },
+  {
     name: 'codence-auditorias',
     ruta: 'D:\\Admin\\Desktop\\Codence Studio\\CLAUDE\\CODENCE\\Proyectos\\Agencia\\Estructura\\codence-auditorias',
     repo: 'Codence-Lab/codence-auditorias',
