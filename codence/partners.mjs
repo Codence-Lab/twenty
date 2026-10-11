@@ -409,6 +409,31 @@ const RED = [
     ],
   },
   {
+    name: 'Slab Pixel',
+    rol: 'Producción',
+    disciplinas: ['Rebranding', 'Diseño web', 'Motion'],
+    pais: 'Indonesia (Yogyakarta y Jakarta)',
+    canal: 'Mail',
+    verificacion: 'Verificado',
+    mail: ['hello@slabpixel.com'],
+    sitio: { url: 'https://www.slabpixel.com', label: 'slabpixel.com' },
+    otros: [
+      { url: 'https://cal.com/slabpixel/30min', label: 'Booking' },
+      { url: 'https://id.linkedin.com/company/slabpixel/', label: 'LinkedIn' },
+      { url: 'https://dribbble.com/slabpixel', label: 'Dribbble' },
+      { url: 'https://behance.net/slabpixel', label: 'Behance' },
+    ],
+    limite:
+      'Producción de piezas por pedido, no estrategia de marca: la estrategia sigue en Codence. No publican programa para agencias ni white-label, trabajan por su Slack y su Trello y publican mucho en Dribbble y Behance; antes de ponerlos frente a un cliente hace falta por escrito que trabajan sin aparecer, confidencialidad con prohibición de publicar, cesión de derechos a Codence con permiso para cederlos al cliente, archivos fuente y licencias. Trabajan en inglés: el texto en español lo escribe Codence. Jakarta va 10 horas adelante de Argentina. El precio no coincide entre la home y la página de precios.',
+    detalle: [
+      'Suscripción de diseño, relevada el 25/09/2026: Basic USD 1.665/mes (un pedido activo, branding y gráfica), Pro USD 2.880/mes (dos pedidos activos, suma UI/UX, 3D, animación y desarrollo web), Semanal USD 799/semana, y Speed Up USD 799/mes por un pedido activo más. También cotizan por proyecto. PayPal o transferencia, con 5% de recargo.',
+      'Lo ilimitado es la cola, no la capacidad: uno o dos pedidos por vez, con entregas de 1 a 2 días por pedido. Qué cuenta como un pedido no lo definen.',
+      'Dónde encaja: producción dentro de los Pods de Branding y Diseño web, y sobre todo la continuidad después de un proyecto, que es un Pod dedicado por renovación. Complementa a Arounda, que produce por proyecto.',
+      'Una suscripción revendida pesa mucho en el monotributo: un cliente a ~USD 3.000/mes supera solo el tope de la categoría G.',
+      'Once personas publicadas en la web. Sede en Yogyakarta, oficina en Jakarta Sur. Posicionamiento: «Unlimited design services».',
+    ],
+  },
+  {
     name: 'Orbyn',
     rol: 'Especialista',
     disciplinas: ['Agentes AI', 'Automatización de procesos'],

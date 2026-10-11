@@ -504,6 +504,56 @@ Odoo de Levain—, pero `Infraestructura IT` es la etiqueta del hierro (cámaras
 meter cloud ahí la volvería inútil para las dos cosas. Si aparece un scope de operación cloud, la
 disciplina se agrega en `modelo.mjs` antes de etiquetarlo.
 
+## Slab Pixel 🇮🇩
+
+| | |
+|---|---|
+| **Rol** | Producción — **por pedido y continua, no por proyecto** |
+| **Disciplinas** | Branding · Diseño web · Motion |
+| **Sitio** | [slabpixel.com](https://www.slabpixel.com) |
+| **Mail** | ✅ `hello@slabpixel.com` |
+| **Booking** | ✅ [cal.com/slabpixel/30min](https://cal.com/slabpixel/30min) |
+| **Teléfono / WhatsApp** | ❌ No publican |
+| **LinkedIn** | [/company/slabpixel](https://id.linkedin.com/company/slabpixel/) |
+| **Otros** | [Dribbble](https://dribbble.com/slabpixel) · [Behance](https://behance.net/slabpixel) · [@slabpixel](https://instagram.com/slabpixel) |
+| **Ubicación** | Sede en Yogyakarta y oficina en Jakarta Sur, Indonesia |
+| **Tamaño** | Once personas en la web: diseño gráfico, ilustración, UI/UX, motion, un desarrollador principal, un PM, dirección de arte y creativa |
+| **Posicionamiento** | *«Unlimited design services»* por suscripción |
+
+**Su modelo es la suscripción de diseño, relevado el 25/09/2026:** Basic USD 1.665/mes (un pedido
+activo, branding y gráfica), Pro USD 2.880/mes (dos pedidos activos, suma UI/UX, 3D, animación y
+desarrollo web), Semanal USD 799/semana, y un agregado *Speed Up* de USD 799/mes por un pedido
+activo más. También cotizan por proyecto. Pagos por PayPal o transferencia, con 5% de recargo.
+
+**Lo "ilimitado" es la cola, no la capacidad.** Se trabaja uno o dos pedidos por vez, con entregas
+de 1 a 2 días por pedido. Lo que sale por mes depende del tamaño de cada pedido, y qué cuenta como
+un pedido no lo definen en ningún lado.
+
+**Dónde encaja:** producción dentro de los Pods de Branding y Diseño web, y sobre todo la
+**continuidad después de un proyecto** —anuncios, presentaciones, landings sobre el sistema que
+Codence ya entregó—, que es un Pod dedicado por renovación. **La estrategia sigue en Codence:** lo
+que ellos hacen es producción de piezas, que Arounda no cubre por pedido. Se complementan.
+
+⚠️ **No publican programa para agencias ni white-label.** Trabajan por su Slack y su Trello, y
+publican mucho en Dribbble y Behance. Antes de ponerlos frente a un cliente hay que tener por
+escrito: que aceptan trabajar sin aparecer, confidencialidad y **prohibición de publicar el
+trabajo**, cesión de derechos a Codence con permiso para cederlos al cliente, archivos fuente y
+licencias de tipografías y stock, y un espacio de trabajo separado por cliente. Hoy la cesión de
+derechos está sólo en su FAQ: *«all intellectual property rights to the design transfer to you,
+the client»*.
+
+⚠️ **Trabajan en inglés.** Todo texto en español que vaya en una pieza lo escribe Codence, y los
+pedidos se traducen. Ese tiempo de intermediación es costo de Codence y no está en la suscripción.
+
+⚠️ **Zona horaria.** Jakarta va 10 horas adelante de Argentina. La gerencia atiende hasta las 21 de
+allá, que son las 11 de acá: lo que se pide a la tarde está a la mañana siguiente.
+
+⚠️ **El precio no coincide entre páginas:** la home dice USD 2.699/mes y la de precios dice
+USD 1.665 y USD 2.880. Se pide por escrito antes de cotizar nada encima.
+
+⚠️ **Una suscripción revendida pesa mucho en el monotributo.** Un cliente a ~USD 3.000/mes supera
+solo el tope de la categoría G; ver `codence-bases`, `operacion/costos-e-impuestos.md`.
+
 ---
 
 # Especialistas
