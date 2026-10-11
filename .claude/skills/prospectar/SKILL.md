@@ -135,23 +135,32 @@ Tres registros por prospecto, más la nota, más una tarea por cada deuda:
 
 **Fechas en GMT-3.**
 
-### Y una Task por cada deuda
+### Y una tarea por cada deuda
 
-**Nota y tarea no son lo mismo.** La Note es la bitácora: se lee y no se cierra nunca. La Task es lo que falta hacer: tiene dueño, vencimiento y estado, y se cierra. Hasta el 07/08 las dos cosas vivían en la Note, y por eso la Note no servía para ninguna de las dos: para saber qué le faltaba a un prospecto había que leer prosa, y para saber qué le faltaba a siete había que abrir siete tarjetas.
+**Nota y tarea no son lo mismo.** La Note es la bitácora: se lee y no se cierra nunca. La tarea es lo que falta hacer: tiene dueño, vencimiento y estado, y se cierra. Hasta el 07/08 las dos cosas vivían en la Note, y por eso la Note no servía para ninguna de las dos: para saber qué le faltaba a un prospecto había que leer prosa, y para saber qué le faltaba a siete había que abrir siete tarjetas.
 
-**Toda deuda que se escribe como `PENDIENTE` en `senal` genera además una Task.** Si no genera tarea, no era una deuda: era una aclaración, y va en la nota.
+**Las tareas viven en Codence Docs desde el 09/10/2026**, en el proyecto `outbound`, y se escriben con el MCP `codence-docs`. La Note sigue en el CRM. Las tareas que quedaron en el CRM están en `Migrada` y no se tocan.
+
+**Toda deuda que se escribe como `PENDIENTE` en `senal` genera además una tarea.** Si no genera tarea, no era una deuda: era una aclaración, y va en la nota.
+
+```
+crear_tarea  { proyecto: "outbound", titulo, cuerpo, vence?, responsableId,
+               vinculos: [ { tipo: "company",     externoId: <id de la Company>,     etiqueta: <nombre> },
+                           { tipo: "opportunity", externoId: <id de la Opportunity>, etiqueta: <nombre> } ] }
+```
 
 | Campo | Qué va |
 |---|---|
-| `title` | Imperativo, concreto, **sin el nombre de la empresa** — la columna de relaciones ya lo muestra. *"Leer el grado de conexión de Santiago Bibiloni en LinkedIn"*, no *"COR: pendiente grado"* |
-| `bodyV2` | **Por qué está pendiente y qué la cierra**, con la fuente cuando corresponde. Una tarea que no dice qué la cierra volvió a ser prosa |
-| `dueAt` | **La fecha en que vence la ventana de la señal**, si la deuda bloquea el mensaje. Sin fecha si no bloquea |
-| `assigneeId` | El de Alan **si solo él puede hacerla** — leer un grado en LinkedIn, mandar un mensaje, mirar capturas. **Vacío si la hago yo** en la próxima corrida |
-| `status` | `TODO` |
+| `titulo` | Imperativo, concreto, **sin el nombre de la empresa** — el vínculo ya lo muestra. *"Leer el grado de conexión de Santiago Bibiloni en LinkedIn"*, no *"COR: pendiente grado"* |
+| `cuerpo` | **Por qué está pendiente y qué la cierra**, con la fuente cuando corresponde. Una tarea que no dice qué la cierra volvió a ser prosa |
+| `vence` | `AAAA-MM-DD`, GMT-3. **La fecha en que vence la ventana de la señal**, si la deuda bloquea el mensaje. Sin fecha si no bloquea |
+| `responsableId` | `alan` **si solo él puede hacerla** — leer un grado en LinkedIn, mandar un mensaje, mirar capturas. `agente` si la hago yo en la próxima corrida |
 
-**`dueAt` hereda la ventana, y es la regla que hace que esto valga.** Una tarea que bloquea el mensaje vence el día en que la señal deja de servir, no cuatro días después ni "cuando se pueda": el grado de conexión de un prospecto de familia B vence con su ronda.
+El estado no hace falta: entra en `To do`.
 
-**`taskTargets` va a la Company y a la Opportunity**, igual que las notas. ⚠️ Y con el mismo prefijo: `targetCompanyId` y `targetOpportunityId`, no `companyId`.
+**`vence` hereda la ventana, y es la regla que hace que esto valga.** Una tarea que bloquea el mensaje vence el día en que la señal deja de servir, no cuatro días después ni "cuando se pueda": el grado de conexión de un prospecto de familia B vence con su ronda.
+
+**Los dos vínculos van siempre**, a la Company y a la Opportunity, igual que las notas. Sin el de la Opportunity, `/outbound-hoy` no la encuentra al buscar las deudas de la tarjeta.
 
 **Las cierra `/outbound-hoy`** cuando el dato llega, y en el mismo paso saca el `PENDIENTE` de `senal`. Acá solo se crean.
 

@@ -19,7 +19,9 @@ Un prospecto vive repartido en tres objetos del CRM:
 - **Person** — el contacto: `name`, `jobTitle`, `linkedinLink`, `emails`, `gradoConexion`. **Puede haber dos por empresa** desde el 08/08: quien decide y quien sufre el dolor. La que decide es el `pointOfContact` de la Opportunity; la otra cuelga sólo de la Company
 - **Opportunity** — el outbound: `stage` es el **Estado**, más `canal`, `senal`, `fuente`, `angulo`, `servicio`, `toques`, `ultimoToque`, `proximoToque`, `calificadoEn`, `argumento`, `auditoria`, y el circuito de aprobación del canal Email: `aprobacion`, `borradorAsunto`, `borradorCuerpo`, `borradorFecha`, `gmailDraftId`
 
-La bitácora son **Notes** atadas a la empresa y a la oportunidad. Y lo que falta hacer son **Tasks**, atadas igual, con `status`, `dueAt` y `assignee`. **La Note se lee y no se cierra; la Task se cierra.**
+La bitácora son **Notes** atadas a la empresa y a la oportunidad. Y lo que falta hacer son **tareas**, con estado, vencimiento y responsable. **La Note se lee y no se cierra; la tarea se cierra.**
+
+⚠️ **Desde el 09/10/2026 las tareas no viven en el CRM:** viven en Codence Docs, en el proyecto `outbound`, cada una con un vínculo a su Company y a su Opportunity. Se leen y se escriben con el MCP `codence-docs` (`listar_tareas`, `crear_tarea`, `actualizar_tarea`). Las que quedaron en el CRM están en `Migrada`: no son deuda de nadie y no se leen. **Los estados se leen con `listar_estados`**, no de `task.status`.
 
 **Los valores internos van en mayúscula** (`Logística` → `LOGISTICA`, `Por investigar` → `POR_INVESTIGAR`). Al mostrarle algo a Alan, usar siempre el rótulo, nunca el valor interno.
 
@@ -69,7 +71,7 @@ Las tarjetas con `aprobacion` en movimiento **ya tienen el mensaje escrito**: no
 
 ### La pausa es `pausadaHasta`, un campo de la tarjeta
 
-**Cambiado el 12/08.** Hasta entonces la pausa era `Standby`, la cuarta opción de `task.status`, y arrastraba un defecto que la propia regla admitía: *"se pone sobre una tarea, pero habla de la tarjeta entera"*. Un atributo de la tarjeta guardado en un objeto hijo.
+**Cambiado el 12/08.** Hasta entonces la pausa era `Standby`, un estado de las tareas, y arrastraba un defecto que la propia regla admitía: *"se pone sobre una tarea, pero habla de la tarjeta entera"*. Un atributo de la tarjeta guardado en un objeto hijo.
 
 Ahora es **`pausadaHasta`**, una fecha sobre la Opportunity. **Significa que el prospecto está en pausa pero sigue en proceso: no se lo descarta.** Cuatro consecuencias:
 
@@ -80,13 +82,13 @@ Ahora es **`pausadaHasta`**, una fecha sobre la Opportunity. **Significa que el 
 
 **`proximoToque` no se borra al pausar:** queda como registro de cuándo le tocaba. Al despausar, se recalcula desde la fecha real, no se hereda la vieja.
 
-⚠️ **`Standby` sigue existiendo en `task.status` y ahora significa menos:** que esa tarea está detenida. **No pausa la tarjeta.** Si lo que hay que pausar es el prospecto, va `pausadaHasta`.
+⚠️ **`Standby` sigue existiendo como estado de las tareas y ahora significa menos:** que esa tarea está detenida. **No pausa la tarjeta.** Si lo que hay que pausar es el prospecto, va `pausadaHasta`.
 
 **Después del tercer toque sin respuesta no se agenda otro.** Un cuarto mensaje no mejora la tasa de respuesta: se propone mover a `Sin interés`.
 
 ### `Descartado` cierra la tarea sin haberla hecho
 
-Es la quinta opción de `task.status`, agregada el 09/08. **Es lo contrario de `Done`: la deuda deja de bloquear porque se decidió que ya no hace falta**, no porque se haya resuelto.
+Es un estado de las tareas, agregado el 09/08. **Es lo contrario de `Done`: la deuda deja de bloquear porque se decidió que ya no hace falta**, no porque se haya resuelto.
 
 - **Cuenta como cerrada para destrabar la tarjeta**, igual que `Done`. Una tarjeta cuya única deuda quedó en `Descartado` vuelve a la cola.
 - **Pero el `PENDIENTE:` de `senal` NO sale solo.** Con `Done` sale, porque el dato llegó. Con `Descartado` no llegó nadie: hay que decidir a mano si la advertencia sigue valiendo para redactar. **Ese es el punto en el que se confunden y por eso está escrito.**
@@ -96,13 +98,19 @@ Es la quinta opción de `task.status`, agregada el 09/08. **Es lo contrario de `
 
 Es lo más útil del comando, y no se resuelve con una frase genérica.
 
-**El faltante ya no se deduce leyendo prosa: está escrito.** Desde el 07/08, cada deuda de un prospecto es una **Task** atada a su Company y a su Opportunity, con vencimiento y dueño. Traerlas con `find_many_tasks` filtrando `status` fuera de `DONE` y `DESCARTADO`, que son las dos que ya no bloquean, y usarlas como respuesta:
+**El faltante ya no se deduce leyendo prosa: está escrito.** Desde el 07/08, cada deuda de un prospecto es una **tarea** atada a su Company y a su Opportunity, con vencimiento y dueño. Traer todas las abiertas de una vez y repartirlas por tarjeta según su vínculo a la Opportunity:
 
-- **Asignada a Alan** = la deuda es suya y solo él puede resolverla. Leer un grado en LinkedIn, mandar un mensaje, mirar capturas. Va en el reporte con su fecha.
-- **Sin asignar** = la resuelvo yo. Se dice qué es y que está en la cola, no se le pide a Alan.
-- **Con `dueAt` en hoy o antes** = la deuda está venciendo junto con la señal. **Sube al tope del reporte**, arriba de los seguimientos.
+```
+listar_tareas  { proyecto: "outbound", abiertas: true }
+```
 
-Si una tarjeta está trabada y **no tiene tarea abierta que lo explique**, eso es un defecto: avisarlo y crear la tarea que falta. Y la tabla de abajo sigue valiendo para saber qué mirar:
+`abiertas: true` deja afuera `Done` y `Descartado`, que son las que ya no bloquean. Para una sola tarjeta: `listar_tareas { vinculo: { tipo: "opportunity", externoId: <id> }, abiertas: true }`.
+
+- **Responsable `alan`** = la deuda es suya y solo él puede resolverla. Leer un grado en LinkedIn, mandar un mensaje, mirar capturas. Va en el reporte con su fecha.
+- **Responsable `agente`** = la resuelvo yo. Se dice qué es y que está en la cola, no se le pide a Alan.
+- **Con `vence` en hoy o antes** = la deuda está venciendo junto con la señal. **Sube al tope del reporte**, arriba de los seguimientos.
+
+Si una tarjeta está trabada y **no tiene tarea abierta que lo explique**, eso es un defecto: avisarlo y crear la tarea que falta, con `crear_tarea` y sus dos vínculos, como en `/prospectar`. Y la tabla de abajo sigue valiendo para saber qué mirar:
 
 | Le falta | Cómo se ve |
 |---|---|
@@ -185,10 +193,12 @@ Si respondió: `stage` → `Respondió`. Si no le interesa: `Sin interés`, y `p
 
 ### Y cerrar la tarea que el dato resolvió
 
-**Cada vez que llega un dato que estaba pendiente, se cierra su Task y se saca su `PENDIENTE` de `senal`, en la misma pasada.** Las dos escrituras, no una.
+**Cada vez que llega un dato que estaba pendiente, se cierra su tarea y se saca su `PENDIENTE` de `senal`, en la misma pasada.** Las dos escrituras, no una.
 
-- `status` de la Task → `DONE`
-- El `PENDIENTE:` correspondiente sale del campo `senal`
+- En Codence Docs: `actualizar_tarea { id, estado: "DONE" }`
+- En el CRM: el `PENDIENTE:` correspondiente sale del campo `senal`
+
+⚠️ **Son dos sistemas y no hay transacción entre ellos.** Se hacen las dos en la misma corrida, y **si una falla se dice en esa misma corrida**, nombrando cuál quedó hecha y cuál no. Una tarea cerrada con su `PENDIENTE` vivo, o al revés, es el defecto de abajo, y nadie lo va a ver si no se avisa.
 
 **No son dos mantenimientos: es uno con dos escrituras.** El `PENDIENTE` vive en `senal` a propósito, porque `senal` es lo que se lee en el instante anterior a redactar y ahí la advertencia tiene que estar a la vista. Pero **un `PENDIENTE` que sobrevive a su tarea cerrada es un defecto**, igual que una tarjeta terminal con `proximoToque` cargado: avisarlo.
 

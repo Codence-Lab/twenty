@@ -558,6 +558,10 @@ Instagram no se tocan con navegador automatizado, pero Alan sí los ve.
 
 ⚠️ **`Descartado` cierra la tarea sin haberla hecho.** Agregado el 09/08, y es lo contrario de `Done`: la deuda deja de bloquear porque se decidió que ya no hace falta, no porque el dato haya llegado. **Cuenta como cerrada para destrabar la tarjeta**, pero el `PENDIENTE:` de `senal` **no sale solo** como sale con `Done`: nadie trajo el dato, así que sigue habiendo algo que no se puede afirmar. Esa decisión es a mano.
 
+⚠️ **`Migrada` dice que la tarea ya no vive acá.** Agregado el 09/10/2026, cuando las tareas se mudaron a Codence Docs (`D:\codence-docs`): las de proyecto primero, las de outbound el mismo día. No es `Done` ni `Descartado`: no dice si se hizo, dice que la fuente ahora es la app. **No bloquea nada** y ninguna skill la lee.
+
+⚠️ **Desde el 09/10/2026 las tareas viven en Codence Docs, no en el CRM.** Las de outbound están en el proyecto `outbound` de la app, cada una con un vínculo a su Company y a su Opportunity, y las cuatro skills las leen y escriben con el MCP `codence-docs`. Lo que sigue en esta sección (estados, `dueAt`, `assignee`, `taskTarget`) describe cómo funcionaban acá y sigue valiendo como doctrina: la app tiene los mismos estados, `vence` en lugar de `dueAt` y `responsableId` (`alan` / `agente`) en lugar de `assignee`. **Lo que se perdió, aceptado por Alan:** la ficha de la oportunidad ya no muestra sus tareas.
+
 **Note y Task no son lo mismo, y separarlas fue el ajuste del 07/08:** la Note se lee y no se cierra nunca; la Task se cierra. Antes las dos cosas vivían en la Note, y por eso para saber qué le faltaba a un prospecto había que leer prosa, y para saber qué le faltaba a siete había que abrir siete tarjetas.
 
 **El `dueAt` de una tarea hereda la ventana de su señal.** Es lo que hace que la lista sirva: una deuda que bloquea el mensaje vence el día en que la señal deja de servir. Y el `assignee` marca la propiedad — **asignada a Alan es lo que solo él puede hacer** (leer un grado en LinkedIn, mandar, mirar capturas); sin asignar lo hace el agente.

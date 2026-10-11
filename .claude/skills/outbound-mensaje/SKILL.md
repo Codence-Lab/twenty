@@ -52,7 +52,7 @@ Frenar y pedir el dato si falta alguno:
 
 **No inventar el dato faltante para poder seguir.** Frenar y pedirlo es el comportamiento correcto.
 
-**Y dejar la tarea creada al frenar**, atada a la Company y a la Opportunity, con qué la cierra y con `dueAt` en la fecha en que vence la ventana de la señal. Pedir un dato de viva voz y no anotarlo es cómo un pendiente se pierde: si mañana Alan no se acuerda, la tarjeta queda trabada sin que nadie sepa por qué. Si ya existe una tarea abierta que cubre ese dato, no se duplica.
+**Y dejar la tarea creada al frenar**, en Codence Docs: `crear_tarea` en el proyecto `outbound`, con un vínculo a la Company y otro a la Opportunity, con qué la cierra y con `vence` en la fecha en que vence la ventana de la señal (los campos, en `/prospectar`). Pedir un dato de viva voz y no anotarlo es cómo un pendiente se pierde: si mañana Alan no se acuerda, la tarjeta queda trabada sin que nadie sepa por qué. Si ya existe una tarea abierta que cubre ese dato —`listar_tareas { vinculo: { tipo: "opportunity", externoId: <id> }, abiertas: true }`—, no se duplica.
 
 ## Paso 2 — Verificar que la señal siga en pie
 

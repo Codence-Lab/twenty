@@ -1,4 +1,11 @@
 /**
+ * ⚠️ RETIRADO EL 09/10/2026. La lista de proyectos y sus tareas viven ahora en
+ * Codence Docs (D:\codence-docs, MCP `codence-docs`), y se crean y corrigen
+ * ahí con `crear_proyecto` / `actualizar_proyecto`. Este script y el objeto
+ * Proyecto del CRM quedan como estaban, sin usarse: correrlo ya no cambia lo que
+ * ve /pendientes. Las tareas de proyecto del CRM pasaron a `Migrada`. El porqué
+ * está en codence-harness/decisiones.md, entrada del 09/10/2026.
+ *
  * proyectos.mjs — carga los directorios de trabajo de Codence al CRM.
  *
  * Hermano de partners.mjs y con la misma doctrina: la lista vive versionada acá

@@ -136,7 +136,9 @@ Y **dejar entrada en la bitácora**: una Note atada a la empresa y a la oportuni
 
 ### Y cerrar la tarea que el envío resolvió
 
-Si había una Task abierta que pedía mandar ese mensaje: `status` → `DONE`, y sacar el `PENDIENTE:` correspondiente de `senal`, **en la misma pasada**. No son dos mantenimientos: es uno con dos escrituras.
+Si había una tarea abierta que pedía mandar ese mensaje —se busca en Codence Docs con `listar_tareas { vinculo: { tipo: "opportunity", externoId: <id> }, abiertas: true }`—: `actualizar_tarea { id, estado: "DONE" }`, y sacar el `PENDIENTE:` correspondiente de `senal` en el CRM, **en la misma pasada**. No son dos mantenimientos: es uno con dos escrituras.
+
+⚠️ **Son dos sistemas, sin transacción entre ellos.** Si una de las dos escrituras falla, decirlo en la misma corrida, nombrando cuál quedó hecha y cuál no. Las tareas viven en Codence Docs desde el 09/10/2026; las que quedaron en el CRM están en `Migrada` y no se tocan.
 
 ## Paso C — Quién contestó
 
